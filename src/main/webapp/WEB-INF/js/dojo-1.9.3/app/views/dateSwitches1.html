@@ -1,0 +1,10 @@
+<div dojoType="dojox.mobile.View" id="schedule1">
+	<div data-dojo-type="dijit/CalendarLite">
+		<script type="dojo/method" data-dojo-event="onChange" data-dojo-args="value">
+		    require(["dojo/dom", "dojo/date/locale"], function(dom, locale){
+		        dom.byId('selectdate').innerHTML = locale.format(value, {formatLength: 'full', selector:'date'});
+		    });
+		</script>
+	</div>
+	<p id="selectdate"></p>
+</div>
