@@ -52,22 +52,27 @@
 	    <div data-dojo-type="dojox.mobile.GridLayout" data-dojo-props='cols:1' style="height:640px;">
 		    <div data-dojo-type="dojox.mobile.Pane" style="width:100%;position:relative">
 				<img alt="" src='<c:url value="/images/login/Mountain.jpg"/>' style="width:100%;height:100%"/>
-				<form name="loginFrom" id="loginFrom" style="position:absolute;top:40%;left:4%;width:400px">
+				<form name="loginFrom" id="loginFrom" style="position:absolute;top:20%;left:4%;width:260px">
 					<div data-dojo-type="dojox/mobile/RoundRect">
 						<div data-dojo-type="dojox/mobile/FormLayout">
 							<div>
-								<label>用户名*</label>
+								<label style="width:30%;position:relative">用户名</label>
 								<fieldset>
-									<input type=text data-dojo-type="dojox.mobile.TextBox" name="name" required />
+									<input type=text data-dojo-type="dojox.mobile.TextBox" name="name" required style="width:100%;position:relative"/>
 								</fieldset>
 							</div>
 							<div>
-								<label>密码*</label>
+								<label style="width:30%;position:relative">密码</label>
 								<fieldset>
-									<input type=password name="pwd" data-dojo-type="dojox.mobile.TextBox" required/>
+									<input type=password name="pwd" data-dojo-type="dojox.mobile.TextBox" required style="width:100%;position:relative"/>
 								</fieldset>
 							</div>
-							<button dojoType="dojox.mobile.Button" style="position:absolute;top:50%;left:260px;" class="navyBtn">登陆</button>
+							<div>
+								<label></label>
+								<fieldset style="width:100%;position:relative">
+									<button dojoType="dojox.mobile.Button" style="float:right" class="navyBtn">登陆</button>
+								</fieldset>
+							</div>
 						</div>
 					</div>
 				 </form>
