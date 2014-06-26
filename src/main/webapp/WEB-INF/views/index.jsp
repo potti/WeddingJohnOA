@@ -27,9 +27,6 @@
 		  document.getElementsByTagName("head")[0].appendChild(fileref);
 		}
 		
-		loadjscssfile('<c:url value="/js/dojo-1.9.3/dijit/themes/dijit.css"/>', "css");
-		loadjscssfile('<c:url value="/css/app.css"/>', "css");
-		
 		var userAgent = navigator.userAgent;
 		if (userAgent.indexOf("Android") > -1) {
 			loadjscssfile('<c:url value="/js/dojo-1.9.3/dojox/mobile/themes/android/android.css"/>', "css");
@@ -45,6 +42,9 @@
 			loadjscssfile('<c:url value="/js/dojo-1.9.3/dojox/mobile/themes/iphone/iphone.css"/>', "css");
 			loadjscssfile('<c:url value="/css/themes/iphone/gallery.css"/>', "css");
 		}
+		loadjscssfile('<c:url value="/css/app.css"/>', "css");
+		loadjscssfile('<c:url value="/js/dojo-1.9.3/dijit/themes/dijit.css"/>', "css");
+		loadjscssfile('<c:url value="/js/dojo-1.9.3/dijit/themes/nihilo/nihilo.css"/>', "css");
 	</script>
 	<script type="text/javascript" src='<c:url value="/js/dojo-1.9.3/dojo/dojo.js"/>' 
 		data-dojo-config="parseOnLoad:false,mblAlwaysHideAddressBar:true,async:true"></script> 

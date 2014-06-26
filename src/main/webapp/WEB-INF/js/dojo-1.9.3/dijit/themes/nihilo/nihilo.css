@@ -950,7 +950,7 @@ body .dijitAlignClient { position: absolute; }
 	overflow: hidden;
 }
 .dijitCalendarContainer {
-	width: auto;	
+	width: 100%;	
 }
 .dijitCalendarContainer th, .dijitCalendarContainer td {
 	padding: 0;

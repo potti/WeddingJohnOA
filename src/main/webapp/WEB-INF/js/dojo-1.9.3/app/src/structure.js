@@ -46,17 +46,11 @@ define(["dojo/_base/lang"],
 				title: "日程2",
 				demourl: "js/dojo-1.9.3/app/views/dateSwitches2.html"
 			}, {
-				id: "schedule3",
+				id: "createOrder",
 				iconPos: "29,0,29,29",
-				title: "日程3",
-				demourl: "js/dojo-1.9.3/app/views/dateSwitches3.html"
-			}, {
-				id: "forms",
-				iconPos: "29,0,29,29",
-				title: "Forms",
-				demourl: "views/forms.html",
-				jsmodule: "demos/mobileGallery/src/forms",
-				jsSrc: "doc/src/forms.js.txt"
+				title: "创建订单",
+				demourl: "js/dojo-1.9.3/app/views/createOrder.html",
+				jsmodule: "js/dojo-1.9.3/app/src/forms.js"
 			}]
 		}, {
 			id: "effects",
