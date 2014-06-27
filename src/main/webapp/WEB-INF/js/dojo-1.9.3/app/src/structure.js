@@ -50,7 +50,7 @@ define(["dojo/_base/lang"],
 				iconPos: "29,0,29,29",
 				title: "创建订单",
 				demourl: "js/dojo-1.9.3/app/views/createOrder.html",
-				jsmodule: "js/dojo-1.9.3/app/src/forms.js"
+				jsmodule: "js/dojo-1.9.3/app/src/createOrder.js"
 			}]
 		}, {
 			id: "effects",
