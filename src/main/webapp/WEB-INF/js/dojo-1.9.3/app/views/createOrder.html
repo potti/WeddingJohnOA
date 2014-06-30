@@ -2,22 +2,22 @@
 	id="createOrder" style="width: 100%;">
 
 <form name="testForm" id="testForm">
-<div class="section-title">Personal Data</div>
+<div class="section-title">订单信息</div>
 <div data-dojo-type="dojox/mobile/RoundRect">
 	<div data-dojo-type="dojox/mobile/FormLayout">
 		<div>
-			<label>Full name</label>
+			<label>订单编号</label>
 			<fieldset>
-				<input id="forms_name" data-dojo-type="dojox.mobile.TextBox" selectOnClick="true" value="Luke" type=text name="name">
+				<input id="order_id" data-dojo-type="dojox.mobile.TextBox" type=text name="order_id">
 				</input>
 			</fieldset>
 		</div>
 		<div>
-			<label>Hide birthdate</label>
-			<fieldset>
-				<input type=checkbox data-dojo-type="dojox.mobile.CheckBox" name="hidebirth" checked="true">
-				</input>
-			</fieldset>
+			<label>订单来源</label>
+			<ul dojoType="dojox.mobile.RoundRectList">
+				<li id="companySelect" dojoType="dojox.mobile.ListItem" moveTo="#" transition="slide"
+					data-dojo-props='moveToUrl:"js/dojo-1.9.3/app/views/selectlist.html",jsmodule:"js/dojo-1.9.3/app/src/selectlist.js"'></li>
+			</ul>
 		</div>
 		<div>
 			<label>Goals</label>
@@ -94,5 +94,6 @@
 	</button>
 </div>
 </form>
+
 
 </div>

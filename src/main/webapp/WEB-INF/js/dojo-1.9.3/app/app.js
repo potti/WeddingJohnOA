@@ -201,7 +201,6 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 	function initView(args){
 		var view = registry.byId(args.id);
 		var viewType = (args.type) ? args.type : 'demo';
-		
 		connect.connect(view, "onAfterTransitionIn", view, function(){
 			inTransitionOrLoading = false;
 			var headerLabel = dom.byId('headerLabel');
@@ -349,7 +348,7 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 				    load: function(data) {
 					createViewHTMLLoadedHandler(args, li)(data);
 					if (module.init)
-						module.init();
+						module.init(args);
 					htmlDefer.resolve(true);
 				    },
 				    error: function(err) {
@@ -357,7 +356,7 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 				    }
 				});
 				deferArray.push(htmlDefer);
-				
+
 				// 2. load JS codes
 				if (args.jsSrc) {
 					var jsDefer = new Deferred();
@@ -611,6 +610,29 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 //			dojox.mobile.resizeAll();
 			html.style("loadDiv", "visibility", "hidden");
 		}, dm.hideAddressBarWait + 100);
+	},
+	show:function(args, li){
+		showView(args, li);
+	},
+	addTransitionInHandler:function(views, backCfg) {
+		for (var i = 0; i < views.length; ++i) {
+			var view = views[i];
+			on(registry.byId(view.id), "afterTransitionIn", (function(view) {
+				return function() {
+					inTransitionOrLoading = false;
+					dom.byId("headerLabel").innerHTML = view.label;
+					var navRecords = structure.navRecords;
+					navRecords.push({
+						from: backCfg.id,
+						fromTitle: backCfg.title,
+						to: view.id,
+						toTitle: view.label,
+						navTitle: backCfg.title
+					});
+				};
+			})(view));
+		}
 	}
+	
 	}
 });
