@@ -9,6 +9,7 @@ define(["dojo/query",
 
 	var value = 0;
 	var label = "";
+	var backWidgetId = "";
 	return {
 		init: function(args) {
 			var self = this;
@@ -22,19 +23,11 @@ define(["dojo/query",
 				toTitle: "选择",
 				navTitle: args.backTitle
 			});
+			self.backWidgetId = args.backWidgetId;
 			
 			on(registry.byId("selectlist"), "beforeTransitionOut", function() {
-				var navRecords = structure.navRecords;
-				internalNavRecords = [];
-				for (var i = 0; i < navRecords.length ; ++ i) {
-					var navRecord = navRecords[i];
-					if (navRecord.from == "navigation" ||
-						navRecord.to == "source")
-						continue;
-					internalNavRecords.push(navRecord);
-				};
-				alert(self.label);
-				this.destroyRecursive();
+				registry.byId(self.backWidgetId).set("label", self.label);
+				structure.destoryIds.push("selectlist");
 			});
 			
 			on(registry.byId("selectlistItems"), "checkStateChanged", function(listItem, newState) {

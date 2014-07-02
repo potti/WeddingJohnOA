@@ -216,16 +216,26 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 					// this is more a timing change, update nav button after transit in
 					// so that it can be shown/hidden along with "Source" button
 					if (structure.layout.leftPane.hidden) {
-						structure.navRecords.push({
-							from:"navigation",
-							to: args.id,
-							toTitle: args.title,
-							navTitle:"Back"
-						});
+						// 从选择页面返回时 不需要加导航信息
+						if (structure.destoryIds.length == 0) {
+							structure.navRecords.push({
+								from:"navigation",
+								to: args.id,
+								toTitle: args.title,
+								navTitle:"Back"
+							});
+						}
 					} else {
 						clearNavRecords();
 					}
 					connect.publish("onAfterDemoViewTransitionIn", [args.id]);
+					if(structure.destoryIds.length > 0){
+						// 从选择页面返回时 删除选择页面
+						for (var i = 0; i < structure.destoryIds.length ; i++) {
+							registry.byId(structure.destoryIds[i]).destroyRecursive();
+						}
+						structure.destoryIds = [];
+					}
 				}
 				var srcBtn = registry.byId("sourceButton");
 				srcBtn.backTo = args.id;

@@ -20,37 +20,27 @@
 			</ul>
 		</div>
 		<div>
-			<label>Goals</label>
+			<label>开始时间</label>
 			<fieldset>
-				<textarea name="goals" data-dojo-type="dojox.mobile.TextArea" maxLength="100" cols="20"></textarea>
+				<input id="startDate" data-dojo-type="dojox.mobile.TextBox" type=text name="startDate" readOnly>
+				</input>
 			</fieldset>
+			
+			<div id="datePicker" data-dojo-type="dojox.mobile.Opener" sytle="display:none;">
+		 		<h1 dojoType="dojox.mobile.Heading" label="Date Picker">
+					<span dojoType="dojox.mobile.ToolBarButton" label="Done" class="mblColorBlue" 
+						id="doneBtn" style="position:absolute;width:45px;right:0;"></span>
+					<span dojoType="dojox.mobile.ToolBarButton" label="Cancel" class="mblColorBlue" 
+						id="cancelBtn" style="position:absolute;width:45px;left:0;"></span>
+				</h1>
+				<div id="spin1" dojoType="dojox.mobile.SpinWheelDatePicker"></div>
+			</div>
 		</div>
 	</div>
 </div>
 
 <div class="section-title">
-	Login
-</div>
-<div data-dojo-type="dojox/mobile/RoundRect">
-	<div data-dojo-type="dojox/mobile/FormLayout">
-		<div>
-			<label>User name*</label>
-			<fieldset>
-				<input type=text data-dojo-type="dojox.mobile.TextBox" name="username" required>
-				</input>
-			</fieldset>
-		</div>
-		<div>
-			<label>Password*</label>
-			<fieldset>
-				<input type=text name="pass" data-dojo-type="dojox.mobile.TextBox">
-				</input>
-			</fieldset>
-		</div>
-	</div>
-</div>
-<div class="section-title">
-	Alerts
+	人员安排
 </div>
 <div data-dojo-type="dojox/mobile/RoundRect">
 	<div data-dojo-type="dojox/mobile/FormLayout">
@@ -77,13 +67,6 @@
 			<fieldset>
 				<div id="alertSwitch" data-dojo-type="dojox.mobile.Switch" value="off">
 				</div>
-			</fieldset>
-		</div>
-		<div>
-			<label>Alert volume</label>
-			<fieldset>
-				<input id="alertSlider" data-dojo-type="dojox.mobile.Slider" name="alertvolume" min="0" max="100" value="0" style="width:50%;">
-				</input>
 			</fieldset>
 		</div>
 	</div>

@@ -96,7 +96,9 @@ define(["dojo/_base/lang"],
 			target: 0 //target number of views that should be loaded
 		},
 		// navigation list
-		navRecords: []
+		navRecords: [],
+		// 选择后删除的ids
+		destoryIds : []
 	};
 	return app.src.structure;
 });
