@@ -24,9 +24,9 @@ public class LoginController {
 	@RequestMapping(method = RequestMethod.POST, value = "/login")
 	@ResponseBody
 	public String login(@RequestBody User user, Model model) {
-		if (loginService.validate(user.getName(), user.getPwd())) {
+		if (loginService.validate(user.getUsername(), user.getPwd())) {
 			model.addAttribute("success", 1);
-			model.addAttribute("name", user.getName());
+			model.addAttribute("name", user.getUsername());
 			return "index";
 		} else {
 			model.addAttribute("success", 0);
