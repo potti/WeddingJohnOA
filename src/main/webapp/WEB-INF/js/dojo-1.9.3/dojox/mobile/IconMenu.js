@@ -38,7 +38,7 @@ if(this.cols){
 var _11=((i%this.cols)===0);
 var _12=(((i+1)%this.cols)===0);
 var _13=Math.floor(i/this.cols);
-_5.set(_10.domNode,{width:w+(_12?_e:0)+"%",height:h+((_13+1===_d)?_f:0)+"%"});
+_5.set(_10.domNode,{width:_10.domNode.style.width?_10.domNode.style.width:w+(_12?_e:0)+"%",height:h+((_13+1===_d)?_f:0)+"%"});
 _3.toggle(_10.domNode,this.childItemClass+"FirstColumn",_11);
 _3.toggle(_10.domNode,this.childItemClass+"LastColumn",_12);
 _3.toggle(_10.domNode,this.childItemClass+"FirstRow",_13===0);

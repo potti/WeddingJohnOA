@@ -7,7 +7,7 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
            
-    <context:property-placeholder location="/WEB-INF/conf/system.properties"/> 
+    <context:property-placeholder location="WEB-INF/conf/system.properties"/> 
 	<context:component-scan base-package="com.wedding.john.oa.services" />
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
@@ -18,7 +18,7 @@
 		<property name="password" value="${jdbc.password}" />
 	</bean>
 
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="aSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations"
 			value="classpath:com/wedding/john/oa/bean/ibatis/*.xml" />
@@ -27,6 +27,7 @@
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.wedding.john.oa.dao" />
+		<property name="sqlSessionFactoryBeanName" value="aSqlSessionFactory" />
 	</bean>
 
 	<bean id="transactionManager"

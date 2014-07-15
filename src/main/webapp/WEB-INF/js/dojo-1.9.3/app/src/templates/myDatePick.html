@@ -1,0 +1,14 @@
+<div>
+	<input data-dojo-attach-point="datePickerText" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+	</input>
+	
+	<div data-dojo-attach-point="datePicker" data-dojo-type="dojox.mobile.Opener" sytle="display:none;">
+		<h1 dojoType="dojox.mobile.Heading" label="Date Picker">
+			<span dojoType="dojox.mobile.ToolBarButton" label="Done" class="mblColorBlue" 
+				data-dojo-attach-point="doneBtn" style="position:absolute;width:45px;right:0;"></span>
+			<span dojoType="dojox.mobile.ToolBarButton" label="Cancel" class="mblColorBlue" 
+				data-dojo-attach-point="cancelBtn" style="position:absolute;width:45px;left:0;"></span>
+		</h1>
+		<div data-dojo-attach-point="spinWheelDatePicker" dojoType="dojox.mobile.SpinWheelDatePicker"></div>
+	</div>
+</div>

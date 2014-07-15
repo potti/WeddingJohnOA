@@ -1,77 +1,133 @@
 <div dojoType="dojox.mobile.ScrollableView" 
 	id="createOrder" style="width: 100%;">
 
-<form name="testForm" id="testForm">
+<form id="createOrderForm" name="createOrderForm" data-dojo-id="createOrderForm">
+<input id="orderId" data-dojo-type="dojox.mobile.TextBox" name="id" type=hidden></input>
 <div class="section-title">订单信息</div>
 <div data-dojo-type="dojox/mobile/RoundRect">
 	<div data-dojo-type="dojox/mobile/FormLayout">
 		<div>
 			<label>订单编号</label>
 			<fieldset>
-				<input id="order_id" data-dojo-type="dojox.mobile.TextBox" type=text name="order_id">
+				<input id="order_no" data-dojo-type="dojox.mobile.TextBox" name="no" type=text>
 				</input>
 			</fieldset>
 		</div>
+		
 		<div>
 			<label>订单来源</label>
+			<input id="companyId" name="companyId" data-dojo-type="dojox.mobile.TextBox" type=hidden></input>
 			<ul dojoType="dojox.mobile.RoundRectList">
-				<li id="companySelect" dojoType="dojox.mobile.ListItem" moveTo="#" transition="slide"
+				<li id="company" dojoType="dojox.mobile.ListItem" moveTo="#" transition="slide"
 					data-dojo-props='moveToUrl:"js/dojo-1.9.3/app/views/selectlist.html",jsmodule:"js/dojo-1.9.3/app/src/selectlist.js"'></li>
 			</ul>
 		</div>
+	
 		<div>
 			<label>开始时间</label>
 			<fieldset>
-				<input id="startDate" data-dojo-type="dojox.mobile.TextBox" type=text name="startDate" readOnly>
+				<div id="startDate" name="startDate" data-dojo-type="app/src/myDatePick"></div>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>结束时间</label>
+			<fieldset>
+				<div id="endDate" name="endDate" data-dojo-type="app/src/myDatePick"></div>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>婚庆报价</label>
+			<fieldset>
+				<input id="price" name="price" data-dojo-type="dojox.mobile.TextBox" type=text>
 				</input>
 			</fieldset>
-			
-			<div id="datePicker" data-dojo-type="dojox.mobile.Opener" sytle="display:none;">
-		 		<h1 dojoType="dojox.mobile.Heading" label="Date Picker">
-					<span dojoType="dojox.mobile.ToolBarButton" label="Done" class="mblColorBlue" 
-						id="doneBtn" style="position:absolute;width:45px;right:0;"></span>
-					<span dojoType="dojox.mobile.ToolBarButton" label="Cancel" class="mblColorBlue" 
-						id="cancelBtn" style="position:absolute;width:45px;left:0;"></span>
-				</h1>
-				<div id="spin1" dojoType="dojox.mobile.SpinWheelDatePicker"></div>
+		</div>
+		
+		<div>
+			<label>报价单位</label>
+			<fieldset>
+				<input id="unit" name="unit" data-dojo-type="dojox.mobile.TextBox" type=text>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>支付方式</label>
+			<fieldset>
+				<label>Cash</label>
+				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="false" name="payType" value="1" />
+				<label>Online</label>
+				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="true" name="payType" value="2" />
+			</fieldset>
+		</div>
+	</div>
+</div>
+
+<div class="section-title">新人信息</div>
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>酒店名</label>
+			<fieldset>
+				<input id="hotalName" name="hotalName" data-dojo-type="dojox.mobile.TextBox" type=text>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>酒店地址</label>
+			<fieldset>
+				<input id="hotalAddress" name="hotalAddress" data-dojo-type="dojox.mobile.TextBox" type=text>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>男方姓名</label>
+			<fieldset>
+				<input id="boyName" name="boyName" data-dojo-type="dojox.mobile.TextBox" type=text>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>男方电话</label>
+			<fieldset>
+				<input id="boyTel" name="boyTel" data-dojo-type="dojox.mobile.TextBox" type=text>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>女方姓名</label>
+			<fieldset>
+				<input id="girlName" name="girlName" data-dojo-type="dojox.mobile.TextBox" type=text>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>女方电话</label>
+			<fieldset>
+				<input id="girlTel" name="girlTel" data-dojo-type="dojox.mobile.TextBox" type=text>
+				</input>
+			</fieldset>
+		</div>
+	</div>
+</div>
+
+<div class="section-title">人员</div>
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>人员需求</label>
+			<div id="arrengment" data-dojo-type="dojox.mobile.View" style="height:auto">
 			</div>
 		</div>
 	</div>
 </div>
 
-<div class="section-title">
-	人员安排
-</div>
-<div data-dojo-type="dojox/mobile/RoundRect">
-	<div data-dojo-type="dojox/mobile/FormLayout">
-		<div>
-			<label>Issue alerts for:</label>
-			<fielset></fielset>
-		</div>
-		<div>
-			<label>All messages</label>
-			<fieldset>
-				<input id="alert-all" type=radio name="forwardtype" data-dojo-type="dojox.mobile.RadioButton" value="all">
-				</input>
-			</fieldset>
-		</div>
-		<div>
-			<label>Urgent messages only</label>
-			<fielset>
-				<input id="alert-urgent" type=radio name="forwardtype" data-dojo-type="dojox.mobile.RadioButton" checked="true" value="urgent">
-				</input>
-			</fielset>
-		</div>
-		<div>
-			<label>Audible alerts:</label>
-			<fieldset>
-				<div id="alertSwitch" data-dojo-type="dojox.mobile.Switch" value="off">
-				</div>
-			</fieldset>
-		</div>
-	</div>
-</div>
 <div style="text-align: center;">
+	<button id="submitBtn" type=button data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		Submit 
+	</button>
 	<button id="resetBtn" type=reset data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
 		Reset Form
 	</button>

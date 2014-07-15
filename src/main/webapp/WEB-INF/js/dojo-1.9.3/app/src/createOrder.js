@@ -1,73 +1,55 @@
-define(["dojo/dom","dojo/on",
+define(["dojo/dom",
+        "dojo/on",
+        "dojo/_base/array",
         "dijit/registry",
+        "dojo/request",
         "dojo/query",
         "dojo/date/locale",
         "dojo/_base/connect",
         "app/app",
         "app/src/structure",
-		"dojox/mobile/TextBox",// not used in this module, but dependency of the demo template HTML
-		"dojox/mobile/TextArea",
+        "dojo/dom-form",
+        "dojo/json",
+        "dojox/mobile/Pane",
+		"dojox/mobile/TextBox",
+		"dojox/mobile/GridLayout",
+		"dojox/mobile/RoundRectList",
+		"dojox/mobile/ListItem",
+		"dojox/mobile/TextArea",// not used in this module, but dependency of the demo template HTML
 		"dojox/mobile/CheckBox",
 		"dojox/mobile/RadioButton",
 		"dojox/mobile/Opener",
 		"dojox/mobile/Heading",
 		"dojox/mobile/SpinWheelDatePicker",
-		"dojox/mobile/ListItem",
-		"dojox/mobile/RoundRectList",
-		"dojox/mobile/FormLayout"], function(dom,on,registry,query,locale,connect,app,structure) {
-	
+		"dojox/mobile/FixedSplitter",
+		"app/src/myDatePick",
+		"dojox/mobile/FormLayout"
+		], function(dom,on,array,registry,request,query,locale,connect,app,structure,domForm,JSON,Pane,TextBox,GridLayout,
+				RoundRectList,ListItem) {
 	var internalNavRecords = [];
 	return {
 		init: function(){
+			var viewId = "createOrder";
 			var self = this;
 			on(registry.byId("resetBtn"), "click", function(){
-				// roll back all form inputs
-				dom.byId("testForm").reset();
+				dom.byId("createOrderForm").reset();
 			});
-			
-			var today = locale.format(new Date(), {datePattern: "yyyy-MM-dd", selector: "date"});
-			registry.byId("startDate").set('value', today);
-			registry.byId("spin1").set("value", today);
-			//***********时间控件********************
-			on(registry.byId("startDate"), "click", function(){
-				registry.byId('datePicker').show(this, ['above-centered','below-centered','after','before']);
-			});
-			
-			on(registry.byId("datePicker"), "hide", function(node, v){
-				if(v === true){ // Done clicked
-					registry.byId("startDate").set('value', registry.byId("spin1").get("value"));
-				}
-			});
-			
-			on(registry.byId("datePicker"), "show", function(node){
-				var v = registry.byId("startDate").get("value").split(/-/);
-				if(v.length == 3){
-					var w = registry.byId("spin1");
-					w.set("values", v);
-				}
-			});
-			
-			on(registry.byId("doneBtn"), "click", function(){
-				registry.byId('datePicker').hide(true);
-			});
-			
-			on(registry.byId("cancelBtn"), "hide", function(){
-				registry.byId('datePicker').hide(false);
-			});
-			//************************************
-			on(registry.byId("companySelect"), "click", function(){
+			on(registry.byId("company"), "click", function(){
 			    app.show({id: "selectlist",
-					title: "选择",
+					title: "请选择",
 					type:"once",// 区别开demo和navigation app.js initView
 					demourl: this.moveToUrl,
 					jsmodule: this.jsmodule,
-					backId:"createOrder",
+					backId: viewId,
 					backTitle:"订单",
-					backWidgetId:"companySelect"}, this);
+					backWidgetId:"company",
+					select:"single",
+					labelProperty:"companyName",
+					url: "company" }, this);
 			});
 			
 			connect.subscribe("onAfterDemoViewTransitionIn", function(id) {
-				if (id == "createOrder") {
+				if (id == self.viewId) {
 					var navRecords = structure.navRecords;
 					for (var i = 0; i < internalNavRecords.length ; ++i) {
 						navRecords.push(internalNavRecords[i]);
@@ -77,6 +59,95 @@ define(["dojo/dom","dojo/on",
 						dom.byId("headerLabel").innerHTML = navRecords[navRecords.length -1].toTitle;
 					}
 				}
+			});
+
+			on(registry.byId("submitBtn"), "click", function() {
+						var jsonData = domForm.toObject("createOrderForm");
+						jsonData['startDate'] = registry.byId("startDate").domNode.value;
+						jsonData['endDate'] = registry.byId("endDate").domNode.value;
+						request.post("order", {
+							data : JSON.stringify(jsonData),
+							headers : {
+								"Content-Type" : "application/json"
+							},
+							handleAs : "json"
+						}).then(function(response) {
+						});
+					});
+			
+			request.get("skill", {
+				headers : {
+					"Content-Type" : "application/json"
+				},
+				handleAs : "json"
+			}).then(function(response) {
+				array.forEach(response,function(data){
+					var g0 = new GridLayout({
+						cols:2
+					});
+					var p0 = new Pane({
+						innerHTML: data.name + " : "
+					});
+					p0.domNode.style.width = "15%";
+					g0.addChild(p0);
+					var t0 = new TextBox({
+						id : "skill-" + data.id,
+						maxLength : 1
+					});
+					t0.domNode.style.width = "50%";
+					g0.addChild(t0);
+					registry.byId("arrengment").addChild(g0);
+					on(registry.byId("skill-" + data.id), 'change', function(newValue) {
+						var oldValue = this.defaultValue?this.defaultValue:0;
+						var parent = this.getParent();
+						var index = registry.byId("arrengment").getIndexOfChild(parent);
+						var rr;
+						if(registry.byId("arrengment").getChildren().length > index + 1){
+							array.forEach(registry.byId("arrengment").getChildren(), function(child, ind) {
+								if(ind == index + 1 && child.baseClass != parent.baseClass){
+									rr = child;
+									return;
+								}
+							}); 
+						}
+						if(newValue > oldValue){
+							if(!rr){
+								rr = new RoundRectList({
+									editable:false
+								});
+							}
+							var start = rr.getChildren().length;
+							var end = start + (newValue-oldValue);
+							for(var j=start;j<end;j++){
+								var li = new ListItem({
+									id:"skill-" + data.id + "-" + j,
+									moveTo:'#',
+									transition:"slide",
+									moveToUrl:"js/dojo-1.9.3/app/views/selectlist.html",
+									jsmodule:"js/dojo-1.9.3/app/src/selectlist.js"
+								});
+								rr.addChild(li);
+							}
+							registry.byId("arrengment").addChild(rr,index+1);
+						}else{
+							var delNum = oldValue - newValue;
+							if(delNum > 0){
+								var num = rr.getChildren().length;
+								var delIndex = num - 1 - delNum;
+								if(delIndex < 0){
+									rr.destroy();
+								}else{
+									array.forEach(rr.getChildren(), function(child, ind) {
+										if(ind > delIndex){
+											child.destroy();
+										}
+									}); 
+								}
+							}
+						}
+						this.defaultValue = newValue;
+					});
+			    });
 			});
 		}
 	};

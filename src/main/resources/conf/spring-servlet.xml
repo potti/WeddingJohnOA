@@ -28,7 +28,14 @@
 					</property>
 				</bean>
 				<bean
-					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<value>application/json;charset=UTF-8</value>
+							<value>application/x-www-form-urlencoded</value>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>

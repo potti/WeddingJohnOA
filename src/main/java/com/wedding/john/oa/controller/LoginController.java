@@ -1,18 +1,27 @@
 package com.wedding.john.oa.controller;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.wedding.john.oa.bean.User;
 import com.wedding.john.oa.services.LoginService;
 
 @Controller
+@SessionAttributes({ "user" })
 public class LoginController {
+
+	private Logger logger = LoggerFactory.getLogger(LoginController.class);
 	@Autowired
 	private LoginService loginService;
 
@@ -23,19 +32,27 @@ public class LoginController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/login")
 	@ResponseBody
-	public String login(@RequestBody User user, Model model) {
-		if (loginService.validate(user.getUsername(), user.getPwd())) {
-			model.addAttribute("success", 1);
-			model.addAttribute("name", user.getUsername());
-			return "index";
+	public int login(@RequestBody User user, ModelMap modelMap) {
+		if (StringUtils.isEmpty(user.getAccount())
+				|| StringUtils.isEmpty(user.getPwd())) {
+			return 0;
+		}
+		User userInfo = loginService.validate(user.getAccount(), user.getPwd());
+		if (userInfo != null) {
+			modelMap.addAttribute(userInfo);
+			logger.info("用户登陆 : " + user.getAccount());
+			return 1;
 		} else {
-			model.addAttribute("success", 0);
-			return "login";
+			return 0;
 		}
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/index")
-	public String index(Model model) {
-		return "index";
+	public String index(@ModelAttribute("user") User user) {
+		if (user != null) {
+			return "index";
+		} else {
+			return "login";
+		}
 	}
 }

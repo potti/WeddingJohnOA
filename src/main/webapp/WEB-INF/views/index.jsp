@@ -46,8 +46,8 @@
 		loadjscssfile('<c:url value="/js/dojo-1.9.3/dijit/themes/dijit.css"/>', "css");
 		loadjscssfile('<c:url value="/js/dojo-1.9.3/dijit/themes/nihilo/nihilo.css"/>', "css");
 	</script>
-	<script type="text/javascript" src='<c:url value="/js/dojo-1.9.3/dojo/dojo.js"/>' 
-		data-dojo-config="parseOnLoad:false,mblAlwaysHideAddressBar:true,async:true"></script> 
+	<script type="text/javascript" src='<c:url value="/js/dojo-1.9.3/dojo/dojo.js.uncompressed.js"/>' 
+		data-dojo-config="parseOnLoad:false,mblAlwaysHideAddressBar:true,async:true,debug:'true'"></script> 
 		
 	<style>
 	html, body{

@@ -58,19 +58,21 @@
 							<div>
 								<label style="width:30%;position:relative">用户名</label>
 								<fieldset>
-									<input type=text data-dojo-type="dojox.mobile.TextBox" name="name" required style="width:100%;position:relative"/>
+									<input id="account" type=text data-dojo-type="dojox.mobile.TextBox" name="account" required 
+										style="width:100%;position:relative" value="admin"/>
 								</fieldset>
 							</div>
 							<div>
 								<label style="width:30%;position:relative">密码</label>
 								<fieldset>
-									<input type=password name="pwd" data-dojo-type="dojox.mobile.TextBox" required style="width:100%;position:relative"/>
+									<input type=password id="pwd" name="pwd" data-dojo-type="dojox.mobile.TextBox" required 
+										style="width:100%;position:relative" value="admin"/>
 								</fieldset>
 							</div>
 							<div>
 								<label></label>
 								<fieldset style="width:100%;position:relative">
-									<button dojoType="dojox.mobile.Button" style="float:right" class="navyBtn">登陆</button>
+									<button dojoType="dojox.mobile.Button" id="loginBtn" style="float:right" class="navyBtn">登陆</button>
 								</fieldset>
 							</div>
 						</div>
@@ -81,12 +83,32 @@
     </div>
 			
 	<script type="text/javascript">
-		require(["dojox/mobile", "dojox/mobile/parser", "dojo/ready", "dojox/mobile/View", "dojox/mobile/GridLayout",
+		require(["dojo/dom","dojo/on","dijit/registry","dojo/request","dojo/dom-form","dojo/json","dijit/Tooltip","dojox/mobile","dojox/mobile/parser","dojo/ready", 
+		    "dojox/mobile/View", "dojox/mobile/GridLayout","dojox/mobile/Button",
 			"dojox/mobile/Pane", "dojox/mobile/TextBox", "dojox/mobile/RoundRect", "dojox/mobile/FormLayout", 
-			"dojox/mobile/Button",
-			"dojo/domReady!"], function(mobile, parser, ready){
+			"dojo/domReady!"], function(dom,on,registry,request,domForm,JSON,Tooltip,mobile,parser,ready){
 				ready(function(){
 					parser.parse();
+					on(dom.byId('loginFrom'), "submit", function(evt){
+			            evt.stopPropagation();
+			            evt.preventDefault();
+			            request.post("login", {
+			                data: domForm.toJson("loginFrom"),
+			                headers: {
+			                    "Content-Type": "application/json"
+			                }
+			                // handleAs: "json"
+			            }).then(function(response){
+//			            	var obj = JSON.parse(response);
+			                if(response == 1){
+			                	window.location = window.location.href + "/../index";
+			                }else{
+			                	var password = registry.byId('pwd');
+			                	password.set('value',"");
+//			                	Tooltip.show('输入的密码错误',password.domNode,'above'); 
+			                }
+			            });
+					});
 				});
 			});
 	</script>
