@@ -282,63 +282,123 @@ public class ScheduleExample {
             return (Criteria) this;
         }
 
-        public Criteria andBusydateIsNull() {
-            addCriterion("busydate is null");
+        public Criteria andEmptyDateIsNull() {
+            addCriterion("empty_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andBusydateIsNotNull() {
-            addCriterion("busydate is not null");
+        public Criteria andEmptyDateIsNotNull() {
+            addCriterion("empty_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBusydateEqualTo(Date value) {
-            addCriterionForJDBCDate("busydate =", value, "busydate");
+        public Criteria andEmptyDateEqualTo(Date value) {
+            addCriterionForJDBCDate("empty_date =", value, "emptyDate");
             return (Criteria) this;
         }
 
-        public Criteria andBusydateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("busydate <>", value, "busydate");
+        public Criteria andEmptyDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("empty_date <>", value, "emptyDate");
             return (Criteria) this;
         }
 
-        public Criteria andBusydateGreaterThan(Date value) {
-            addCriterionForJDBCDate("busydate >", value, "busydate");
+        public Criteria andEmptyDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("empty_date >", value, "emptyDate");
             return (Criteria) this;
         }
 
-        public Criteria andBusydateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("busydate >=", value, "busydate");
+        public Criteria andEmptyDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("empty_date >=", value, "emptyDate");
             return (Criteria) this;
         }
 
-        public Criteria andBusydateLessThan(Date value) {
-            addCriterionForJDBCDate("busydate <", value, "busydate");
+        public Criteria andEmptyDateLessThan(Date value) {
+            addCriterionForJDBCDate("empty_date <", value, "emptyDate");
             return (Criteria) this;
         }
 
-        public Criteria andBusydateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("busydate <=", value, "busydate");
+        public Criteria andEmptyDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("empty_date <=", value, "emptyDate");
             return (Criteria) this;
         }
 
-        public Criteria andBusydateIn(List<Date> values) {
-            addCriterionForJDBCDate("busydate in", values, "busydate");
+        public Criteria andEmptyDateIn(List<Date> values) {
+            addCriterionForJDBCDate("empty_date in", values, "emptyDate");
             return (Criteria) this;
         }
 
-        public Criteria andBusydateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("busydate not in", values, "busydate");
+        public Criteria andEmptyDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("empty_date not in", values, "emptyDate");
             return (Criteria) this;
         }
 
-        public Criteria andBusydateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("busydate between", value1, value2, "busydate");
+        public Criteria andEmptyDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("empty_date between", value1, value2, "emptyDate");
             return (Criteria) this;
         }
 
-        public Criteria andBusydateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("busydate not between", value1, value2, "busydate");
+        public Criteria andEmptyDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("empty_date not between", value1, value2, "emptyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseIsNull() {
+            addCriterion("is_use is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseIsNotNull() {
+            addCriterion("is_use is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseEqualTo(Integer value) {
+            addCriterion("is_use =", value, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseNotEqualTo(Integer value) {
+            addCriterion("is_use <>", value, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseGreaterThan(Integer value) {
+            addCriterion("is_use >", value, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_use >=", value, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseLessThan(Integer value) {
+            addCriterion("is_use <", value, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseLessThanOrEqualTo(Integer value) {
+            addCriterion("is_use <=", value, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseIn(List<Integer> values) {
+            addCriterion("is_use in", values, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseNotIn(List<Integer> values) {
+            addCriterion("is_use not in", values, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseBetween(Integer value1, Integer value2) {
+            addCriterion("is_use between", value1, value2, "isUse");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUseNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_use not between", value1, value2, "isUse");
             return (Criteria) this;
         }
     }

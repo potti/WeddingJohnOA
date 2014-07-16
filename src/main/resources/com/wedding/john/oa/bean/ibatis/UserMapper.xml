@@ -410,4 +410,27 @@
       create_date = #{createDate,jdbcType=DATE}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  
+  <resultMap id="AvailableMap" type="com.wedding.john.oa.bean.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="is_use" jdbcType="INTEGER" property="del" />
+  </resultMap>
+  <select id="selectAvailableUser" parameterType="map" resultMap="AvailableMap">
+    select
+ 		a.id,
+ 		a.name,
+ 		b.is_use
+    from user a left join (
+    	select * from schedule where
+    	 	is_use = 0
+		  and
+		  	empty_date = #{startDate,jdbcType=DATE}
+		  and
+		  	empty_date = #{endDate,jdbcType=DATE}
+    ) b on a.id = b.cameraman_id 
+    where a.del = 0
+    order by b.is_use DESC
+  </select>
 </mapper>

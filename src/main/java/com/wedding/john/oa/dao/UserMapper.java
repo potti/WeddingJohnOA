@@ -1,9 +1,12 @@
 package com.wedding.john.oa.dao;
 
+import java.util.Date;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.wedding.john.oa.bean.User;
 import com.wedding.john.oa.bean.UserExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     /**
@@ -93,4 +96,6 @@ public interface UserMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(User record);
+    
+    List<User> selectAvailableUser(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }

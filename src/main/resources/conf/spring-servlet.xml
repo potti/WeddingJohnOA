@@ -63,7 +63,15 @@
 			<list>
 				<!-- for application/json -->
 				<bean
-					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" >
+					<property name="objectMapper">
+						<bean class="org.codehaus.jackson.map.ObjectMapper">
+							<property name="serializationInclusion">
+								<value type="org.codehaus.jackson.map.annotate.JsonSerialize$Inclusion">NON_NULL</value>
+							</property>
+						</bean>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>

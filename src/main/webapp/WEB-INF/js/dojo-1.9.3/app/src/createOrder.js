@@ -119,13 +119,35 @@ define(["dojo/dom",
 							var start = rr.getChildren().length;
 							var end = start + (newValue-oldValue);
 							for(var j=start;j<end;j++){
+								var txtid = "skill-" + data.id + "-" + j;
+								var textbox = new TextBox({
+									type:'hidden',
+									id:txtid
+								});
 								var li = new ListItem({
-									id:"skill-" + data.id + "-" + j,
+									id:txtid + "-listitem",
 									moveTo:'#',
 									transition:"slide",
 									moveToUrl:"js/dojo-1.9.3/app/views/selectlist.html",
 									jsmodule:"js/dojo-1.9.3/app/src/selectlist.js"
 								});
+								on(li, "click", function(){
+									var startDate = registry.byId("startDate").domNode.value;
+									var endDate = registry.byId("endDate").domNode.value;
+								    app.show({id: "selectlist",
+										title: "请选择",
+										type:"once",
+										demourl: this.moveToUrl,
+										jsmodule: this.jsmodule,
+										backId: viewId,
+										backTitle:"订单",
+										backWidgetId:txtid,
+										select:"single",
+										labelProperty:"name",
+										url: "userAvailable/" + startDate + "/" + endDate
+										}, this);
+								});
+								rr.addChild(textbox);
 								rr.addChild(li);
 							}
 							registry.byId("arrengment").addChild(rr,index+1);
