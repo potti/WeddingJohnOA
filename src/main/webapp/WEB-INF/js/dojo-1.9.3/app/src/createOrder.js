@@ -122,26 +122,26 @@ define(["dojo/dom",
 								var txtid = "skill-" + data.id + "-" + j;
 								var textbox = new TextBox({
 									type:'hidden',
-									id:txtid
+									id:txtid+"Id"
 								});
 								var li = new ListItem({
-									id:txtid + "-listitem",
+									id:txtid,
 									moveTo:'#',
 									transition:"slide",
-									moveToUrl:"js/dojo-1.9.3/app/views/selectlist.html",
-									jsmodule:"js/dojo-1.9.3/app/src/selectlist.js"
+									moveToUrl:"js/dojo-1.9.3/app/views/multiselectlist.html",
+									jsmodule:"js/dojo-1.9.3/app/src/multiselectlist.js"
 								});
 								on(li, "click", function(){
 									var startDate = registry.byId("startDate").domNode.value;
 									var endDate = registry.byId("endDate").domNode.value;
-								    app.show({id: "selectlist",
+								    app.show({id: "multiselectlist",
 										title: "请选择",
 										type:"once",
 										demourl: this.moveToUrl,
 										jsmodule: this.jsmodule,
 										backId: viewId,
 										backTitle:"订单",
-										backWidgetId:txtid,
+										backWidgetId: [this.id],
 										select:"single",
 										labelProperty:"name",
 										url: "userAvailable/" + startDate + "/" + endDate
