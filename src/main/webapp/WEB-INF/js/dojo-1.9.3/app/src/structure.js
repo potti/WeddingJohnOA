@@ -57,11 +57,11 @@ define(["dojo/_base/lang"],
 			label: "Effects",
 			iconBase: "images/navigation_list_all_29.png",
 			views: [{
-				id: "list",
+				id: "multiselectlist",
 				iconPos: "290,0,29,29",
-				title: "list",
-				demourl: "js/dojo-1.9.3/app/views/list.html",
-				jsmodule: "js/dojo-1.9.3/app/src/list.js"
+				title: "multiselectlist",
+				demourl: "js/dojo-1.9.3/app/views/multiselectlist.html",
+				jsmodule: "js/dojo-1.9.3/app/src/multiselectlist.js"
 			}]
 		}, {
 			id: "dataList",

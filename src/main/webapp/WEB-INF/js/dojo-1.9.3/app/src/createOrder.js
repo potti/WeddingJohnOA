@@ -122,10 +122,10 @@ define(["dojo/dom",
 								var txtid = "skill-" + data.id + "-" + j;
 								var textbox = new TextBox({
 									type:'hidden',
-									id:txtid
+									id:txtid+"Id"
 								});
 								var li = new ListItem({
-									id:txtid + "-listitem",
+									id:txtid,
 									moveTo:'#',
 									transition:"slide",
 									moveToUrl:"js/dojo-1.9.3/app/views/selectlist.html",
