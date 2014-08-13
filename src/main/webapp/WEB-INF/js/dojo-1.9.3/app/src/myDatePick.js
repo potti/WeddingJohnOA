@@ -66,6 +66,17 @@ function(
 				self.datePicker.hide(false);
 			});
 			
+		},
+		
+		setDate : function(date){
+			var ds = locale.format(date, {datePattern: "yyyy-MM-dd", selector: "date"});
+			this.datePickerText.set('value', ds);
+			this.domNode.value = ds;
+		},
+		
+		reset : function(){
+			this.datePickerText.set('value', '');
+			this.domNode.value = '';
 		}
 	});
 });

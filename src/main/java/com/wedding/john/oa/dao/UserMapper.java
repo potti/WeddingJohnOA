@@ -98,4 +98,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
     
     List<User> selectAvailableUser(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    
+    List<User> selectNameByExample(UserExample example);
 }

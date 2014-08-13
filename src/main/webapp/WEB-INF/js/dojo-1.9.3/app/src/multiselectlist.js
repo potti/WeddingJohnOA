@@ -14,9 +14,10 @@ define(["dojo/_base/declare",
 	"app/src/structure",
 	"dojox/mobile/RoundRectStoreList",
 	"dojox/mobile/FilteredListMixin",
+	"dojox/mobile/ListItem",
 	"dojox/mobile/SearchBox"], 
 	function(declare,domProp,aspect,query,dom,on,connect,registry,request,JSON,Memory,Observable,
-			app,structure,RoundRectStoreList,FilteredListMixin){
+			app,structure,RoundRectStoreList,FilteredListMixin,ListItem){
 	var internalNavRecords=[];
 	return {
 		values : [],
@@ -65,8 +66,28 @@ define(["dojo/_base/declare",
     					new declare([RoundRectStoreList, FilteredListMixin])({
     							labelProperty:args.labelProperty,
     							select : args.select,//'multiple'
+    							iconCol : args.iconCol,
     							placeHolder:'查询',
-    							store: store});
+    							iconBase: args.iconCol?"images/icons16.png":"",
+    							store: store,
+    							createListItem : function(item){
+    								var props = {};
+    								if(!item["label"]){
+    									props["label"] = item[this.labelProperty];
+    								}
+    								for(var name in item){
+    									props[(this.itemMap && this.itemMap[name]) || name] = item[name];
+    								}
+    								if(this.iconCol){
+    									if(typeof(item[this.iconCol]) != 'undefined'){
+        									props["iconPos"] = "0,32,16,16";
+        								}else{
+        									props["iconPos"] = "0,48,16,16";
+        								}
+    								}
+    								return new ListItem(props);
+    							}
+    					});
     				listWidget.placeAt(view.containerNode);
     				listWidget.startup();
     				var filterBox = listWidget.getFilterBox();

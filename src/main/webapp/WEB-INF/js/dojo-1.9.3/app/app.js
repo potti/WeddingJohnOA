@@ -69,24 +69,16 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 		transitViews(navRecord.to, navRecord.from);
 		if (navRecord.fromTitle)
 			dom.byId("headerLabel").innerHTML = navRecord.fromTitle;
-	}
-
-	function srcBtnClickHandler() {
-		var srcBtn = registry.byId("sourceButton");
-		dom.byId("sourceButton").innerHTML = (srcBtn.selected ? "Demo" : "Source");
-		if (srcBtn.selected) {
-			structure.navRecords.push({
-				from: srcBtn.backTo,
-				to: "source",
-				navTitle: "Back"
-			});
-			transitViews(srcBtn.backTo, "source", 1, navigator.userAgent.match(/GT-I9100/) ? "none" : null);
-		} else {
-			navBtnClickHandler();
+		if (navRecord.delTo){
+			structure.destoryIds.push(navRecord.to);
 		}
 
 	}
 
+	function logoutBtnClickHandler() {
+		window.location = window.location.href + "/../login";
+	}
+	
 	// update label of navigation button
 	function updateNavButtonLabel() {
 		var navRecords = structure.navRecords;
@@ -127,13 +119,16 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 		var navRecords = structure.navRecords;
 		if (navRecords.length == 0)
 			return;
+		for(var i=0;i<navRecords.length;i++){
+			registry.byId(navRecords[i].to).destroyRecursive();
+		}
 		navRecords.splice(0, navRecords.length);
 	}
 	
 	
 	/* 
 	 * Work-around for the current change to transition.
-	 * TODO: Change to use a utility method or some thing similar.
+	 * TODO: Change to use a utility method or some thing similar.transition:slide transitionDir:1
 	 */
 	function triggerTransition(comp, moveTo){
 		transitFrom = "navigation";
@@ -205,7 +200,6 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 			inTransitionOrLoading = false;
 			var headerLabel = dom.byId('headerLabel');
 			var header = dom.byId("header");
-			var sourceButton = dom.byId("sourceButton");
 			if (viewType === 'demo') {
 				// after transition in, set the header, source button and load
 				// the source code of current view.						
@@ -237,17 +231,46 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 						structure.destoryIds = [];
 					}
 				}
-				var srcBtn = registry.byId("sourceButton");
-				srcBtn.backTo = args.id;
-				srcBtn.set("selected", false);
-				sourceButton.innerHTML = (srcBtn.selected ? "Demo" : "Source");
-				
 				// set the header's moveTo attribute to "navigation"
 				registry.byNode(header).moveTo = "navigation";
-				// restore sourceButton if applicable
-				if (domClass.contains(sourceButton, "hidden")) {
-					domClass.remove(sourceButton, "hidden");
+				
+				dom.byId("htmlContent").innerHTML = getDemoHtml(args.id);
+				dom.byId("jsContent").innerHTML = getDemoJs(args.id);
+				registry.byId("htmlSrcView").scrollTo({x:0,y:0});
+				registry.byId("jsSrcView").scrollTo({x:0,y:0});
+				structure.layout.currentDemo = {
+					id: args.id,
+					title: args.title
+				};
+			}
+			else if (viewType === 'pip') {
+				// page in page
+				if (!transitFrom || (transitFrom != "source")) {
+					headerLabel.innerHTML = args.title;
+					// this is more a timing change, update nav button after transit in
+					// so that it can be shown/hidden along with "Source" button
+					if (structure.layout.leftPane.hidden) {
+						// 从选择页面返回时 不需要加导航信息
+						if (structure.destoryIds.length == 0) {
+							structure.navRecords.push({
+								from:"navigation",
+								to: args.id,
+								toTitle: args.title,
+								navTitle:"Back"
+							});
+						}
+					} 
+					connect.publish("onAfterDemoViewTransitionIn", [args.id]);
+					if(structure.destoryIds.length > 0){
+						// 从选择页面返回时 删除选择页面
+						for (var i = 0; i < structure.destoryIds.length ; i++) {
+							registry.byId(structure.destoryIds[i]).destroyRecursive();
+						}
+						structure.destoryIds = [];
+					}
 				}
+				// set the header's moveTo attribute to "navigation"
+				registry.byNode(header).moveTo = "navigation";
 				
 				dom.byId("htmlContent").innerHTML = getDemoHtml(args.id);
 				dom.byId("jsContent").innerHTML = getDemoJs(args.id);
@@ -259,17 +282,11 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 				};
 			}
 			else if (viewType === 'navigation') {
-				//hide the sourceButton when navigation views 
 				//and demo views are in the same holder.
 				if (structure.layout.leftPane.hidden) {
 					// set header label and the moveTo attribute of header to args.back
 					headerLabel.innerHTML = args.title;
 					registry.byNode(header).moveTo = args.back;
-					// hide or show navigation button, hide sourceButton
-					if (!domClass.contains(sourceButton, "hidden")) {
-						domClass.add(sourceButton, "hidden");
-					}
-					// co-operate with "srcBtnClickHandler()" above
 					showHideNavButton();
 				}
 				else {
@@ -323,7 +340,7 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 		showProgressIndicator(true);
 		
 		function handleError(err){
-			alert("Failed to load demo.");
+			alert("Failed to load .js");
 			showProgressIndicator(false);
 			inTransitionOrLoading = false;
 		}
@@ -416,6 +433,12 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 		if (inTransitionOrLoading)
 			return;
 		showProgressIndicator(false);
+		var delId;
+		// 不是点子页面的create*界面需要删除
+		if(structure.layout.rightPane.currentView.substring(0,6) === "create" 
+			&& args.backId != structure.layout.rightPane.currentView){
+			delId = structure.layout.rightPane.currentView;
+		}
 		if (registry.byId(args.id)) {
 //				li.transitionTo(args.id);
 			if (structure.layout.rightPane.currentView !== args.id) {
@@ -426,6 +449,17 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 			inTransitionOrLoading = true;
 			loadAndSwitchView(args, li);
 		}
+		// 异步删除create*界面
+		if(delId){
+			var int = setInterval(function(){
+				if(!inTransitionOrLoading){
+					if(registry.byId(delId)){
+						registry.byId(delId).destroyRecursive();
+					}
+					clearInterval(int);
+				}
+			},100);
+		}
 	}
 	
 	/**
@@ -433,46 +467,49 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 	 *
 	 * @param {Object} demos
 	 */
-	function initNavList(demos){
+	function initNavList(demos, power){
 		var navView = registry.byId("navigation");
 		array.forEach(demos, function(demo){
-			// first, set the category label
-			var cat = new EdgeToEdgeCategory({
-				"label": demo.label
-			});
-			cat.placeAt(navView.containerNode);
-			cat.startup();
-			// then, add the list
-			var items = [];
-			array.forEach(demo.views, function(item){
-				// mapping "id" to "moveTo" for EdgeToEdgeList
-				var def = {
-						iconPos: item.iconPos,
-						label: item.title,
-						href: item.href,
-						hrefTarget: item.hrefTarget
-				};
-				if (item.demourl){
-					def.moveTo = "#";
-					def.onClick = function(){
-						ListItem.prototype.onClick.apply(this, arguments);
-						showView(item, this);
-					};
-				}
-				items.push(def);
-			});
-			var list = new EdgeToEdgeDataList({
-				id: demo.id,
-				iconBase: demo.iconBase, // TODO: precise clone?
-				store: new ItemFileReadStore({
-					data: {
-						"items": items
+			if(!demo.power || power >= demo.power){
+				// first, set the category label
+				var cat = new EdgeToEdgeCategory({
+					"label": demo.label
+				});
+				cat.placeAt(navView.containerNode);
+				cat.startup();
+				// then, add the list
+				var items = [];
+				array.forEach(demo.views, function(item){
+					if(!demo.views.power || power >= demo.views.power){
+						// mapping "id" to "moveTo" for EdgeToEdgeList
+						var def = {
+								iconPos: item.iconPos,
+								label: item.title,
+								href: item.href,
+								hrefTarget: item.hrefTarget
+						};
+						if (item.demourl){
+							def.moveTo = "#";
+							def.onClick = function(){
+								ListItem.prototype.onClick.apply(this, arguments);
+								showView(item, this);
+							};
+						}
+						items.push(def);
 					}
-				})
-			});
-			list.placeAt(navView.containerNode);
-			list.startup();
-			
+				});
+				var list = new EdgeToEdgeDataList({
+					id: demo.id,
+					iconBase: demo.iconBase, // TODO: precise clone?
+					store: new ItemFileReadStore({
+						data: {
+							"items": items
+						}
+					})
+				});
+				list.placeAt(navView.containerNode);
+				list.startup();
+			}
 		});
 		// move navigation list view under correct parent (right or left pane)
 		var holder = dom.byId(structure.layout.leftPane.hidden ? "rightPane" : "leftPane");
@@ -550,7 +587,9 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 	}
 	
 	return {
-		init: function(){
+		init: function(param){
+		var power = param.power;
+		structure._views[1].title += param.name;
 		// set view port size
 		Viewport.onViewportChange();
 		
@@ -579,9 +618,9 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 		array.forEach(structure._views, function(view){
 			initView(view);
 		});
-		initNavList(structure.demos);
-		connect.connect(dom.byId("sourceButton"), "onclick",
-				registry.byId("header"), srcBtnClickHandler);
+		initNavList(structure.demos, power);
+		connect.connect(dom.byId("logoutButton"), "onclick",
+				registry.byId("header"), logoutBtnClickHandler);
 		connect.connect(dom.byId("navButton"), "onclick", registry.byId("header"),
 				navBtnClickHandler);
 		var navRecords = structure.navRecords;

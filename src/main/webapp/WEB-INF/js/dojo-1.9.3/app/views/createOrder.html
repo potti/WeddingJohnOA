@@ -9,7 +9,7 @@
 		<div>
 			<label>订单编号</label>
 			<fieldset>
-				<input id="order_no" data-dojo-type="dojox.mobile.TextBox" name="no" type=text>
+				<input id="orderNo" data-dojo-type="dojox.mobile.TextBox" name="orderNo" type=text required>
 				</input>
 			</fieldset>
 		</div>
@@ -40,7 +40,7 @@
 		<div>
 			<label>婚庆报价</label>
 			<fieldset>
-				<input id="price" name="price" data-dojo-type="dojox.mobile.TextBox" type=text>
+				<input id="price" name="price" data-dojo-type="dojox.mobile.TextBox" type=text required>
 				</input>
 			</fieldset>
 		</div>
@@ -48,7 +48,7 @@
 		<div>
 			<label>报价单位</label>
 			<fieldset>
-				<input id="unit" name="unit" data-dojo-type="dojox.mobile.TextBox" type=text>
+				<input id="unit" name="unit" data-dojo-type="dojox.mobile.TextBox" type=text required>
 				</input>
 			</fieldset>
 		</div>
@@ -71,14 +71,14 @@
 		<div>
 			<label>酒店名</label>
 			<fieldset>
-				<input id="hotalName" name="hotalName" data-dojo-type="dojox.mobile.TextBox" type=text>
+				<input id="hotalName" name="hotalName" data-dojo-type="dojox.mobile.TextBox" type=text required>
 				</input>
 			</fieldset>
 		</div>
 		<div>
 			<label>酒店地址</label>
 			<fieldset>
-				<input id="hotalAddress" name="hotalAddress" data-dojo-type="dojox.mobile.TextBox" type=text>
+				<input id="hotalAddress" name="hotalAddress" data-dojo-type="dojox.mobile.TextBox" type=text required>
 				</input>
 			</fieldset>
 		</div>
@@ -112,7 +112,9 @@
 		</div>
 	</div>
 </div>
+</form>
 
+<form id="createOrderDetailForm" name="createOrderDetailForm" data-dojo-id="createOrderDetailForm">
 <div class="section-title">人员</div>
 <div data-dojo-type="dojox/mobile/RoundRect">
 	<div data-dojo-type="dojox/mobile/FormLayout">
@@ -123,16 +125,17 @@
 		</div>
 	</div>
 </div>
+</form>
 
 <div style="text-align: center;">
 	<button id="submitBtn" type=button data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
-		Submit 
+		提交 
 	</button>
 	<button id="resetBtn" type=reset data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
-		Reset Form
+		清空
 	</button>
 </div>
-</form>
+
 
 
 </div>

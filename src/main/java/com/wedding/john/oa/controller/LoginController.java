@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wedding.john.oa.bean.User;
 import com.wedding.john.oa.services.LoginService;
 
@@ -53,6 +54,19 @@ public class LoginController {
 			return "index";
 		} else {
 			return "login";
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/isLogin", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String isLogin(@ModelAttribute("user") User user) {
+		if (user != null) {
+			JSONObject json = new JSONObject();
+			json.put("name", user.getName());
+			json.put("power", user.getPower());
+			return json.toJSONString();
+		} else {
+			return "";
 		}
 	}
 }

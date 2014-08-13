@@ -424,13 +424,23 @@
  		b.is_use
     from user a left join (
     	select * from schedule where
-    	 	is_use = 0
-		  and
 		  	empty_date = #{startDate,jdbcType=DATE}
 		  and
 		  	empty_date = #{endDate,jdbcType=DATE}
     ) b on a.id = b.cameraman_id 
     where a.del = 0
+    and (b.is_use != 1 or b.is_use IS NULL)
     order by b.is_use DESC
+  </select>
+  
+  <select id="selectNameByExample" parameterType="com.wedding.john.oa.bean.UserExample" resultMap="BaseResultMap">
+    select id,name
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
   </select>
 </mapper>

@@ -28,65 +28,55 @@ define(["dojo/_base/lang"],
 			// last selected demo view
 			currentDemo: {
 				id: "welcome",
-				title: "Welcome"
+				title: "Wedding John 日常管理系统"
 			}
 		},
 		demos: [{
 			id: "controls",
-			label: "Controls",
+			label: "订单",
+			power : 10,
 			iconBase: "images/navigation_list_all_29.png",
 			views: [{
-				id: "schedule1",
-				iconPos: "0,0,29,29",
-				title: "日程1",
-				demourl: "js/dojo-1.9.3/app/views/dateSwitches1.html"
-			}, {
-				id: "schedule2",
-				iconPos: "29,0,29,29",
-				title: "日程2",
-				demourl: "js/dojo-1.9.3/app/views/dateSwitches2.html"
-			}, {
 				id: "createOrder",
 				iconPos: "29,0,29,29",
 				title: "创建订单",
 				demourl: "js/dojo-1.9.3/app/views/createOrder.html",
 				jsmodule: "js/dojo-1.9.3/app/src/createOrder.js"
+			},{
+				id: "orderSearchCondition",
+				iconPos: "203,0,29,29",
+				title: "查找订单",
+				demourl: "js/dojo-1.9.3/app/views/orderSearchCondition.html",
+				jsmodule: "js/dojo-1.9.3/app/src/orderSearchCondition.js"
 			}]
 		}, {
-			id: "effects",
-			label: "Effects",
+			id: "userfunction",
+			label: "日程",
+			power : 1,
 			iconBase: "images/navigation_list_all_29.png",
 			views: [{
-				id: "multiselectlist",
-				iconPos: "290,0,29,29",
-				title: "multiselectlist",
-				demourl: "js/dojo-1.9.3/app/views/multiselectlist.html",
-				jsmodule: "js/dojo-1.9.3/app/src/multiselectlist.js"
-			}]
-		}, {
-			id: "dataList",
-			label: "Data",
-			iconBase: "images/navigation_list_all_29.png",
-			views: [{
-				id: "jsonp",
-				iconPos: "319,0,29,29",
-				title: "JSON P",
-				demourl: "views/jsonp.html",
-				jsmodule: "demos/mobileGallery/src/jsonp",
-				jsSrc: "doc/src/jsonp.js.txt"
+				id: "signin",
+				iconPos: "0,0,29,29",
+				title: "两周签到",
+				power : 1,
+				demourl: "js/dojo-1.9.3/app/views/signin.html",
+				jsmodule: "js/dojo-1.9.3/app/src/signin.js"
+			}, {
+				id: "userschedule",
+				iconPos: "87,0,29,29",
+				title: "查看日程",
+				power : 1,
+				demourl: "js/dojo-1.9.3/app/views/userschedule.html",
+				jsmodule: "js/dojo-1.9.3/app/src/userschedule.js"
 			}]
 		}],
 		/* Below are internal views. */
 		_views: [{
-			id: 'source',
-			title: 'Source',
-			type: 'source'
-		}, {
 			id: 'welcome',
-			title: 'Welcome'
+			title: 'Wedding John 日常管理系统'
 		}, {
 			id: 'navigation',
-			title: 'Showcase',
+			title: '欢迎,  ',
 			type: 'navigation',
 			back: ''
 		}],

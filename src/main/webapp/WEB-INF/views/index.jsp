@@ -70,15 +70,14 @@
 				<h1 id="header" dojoType="dojox.mobile.Heading" fixed="top">
 					<button id="navButton" dojoType="dojox.mobile.ToolBarButton" 
 							data-dojo-props="arrow:'left'">Back</button>
-					<span id="headerLabel" style="float:center;">Welcome</span>
-					<button id="sourceButton" dojoType="dojox.mobile.ToolBarButton" 
-							toggle="true">Source</button>
+					<span id="headerLabel" style="float:center;"></span>
+					<button id="logoutButton" dojoType="dojox.mobile.ToolBarButton" 
+							toggle="false" style="float:right;">登出</button>
 				</h1>
 				<div id="rightPane" dojoType="dojox.mobile.View" selected="true" style="overflow:hidden;">
 					<div id="welcome" dojoType="dojox.mobile.ScrollableView">
 						<h1 dojoType="dojox.mobile.RoundRectCategory" 
 							style="text-align:center;vertical-align:middle;margin-left:0px;padding-left:0px">
-							<div>Welcome to Dojo Mobile Showcase</div>
 							<img src='<c:url value="/images/welcomeLogo.png"/>'/>
 						</h1>
 					</div>
@@ -104,12 +103,23 @@
 		<div id="loadDiv" style="position:absolute;left:0px;top:0px;width:100%;height:100%;z-index:999;">
 			<span>Loading...</span></div>
 		<script type="text/javascript">
-			require(["dojox/mobile", "dojox/mobile/parser", "dojo/ready", "app/app",
+			require(["dojox/mobile", "dojox/mobile/parser", "dojo/ready", "app/app","dojo/request",
 		        "dojox/mobile/compat", "dojox/mobile/Button",
 				"dojox/mobile/ToolBarButton", "dojox/mobile/FixedSplitter", "dojox/mobile/Container",
 				"dojox/mobile/ScrollableView", "dojox/mobile/SwapView", "dojox/mobile/TabBar","dijit/CalendarLite",
-				"dojo/domReady!"], function(mobile, parser, ready, app){
-					app.init();
+				"dojo/domReady!"], function(mobile, parser, ready, app, request){
+					request.get("isLogin", {
+		                headers: {
+		                    "Content-Type": "application/json"
+		                },
+						handleAs : "json"
+		            }).then(function(response){
+		                if(response.length == 0){
+		                	window.location = window.location.href + "/../login";
+		                }else{
+		                	app.init(response);
+		                }
+		            });
 				});
 		</script>
     </body>  

@@ -10,22 +10,12 @@
         http://www.springframework.org/schema/mvc  
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-	<context:component-scan base-package="com.wedding.john.oa.controller" />
-	<mvc:annotation-driven />
-
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
-				<bean
-					class="org.springframework.http.converter.StringHttpMessageConverter">
-					<property name="supportedMediaTypes">
-						<list>
-							<value>text/plain;charset=UTF-8</value>
-						</list>
-					</property>
+				<bean class="com.wedding.john.oa.converter.UTF8StringHttpMessageConverter">
+					<constructor-arg value="UTF-8" />
 				</bean>
 				<bean
 					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
@@ -39,6 +29,8 @@
 			</list>
 		</property>
 	</bean>
+	<context:component-scan base-package="com.wedding.john.oa.controller" />
+	<mvc:annotation-driven />
 
 	<!-- 根据客户端的不同的请求决定不同的view进行响应, 如 /blog/1.json /blog/1.xml -->
 	<bean
@@ -63,11 +55,12 @@
 			<list>
 				<!-- for application/json -->
 				<bean
-					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" >
+					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
 					<property name="objectMapper">
 						<bean class="org.codehaus.jackson.map.ObjectMapper">
 							<property name="serializationInclusion">
-								<value type="org.codehaus.jackson.map.annotate.JsonSerialize$Inclusion">NON_NULL</value>
+								<value
+									type="org.codehaus.jackson.map.annotate.JsonSerialize$Inclusion">NON_NULL</value>
 							</property>
 						</bean>
 					</property>

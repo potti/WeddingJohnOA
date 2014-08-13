@@ -103,3 +103,12 @@
 .mgTranspRoundRect {
 	background-color: transparent;
 }
+
+.red { 
+	color: red !important;
+	background-color: #FFE284 !important;
+}
+.green { 
+	color: green !important;
+	background-color: #FFE284 !important;
+}
