@@ -1,0 +1,49 @@
+<div dojoType="dojox.mobile.ScrollableView" 
+	id="orderSearchCondition" style="width: 100%;">
+
+<form id="orderConditionForm" name="orderConditionForm" data-dojo-id="orderConditionForm">
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>订单编号</label>
+			<fieldset>
+				<input id="ocorderNo" data-dojo-type="dojox.mobile.TextBox" name="orderNo" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>订单来源</label>
+			<input id="occompanyId" name="companyId" data-dojo-type="dojox.mobile.TextBox" type=hidden></input>
+			<ul dojoType="dojox.mobile.RoundRectList">
+				<li id="occompany" dojoType="dojox.mobile.ListItem" moveTo="#" transition="slide"
+					data-dojo-props='moveToUrl:"js/dojo-1.9.3/app/views/selectlist.html",jsmodule:"js/dojo-1.9.3/app/src/selectlist.js"'></li>
+			</ul>
+		</div>
+	
+		<div>
+			<label>开始时间</label>
+			<fieldset>
+				<div id="ocstartDate" name="startDate" data-dojo-type="app/src/myDatePick"></div>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>结束时间</label>
+			<fieldset>
+				<div id="ocendDate" name="endDate" data-dojo-type="app/src/myDatePick"></div>
+			</fieldset>
+		</div>
+	</div>
+</div>
+</form>
+
+<div style="text-align: center;">
+	<button id="ocSearchBtn" type=button data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		查询 
+	</button>
+	<button id="ocResetBtn" type=reset data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		清空
+	</button>
+</div>
+</div>
