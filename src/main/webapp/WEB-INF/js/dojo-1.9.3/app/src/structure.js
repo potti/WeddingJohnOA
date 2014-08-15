@@ -68,6 +68,13 @@ define(["dojo/_base/lang"],
 				power : 1,
 				demourl: "js/dojo-1.9.3/app/views/userschedule.html",
 				jsmodule: "js/dojo-1.9.3/app/src/userschedule.js"
+			}, {
+				id: "changePwd",
+				iconPos: "261,0,29,29",
+				title: "修改密码",
+				power : 1,
+				demourl: "js/dojo-1.9.3/app/views/changePwd.html",
+				jsmodule: "js/dojo-1.9.3/app/src/changePwd.js"
 			}]
 		}],
 		/* Below are internal views. */

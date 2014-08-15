@@ -1,0 +1,39 @@
+<div dojoType="dojox.mobile.ScrollableView" id="changePwd" style="width: 100%;">
+
+<form id="changePwdForm" name="changePwdForm" data-dojo-id="changePwdForm">
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>原密码</label>
+			<fieldset>
+				<input id="oldPwd" data-dojo-type="dojox.mobile.TextBox" name="oldPwd" type=password required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>新密码</label>
+			<fieldset>
+				<input type=password id="newPwd" name="newPwd" data-dojo-type="dojox.mobile.TextBox" required />
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>重复新密码</label>
+			<fieldset>
+				<input type=password id="repeadPwd" name="repeadPwd" data-dojo-type="dojox.mobile.TextBox" required />
+			</fieldset>
+		</div>
+	</div>
+</div>
+</form>
+
+<div style="text-align: center;">
+	<button id="cpSubmitBtn" type=button data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		提交 
+	</button>
+	<button id="cpResetBtn" type=reset data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		清空
+	</button>
+</div>
+</div>

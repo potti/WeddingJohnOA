@@ -34,8 +34,7 @@ public class LoginController {
 	@RequestMapping(method = RequestMethod.POST, value = "/login")
 	@ResponseBody
 	public int login(@RequestBody User user, ModelMap modelMap) {
-		if (StringUtils.isEmpty(user.getAccount())
-				|| StringUtils.isEmpty(user.getPwd())) {
+		if (StringUtils.isEmpty(user.getAccount())) {
 			return 0;
 		}
 		User userInfo = loginService.validate(user.getAccount(), user.getPwd());

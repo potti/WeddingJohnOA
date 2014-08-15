@@ -17,10 +17,10 @@ define(["dojo/dom",
 	return {
 		init: function(){
 			var viewId = "userschedule";
-			var self = this;
+			var month = null;
 			
 			connect.subscribe("onAfterDemoViewTransitionIn", function(id) {
-				if (id == self.viewId) {
+				if (id == viewId) {
 					var navRecords = structure.navRecords;
 					for (var i = 0; i < internalNavRecords.length ; ++i) {
 						navRecords.push(internalNavRecords[i]);
@@ -29,9 +29,22 @@ define(["dojo/dom",
 					if (navRecords.length > 0) {
 						dom.byId("headerLabel").innerHTML = navRecords[navRecords.length -1].toTitle;
 					}
+					
+					if(month && userCalendar){
+						request.get("allSchedule/" + month, {
+							headers : {
+								"Content-Type" : "application/json"
+							},
+							handleAs : "json"
+						}).then(function(response) {
+							if(JSON.stringify(response).length > 2){
+								userCalendar.reRender(response);
+							}
+						});
+					}
 				}
 			});
-			var month = null;
+			
 			var userCalendar = new MyCalendar({
 				id : "userCalendar",
 				monthChange : function(value){
