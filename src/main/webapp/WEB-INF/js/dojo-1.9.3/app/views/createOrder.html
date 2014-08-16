@@ -46,7 +46,7 @@
 		</div>
 		
 		<div>
-			<label>报价单位</label>
+			<label>服务时间</label>
 			<fieldset>
 				<input id="unit" name="unit" data-dojo-type="dojox.mobile.TextBox" type=text required>
 				</input>
@@ -56,10 +56,28 @@
 		<div>
 			<label>支付方式</label>
 			<fieldset>
-				<label>Cash</label>
+				<label>现结</label>
 				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="false" name="payType" value="1" />
-				<label>Online</label>
+				<label>总结</label>
 				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="true" name="payType" value="2" />
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>超时价格</label>
+			<fieldset>
+				<input id="overPirce" name="overPirce" data-dojo-type="dojox.mobile.TextBox" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>超时支付</label>
+			<fieldset>
+				<label>现结</label>
+				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="false" name="overPayType" value="1" />
+				<label>总结</label>
+				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="true" name="overPayType" value="2" />
 			</fieldset>
 		</div>
 	</div>
@@ -97,6 +115,13 @@
 			</fieldset>
 		</div>
 		<div>
+			<label>男方地址</label>
+			<fieldset>
+				<input id="boyAddress" name="boyAddress" data-dojo-type="dojox.mobile.TextBox" type=text>
+				</input>
+			</fieldset>
+		</div>
+		<div>
 			<label>女方姓名</label>
 			<fieldset>
 				<input id="girlName" name="girlName" data-dojo-type="dojox.mobile.TextBox" type=text>
@@ -107,6 +132,13 @@
 			<label>女方电话</label>
 			<fieldset>
 				<input id="girlTel" name="girlTel" data-dojo-type="dojox.mobile.TextBox" type=text>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>女方地址</label>
+			<fieldset>
+				<input id="girlAddress" name="girlAddress" data-dojo-type="dojox.mobile.TextBox" type=text>
 				</input>
 			</fieldset>
 		</div>

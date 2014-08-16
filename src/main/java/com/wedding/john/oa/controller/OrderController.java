@@ -30,12 +30,20 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 
+	private final int DISPLAY_PER_PAGE = 10;
+
 	@RequestMapping(method = RequestMethod.POST, value = "/order")
 	@ResponseBody
 	public int createOrder(@RequestBody OrderModel orderModel,
 			@ModelAttribute("user") User user) {
 		if (user.getPower() < 10) {
 			return -1;
+		}
+		if (orderModel.getOrderInfo().getStartDate() != null
+				&& !StringUtils.isEmpty(orderModel.getOrderInfo().getNeedman())) {
+			orderModel.getOrderInfo().setStatus(1);
+		} else {
+			orderModel.getOrderInfo().setStatus(0);
 		}
 		orderModel.getOrderInfo().setCreateUser(user.getId());
 		orderModel.getOrderInfo().setCreateTime(new Date());
@@ -82,14 +90,14 @@ public class OrderController {
 				.getOrdersByCondition(aOrderInfoExample);
 		JSONObject json = new JSONObject();
 		json.put("datas", list);
-		json.put("pages",
-				list.size() % 2 > 0 ? list.size() / 2 + 1 : list.size() / 2);
+		json.put("pages", list.size() % DISPLAY_PER_PAGE > 0 ? list.size()
+				/ DISPLAY_PER_PAGE + 1 : list.size() / DISPLAY_PER_PAGE);
 		return json.toJSONString();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/order/{orderId}", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String createOrder(@PathVariable Integer orderId,
+	public String getOrderById(@PathVariable Integer orderId,
 			@ModelAttribute("user") User user) {
 		if (user.getPower() < 10) {
 			return null;

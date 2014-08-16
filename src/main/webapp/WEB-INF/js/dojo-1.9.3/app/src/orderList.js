@@ -79,7 +79,7 @@ define(["dojo/dom",
 				var aRoundRectList = new RoundRectList();
 				var pageView = registry.byId("orderList-"+page);
 				array.forEach(response.datas,function(data){
-					if(index > 2*page){
+					if(index > 10*page){
 						page ++;
 						aRoundRectList = new RoundRectList();
 						pageView = registry.byId("orderList-"+page);
@@ -101,7 +101,7 @@ define(["dojo/dom",
 						}
 					});
 					aRoundRectList.addChild(aListItem);
-					if(index == 2*page || index == response.datas.length){
+					if(index == 10*page || index == response.datas.length){
 						pageView.addChild(aRoundRectList);
 					}
 					index ++;

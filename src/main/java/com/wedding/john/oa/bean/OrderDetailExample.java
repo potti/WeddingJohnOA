@@ -373,6 +373,66 @@ public class OrderDetailExample {
             addCriterion("cameraman_id not between", value1, value2, "cameramanId");
             return (Criteria) this;
         }
+
+        public Criteria andIsContactIsNull() {
+            addCriterion("is_contact is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsContactIsNotNull() {
+            addCriterion("is_contact is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsContactEqualTo(Integer value) {
+            addCriterion("is_contact =", value, "isContact");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsContactNotEqualTo(Integer value) {
+            addCriterion("is_contact <>", value, "isContact");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsContactGreaterThan(Integer value) {
+            addCriterion("is_contact >", value, "isContact");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsContactGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_contact >=", value, "isContact");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsContactLessThan(Integer value) {
+            addCriterion("is_contact <", value, "isContact");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsContactLessThanOrEqualTo(Integer value) {
+            addCriterion("is_contact <=", value, "isContact");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsContactIn(List<Integer> values) {
+            addCriterion("is_contact in", values, "isContact");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsContactNotIn(List<Integer> values) {
+            addCriterion("is_contact not in", values, "isContact");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsContactBetween(Integer value1, Integer value2) {
+            addCriterion("is_contact between", value1, value2, "isContact");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsContactNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_contact not between", value1, value2, "isContact");
+            return (Criteria) this;
+        }
     }
 
     /**

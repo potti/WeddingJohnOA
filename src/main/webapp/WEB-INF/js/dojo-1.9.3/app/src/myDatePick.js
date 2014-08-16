@@ -66,6 +66,9 @@ function(
 				self.datePicker.hide(false);
 			});
 			
+			this.datePickerText.on("change", function(newValue){
+				self.dateChange(newValue);
+			});
 		},
 		
 		setDate : function(date){
@@ -74,9 +77,17 @@ function(
 			this.domNode.value = ds;
 		},
 		
+		setDateStr : function(date){
+			this.datePickerText.set('value', date);
+			this.domNode.value = date;
+		},
+		
 		reset : function(){
 			this.datePickerText.set('value', '');
 			this.domNode.value = '';
+		},
+		
+		dateChange : function(newValue){
 		}
 	});
 });

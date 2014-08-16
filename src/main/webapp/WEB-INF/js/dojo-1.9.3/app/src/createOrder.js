@@ -15,13 +15,13 @@ define(["dojo/dom",
 		"dojox/mobile/GridLayout",
 		"dojox/mobile/RoundRectList",
 		"dojox/mobile/ListItem",
-		"dojox/mobile/TextArea",// not used in this module, but dependency of the demo template HTML
 		"dojox/mobile/CheckBox",
+		"dojox/mobile/TextArea",// not used in this module, but dependency of the demo template HTML
 		"dojox/mobile/RadioButton",
 		"app/src/myDatePick",
 		"dojox/mobile/FormLayout"
 		], function(dom,on,array,registry,request,query,locale,connect,app,structure,domForm,JSON,Pane,TextBox,GridLayout,
-				RoundRectList,ListItem) {
+				RoundRectList,ListItem,CheckBox) {
 	var internalNavRecords = [];
 	return {
 		init: function(args){
@@ -46,6 +46,10 @@ define(["dojo/dom",
 					url: "company" }, this);
 			});
 			
+			registry.byId("startDate").set("dateChange", function(newValue){
+				registry.byId("endDate").setDateStr(newValue);
+			});
+			
 			connect.subscribe("onAfterDemoViewTransitionIn", function(id) {
 				if (id == viewId) {
 					var navRecords = structure.navRecords;
@@ -61,6 +65,7 @@ define(["dojo/dom",
 
 			on(registry.byId("submitBtn"), "click", function() {
 						var needMan = "";
+						var contactMan = "";
 						for(var s in skills){
 							var skillId = skills[s];
 							var max = registry.byId("skill-" + skillId).get('value');
@@ -68,20 +73,24 @@ define(["dojo/dom",
 								if(needMan.length > 0){
 									needMan +=";";
 								}
-								needMan +=skillId + ":";
+								needMan +=skillId + ":" + max + ":";
 								var mannum = 0;
 								for(var i=0;i<max;i++){
-									var txtid = "skill-" + skillId + "-" + i + "Id";
-									var txt = registry.byId(txtid);
+									var txtid = "skill-" + skillId + "-" + i;
+									var txt = registry.byId(txtid + "Id");
 									if(txt && txt.get('value')){
 										if(mannum > 0){
 											needMan += "-";
 										}
 										needMan += txt.get('value');
 										mannum++;
-									}else{
-										alert('有人员没有选择...');
-										return;
+									}
+									var cb = registry.byId(txtid+"cb");
+									if(txt && cb && cb.get('checked')){
+										if(contactMan.length > 0){
+											contactMan +=";";
+										}
+										contactMan += txt.get('value');
 									}
 								}
 							}
@@ -90,11 +99,14 @@ define(["dojo/dom",
 						order['startDate'] = registry.byId("startDate").domNode.value;
 						order['endDate'] = registry.byId("endDate").domNode.value;
 						order['needman'] = needMan;
-						var orderDetail = domForm.toObject("createOrderDetailForm");
-						if(!orderDetail['orderDetail']){
+						if(contactMan.length > 0){
+							order['contactMan'] = contactMan;
+						}
+						if(needMan.length === 0){
 							alert('请填写人员需求');
 							return;
 						}
+						var orderDetail = domForm.toObject("createOrderDetailForm");
 						if(orderDetail['orderDetail'].length <= 1){
 							orderDetail['orderDetail'] = [orderDetail['orderDetail']];
 						}
@@ -179,6 +191,9 @@ define(["dojo/dom",
 							var end = start + (newValue-oldValue);
 							for(var j=start;j<end;j++){
 								var txtid = "skill-" + data.id + "-" + j;
+								var checkBox = new CheckBox({
+									id:txtid+"cb"
+								});
 								var textbox = new TextBox({
 									type:'hidden',
 									id:txtid+"Id",
@@ -208,6 +223,7 @@ define(["dojo/dom",
 										url: "userAvailable/" + startDate + "/" + endDate
 										}, this);
 								});
+								rr.addChild(checkBox);// 3个控件
 								rr.addChild(textbox);
 								rr.addChild(li);
 							}
@@ -216,12 +232,12 @@ define(["dojo/dom",
 							var delNum = oldValue - newValue;
 							if(delNum > 0){
 								var num = rr.getChildren().length;
-								var delIndex = num / 2 - delNum;
+								var delIndex = num / 3 - delNum;// 3个控件
 								if(delIndex <= 0){
 									rr.destroy();
 								}else{
 									array.forEach(rr.getChildren(), function(child, ind) {
-										if(ind >= delIndex * 2){
+										if(ind >= delIndex * 3){
 											child.destroy();
 										}
 									}); 
@@ -261,44 +277,69 @@ define(["dojo/dom",
 						registry.byId("endDate").setDate(new Date(orderInfo.endDate));
 						registry.byId("price").set("value", orderInfo.price);
 						registry.byId("unit").set("value", orderInfo.unit);
-						var cash = query("[name=payType]")[0];
-						var online = query("[name=payType]")[1];
+						registry.byId("overPirce").set("value", orderInfo.overPirce);
+						var nowpay = query("[name=payType]")[0];
+						var aftpay = query("[name=payType]")[1];
 						if(orderInfo.payType === 1){
-							registry.byId(cash.id).set('checked', true);
-							registry.byId(online.id).set('checked', false);
+							registry.byId(nowpay.id).set('checked', true);
+							registry.byId(aftpay.id).set('checked', false);
 						}else{
-							registry.byId(cash.id).set('checked', false);
-							registry.byId(online.id).set('checked', true);
+							registry.byId(nowpay.id).set('checked', false);
+							registry.byId(aftpay.id).set('checked', true);
+						}
+						var nowpay1 = query("[name=overPayType]")[0];
+						var aftpay1 = query("[name=overPayType]")[1];
+						if(orderInfo.overPayType === 1){
+							registry.byId(nowpay1.id).set('checked', true);
+							registry.byId(aftpay1.id).set('checked', false);
+						}else{
+							registry.byId(nowpay1.id).set('checked', false);
+							registry.byId(aftpay1.id).set('checked', true);
 						}
 						registry.byId("hotalName").set("value", orderInfo.hotalName);
 						registry.byId("hotalAddress").set("value", orderInfo.hotalAddress);
 						registry.byId("boyName").set("value", orderInfo.boyName);
 						registry.byId("boyTel").set("value", orderInfo.boyTel);
+						registry.byId("boyAddress").set("value", orderInfo.boyAddress);
 						registry.byId("girlName").set("value", orderInfo.girlName);
 						registry.byId("girlTel").set("value", orderInfo.girlTel);
+						registry.byId("girlAddress").set("value", orderInfo.girlAddress);
 						if(orderInfo.needman.length > 0){
 							var type = orderInfo.needman.split(";");
 							for(var i=0;i<type.length;i++){
 								var tmp = type[i].split(":");
-								var users = tmp[1].split("-");
-								registry.byId("skill-" + tmp[0]).set("value", users.length);
+								registry.byId("skill-" + tmp[0]).set("value", tmp[1]);
 							}
 							
 							var int = setInterval(function(){
 								var success = true;
+								var contactMans;
+								if(orderInfo.contactMan && orderInfo.contactMan.length > 0){
+									contactMans = orderInfo.contactMan.split(";");
+								}
 								for(var i=0;i<type.length;i++){
 									var tmp = type[i].split(":");
-									var users = tmp[1].split("-");
-									for(var j=0;j<users.length;j++){
-										var txtid = "skill-" + tmp[0] + "-" + j;
-										var userId = users[j];
-										var userName = response["user-" + users[j]];
-										if(!registry.byId(txtid + "Id") || !registry.byId(txtid)){
-											success = false;
-											break;
-										}else{
-											registry.byId(txtid + "Id").set("value", userId);
-											registry.byId(txtid).set("label", userName);
+									if(tmp.length > 2 && tmp[2].length > 0){
+										var users = tmp[2].split("-");
+										for(var j=0;j<users.length;j++){
+											var txtid = "skill-" + tmp[0] + "-" + j;
+											var userId = users[j];
+											var userName = response["user-" + users[j]];
+											if(!registry.byId(txtid + "Id") || !registry.byId(txtid)){
+												success = false;
+												break;
+											}else{
+												registry.byId(txtid + "Id").set("value", userId);
+												registry.byId(txtid).set("label", userName);
+												if(contactMans){
+													for(var k=0;k<contactMans.length;k++){
+														if(contactMans[k] === userId){
+															registry.byId(txtid + "cb").set("checked", true);
+															break;
+														}
+													}
+												}
+											}
 										}
 									}
 									if(!success){

@@ -73,10 +73,27 @@ public class OrderService {
 		int days = (int) (orderModel.getOrderInfo().getEndDate().getTime() - orderModel
 				.getOrderInfo().getStartDate().getTime())
 				/ ONE_DAY_MS;
+		Set<Integer> contactManSet = null;
+		if (!StringUtils.isEmpty(orderModel.getOrderInfo().getContactMan())) {
+			String[] contactMans = orderModel.getOrderInfo().getContactMan()
+					.split(";");
+			contactManSet = new HashSet<Integer>();
+			for (String string : contactMans) {
+				contactManSet.add(Integer.parseInt(string));
+			}
+		}
 		for (Integer userId : orderModel.getOrderDetail()) {
+			if (userId == null) {
+				continue;
+			}
 			OrderDetail aOrderDetail = new OrderDetail();
 			aOrderDetail.setOrderId(orderId);
 			aOrderDetail.setCameramanId(userId);
+			if (contactManSet != null && contactManSet.contains(userId)) {
+				aOrderDetail.setIsContact(1);
+			} else {
+				aOrderDetail.setIsContact(0);
+			}
 			orderDetailMapper.insert(aOrderDetail);
 			// send mail
 			User user = userMapper.selectByPrimaryKey(userId);
@@ -86,7 +103,7 @@ public class OrderService {
 			mailInfo.setContent("你有一个订单 时间是:"
 					+ orderModel.getOrderInfo().getStartDate().toString());
 			sendMailService.sendTextMail(mailInfo);
-			
+
 			for (int i = 0; i < days + 1; i++) {
 				long time = orderModel.getOrderInfo().getStartDate().getTime()
 						+ i * ONE_DAY_MS;
@@ -133,16 +150,22 @@ public class OrderService {
 				Set<Integer> userSet = new HashSet<Integer>();
 				for (String type : types) {
 					String[] temp = type.split(":");
-					String[] users = temp[1].split("-");
-					for (int i = 0; i < users.length; i++) {
-						userSet.add(Integer.parseInt(users[i]));
+					if (temp.length > 2) {
+						String[] users = temp[2].split("-");
+						for (int i = 0; i < users.length; i++) {
+							userSet.add(Integer.parseInt(users[i]));
+						}
 					}
 				}
-				UserExample aUserExample = new UserExample();
-				aUserExample.createCriteria().andIdIn(new ArrayList<>(userSet));
-				List<User> users = userMapper.selectNameByExample(aUserExample);
-				for (User user : users) {
-					map.put("user-" + user.getId(), user.getName());
+				if (!userSet.isEmpty()) {
+					UserExample aUserExample = new UserExample();
+					aUserExample.createCriteria().andIdIn(
+							new ArrayList<>(userSet));
+					List<User> users = userMapper
+							.selectNameByExample(aUserExample);
+					for (User user : users) {
+						map.put("user-" + user.getId(), user.getName());
+					}
 				}
 			}
 		}
