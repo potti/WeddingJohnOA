@@ -100,8 +100,12 @@ public class OrderService {
 			MailSenderInfo mailInfo = new MailSenderInfo();
 			mailInfo.setToAddress(user.getMail());
 			mailInfo.setSubject("Test from Wedding OA System");
-			mailInfo.setContent("你有一个订单 时间是:"
-					+ orderModel.getOrderInfo().getStartDate().toString());
+			String content = "你有一个订单 时间是:"
+					+ orderModel.getOrderInfo().getStartDate().toString();
+			if (aOrderDetail.getIsContact() == 1) {
+				content += ", 你需要联系新人";
+			}
+			mailInfo.setContent(content);
 			sendMailService.sendTextMail(mailInfo);
 
 			for (int i = 0; i < days + 1; i++) {

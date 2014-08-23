@@ -8,16 +8,35 @@ define(["dojo/dom",
         "app/src/structure",
         "dojo/dom-form",
         "dojo/json",
+        "dojo/store/Memory",
+        "dojox/mobile/ComboBox",
 		// not used in this module, but dependency of the demo template HTML
 		"app/src/myDatePick",
 		"dojox/mobile/TextBox",
 		"dojox/mobile/FormLayout"
-		], function(dom,on,registry,request,locale,connect,app,structure,domForm,JSON) {
+		], function(dom,on,registry,request,locale,connect,app,structure,domForm,JSON,Memory,ComboBox) {
 	var internalNavRecords = [];
+	
 	return {
 		init: function(){
 			var viewId = "orderSearchCondition";
 			var self = this;
+			var statusMemoryStore = new Memory({ 
+				idProperty: "id", 
+				data: [
+				       { name: "未派单",id:1 },
+				       { name: "未联系",id:2 },
+				       { name: "未拍摄",id:3 },
+				       { name: "未存数据",id:4 }
+				]
+			});
+			
+			var comboBox = new ComboBox({
+		        id: "ocstatus",
+		        store: statusMemoryStore,
+		        searchAttr: "name"
+		    }, "ocstatus").startup();
+			
 			on(registry.byId("ocResetBtn"), "click", function(){
 				dom.byId("orderConditionForm").reset();
 			});
@@ -55,6 +74,9 @@ define(["dojo/dom",
 				var order = domForm.toObject("orderConditionForm");
 				order['startDate'] = registry.byId("ocstartDate").domNode.value;
 				order['endDate'] = registry.byId("ocendDate").domNode.value;
+				if(registry.byId("ocstatus").get("item")){
+					order['status'] = statusMemoryStore.getIdentity(registry.byId("ocstatus").get("item"));
+				}
 				app.show({id: "orderList",
 					title: "订单",
 					type:"pip",// 区别开demo和navigation app.js initView

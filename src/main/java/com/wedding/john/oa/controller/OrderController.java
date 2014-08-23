@@ -86,6 +86,9 @@ public class OrderController {
 		if (!StringUtils.isEmpty(orderInfo.getOrderNo())) {
 			aCriteria.andOrderNoLike("%" + orderInfo.getOrderNo() + "%");
 		}
+		if (orderInfo.getStatus() != null) {
+			aCriteria.andStatusEqualTo(orderInfo.getStatus());
+		}
 		List<OrderInfo> list = orderService
 				.getOrdersByCondition(aOrderInfoExample);
 		JSONObject json = new JSONObject();
