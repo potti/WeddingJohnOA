@@ -24,10 +24,10 @@ define(["dojo/dom",
 			var statusMemoryStore = new Memory({ 
 				idProperty: "id", 
 				data: [
-				       { name: "未派单",id:1 },
-				       { name: "未联系",id:2 },
-				       { name: "未拍摄",id:3 },
-				       { name: "未存数据",id:4 }
+				       { name: "未派单",id:0 },
+				       { name: "未联系",id:1 },
+				       { name: "未拍摄",id:2 },
+				       { name: "未存数据",id:3 }
 				]
 			});
 			

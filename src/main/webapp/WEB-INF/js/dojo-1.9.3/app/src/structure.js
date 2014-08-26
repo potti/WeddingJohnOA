@@ -33,7 +33,7 @@ define(["dojo/_base/lang"],
 		},
 		demos: [{
 			id: "controls",
-			label: "订单",
+			label: "管理",
 			power : 10,
 			iconBase: "images/navigation_list_all_29.png",
 			views: [{
@@ -51,7 +51,7 @@ define(["dojo/_base/lang"],
 			}]
 		}, {
 			id: "userfunction",
-			label: "日程",
+			label: "个人",
 			power : 1,
 			iconBase: "images/navigation_list_all_29.png",
 			views: [{
@@ -68,6 +68,13 @@ define(["dojo/_base/lang"],
 				power : 1,
 				demourl: "js/dojo-1.9.3/app/views/userschedule.html",
 				jsmodule: "js/dojo-1.9.3/app/src/userschedule.js"
+			}, {
+				id: "myOrderList",
+				iconPos: "435,0,29,29",
+				title: "我的未拍订单",
+				power : 1,
+				demourl: "js/dojo-1.9.3/app/views/myOrderList.html",
+				jsmodule: "js/dojo-1.9.3/app/src/myOrderList.js"
 			}, {
 				id: "changePwd",
 				iconPos: "261,0,29,29",

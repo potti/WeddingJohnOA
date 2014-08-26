@@ -20,7 +20,6 @@ define(["dojo/dom",
 	return {
 		init: function(args){
 			var viewId = "orderList";
-			var self = this;
 			var navRecords = structure.navRecords;
 			navRecords.push({
 				delTo : true,
@@ -36,7 +35,7 @@ define(["dojo/dom",
 //			});
 			
 			connect.subscribe("onAfterDemoViewTransitionIn", function(id) {
-				if (id == self.viewId) {
+				if (id == viewId) {
 					var navRecords = structure.navRecords;
 					for (var i = 0; i < internalNavRecords.length ; ++i) {
 						navRecords.push(internalNavRecords[i]);

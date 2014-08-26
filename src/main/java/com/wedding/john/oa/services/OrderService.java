@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wedding.john.oa.bean.Company;
+import com.wedding.john.oa.bean.MyOrder;
 import com.wedding.john.oa.bean.OrderDetail;
 import com.wedding.john.oa.bean.OrderDetailExample;
 import com.wedding.john.oa.bean.OrderInfo;
@@ -194,5 +195,26 @@ public class OrderService {
 			insertOrderDetail(orderModel, orderId);
 		}
 		return rows;
+	}
+
+	/**
+	 * 查询未拍订单
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public List<MyOrder> getMyFutureOrders(Integer userId, Date startDate) {
+		return orderInfoMapper.selectMyFutureOrders(userId, startDate);
+	}
+
+	/**
+	 * 查询历史订单
+	 * 
+	 * @param example
+	 * @return
+	 */
+	public List<MyOrder> getMyHistoryOrders(Integer userId, Date startDate,
+			Date endDate) {
+		return orderInfoMapper.selectMyHistoryOrders(userId, startDate, endDate);
 	}
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wedding.john.oa.bean.MyOrder;
 import com.wedding.john.oa.bean.OrderInfo;
 import com.wedding.john.oa.bean.OrderInfoExample;
 import com.wedding.john.oa.bean.OrderInfoExample.Criteria;
@@ -60,6 +61,10 @@ public class OrderController {
 		}
 		orderModel.getOrderInfo().setModifyUser(user.getId());
 		orderModel.getOrderInfo().setModifyTime(new Date());
+		if (orderModel.getOrderInfo().getStartDate() != null
+				&& !StringUtils.isEmpty(orderModel.getOrderInfo().getNeedman())) {
+			orderModel.getOrderInfo().setStatus(1);
+		}
 		int rtn = orderService.updateOrder(orderModel);
 		return rtn;
 	}
@@ -105,6 +110,41 @@ public class OrderController {
 		if (user.getPower() < 10) {
 			return null;
 		}
+		Map<String, Object> map = orderService.getOrderInfoById(orderId);
+		JSONObject json = new JSONObject();
+		json.putAll(map);
+		return json.toJSONString();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/myFOrders")
+	@ResponseBody
+	public String getMyFutureOrders(@ModelAttribute("user") User user) {
+		List<MyOrder> list = orderService.getMyFutureOrders(user.getId(),
+				new Date());
+		JSONObject json = new JSONObject();
+		json.put("datas", list);
+		json.put("pages", list.size() % DISPLAY_PER_PAGE > 0 ? list.size()
+				/ DISPLAY_PER_PAGE + 1 : list.size() / DISPLAY_PER_PAGE);
+		return json.toJSONString();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/myHOrders/{startDate}")
+	@ResponseBody
+	public String getMyHistoryOrders(@PathVariable Date startDate,
+			@ModelAttribute("user") User user) {
+		List<MyOrder> list = orderService.getMyHistoryOrders(user.getId(),
+				startDate, new Date());
+		JSONObject json = new JSONObject();
+		json.put("datas", list);
+		json.put("pages", list.size() % DISPLAY_PER_PAGE > 0 ? list.size()
+				/ DISPLAY_PER_PAGE + 1 : list.size() / DISPLAY_PER_PAGE);
+		return json.toJSONString();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/myOrder/{orderId}", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String getMyOrderById(@PathVariable Integer orderId,
+			@ModelAttribute("user") User user) {
 		Map<String, Object> map = orderService.getOrderInfoById(orderId);
 		JSONObject json = new JSONObject();
 		json.putAll(map);

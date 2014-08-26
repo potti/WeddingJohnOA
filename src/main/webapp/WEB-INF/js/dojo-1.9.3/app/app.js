@@ -242,6 +242,7 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 					id: args.id,
 					title: args.title
 				};
+				connect.publish("initData", [args.id]);
 			}
 			else if (viewType === 'pip') {
 				// page in page
