@@ -20,11 +20,7 @@ define(["dojo/dom",
 	var internalNavRecords = [];
 	return {
 		init: function(args){
-			var viewId = "myOrderList";
-			
-//			on(registry.byId("myOrderList"), "beforeTransitionOut", function() {
-//				structure.destoryIds.push("myOrderList");
-//			});
+			var viewId = "historyOrderList";
 			
 			connect.subscribe("onAfterDemoViewTransitionIn", function(id) {
 				if (id == viewId) {
@@ -37,7 +33,7 @@ define(["dojo/dom",
 						dom.byId("headerLabel").innerHTML = navRecords[navRecords.length -1].toTitle;
 					}
 					
-					request.get("myFOrders", {
+					request.get("myHOrders", {
 						headers : {
 							"Content-Type" : "application/json"
 						},
@@ -52,10 +48,10 @@ define(["dojo/dom",
 							}
 						}
 						if(response.pages == 0){
-							registry.byId("myOrderList_notice").set("value", "您没有未拍订单!");
+							registry.byId("historyOrderList_notice").set("value", "上周您没有订单!");
 							return;
 						}else{
-							registry.byId("myOrderList_notice").set("value", "您有 "+response.datas.length+" 张未拍订单!");
+							registry.byId("historyOrderList_notice").set("value", "上周您有 "+response.datas.length+" 张订单!");
 						}
 						for(var i=1;i<=response.pages;i++){
 							if(!registry.byId(viewId + "-" + i)){
@@ -87,13 +83,13 @@ define(["dojo/dom",
 								label : data.companyName + "---" + locale.format(new Date(data.startDate), {datePattern: "yyyy-MM-dd", selector: "date"}),
 								clickable : true,
 								onClick : function(e){
-									app.show({id: "contactOrder",
+									app.show({id: "messageOrder",
 										title: "订单查看",
 										type:"pip",
-										demourl: "js/dojo-1.9.3/app/views/contactOrder.html",
-										jsmodule: "js/dojo-1.9.3/app/src/contactOrder.js",
+										demourl: "js/dojo-1.9.3/app/views/messageOrder.html",
+										jsmodule: "js/dojo-1.9.3/app/src/messageOrder.js",
 										backId: viewId,
-										backTitle:"我的未拍订单",
+										backTitle:"我的已拍订单",
 										orderId : this.orderId,
 										url: "myOrder/" + this.orderId}, this);
 								}

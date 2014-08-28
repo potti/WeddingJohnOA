@@ -29,6 +29,8 @@ function(
 		
 		value : 0,
 		
+		disable : true,
+		
 		postCreate: function(){
 			
 			this.inherited(arguments);
@@ -36,14 +38,14 @@ function(
 			var self = this;
 			
 			this.minusBtn.on("click", function(){
-				if(self.value > 0){
+				if(self.value > 0 && self.disable){
 					self.value = self.value - 1;
 					self.valueText.set('value', self.value);
 				}
 			});
 			
 			this.addBtn.on("click", function() {
-				if(self.value < 9){
+				if(self.value < 9 && self.disable){
 					self.value = self.value + 1;
 					self.valueText.set('value', self.value);
 				}

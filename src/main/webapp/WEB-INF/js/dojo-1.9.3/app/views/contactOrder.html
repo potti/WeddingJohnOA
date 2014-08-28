@@ -1,0 +1,163 @@
+<div dojoType="dojox.mobile.View" 
+	id="contactOrder" style="width: 100%;">
+
+<form id="contactOrderForm" name="contactOrderForm">
+<input id="coorderId" data-dojo-type="dojox.mobile.TextBox" name="id" type=hidden></input>
+<div class="section-title">订单信息</div>
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>订单编号</label>
+			<fieldset>
+				<input id="coorderNo" data-dojo-type="dojox.mobile.TextBox" type=text readOnly></input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>订单来源</label>
+			<input id="cocompany" data-dojo-type="dojox.mobile.TextBox" type=text readOnly></input>
+		</div>
+	
+		<div>
+			<label>开始时间</label>
+			<fieldset>
+				<input id="costartDate" data-dojo-type="dojox.mobile.TextBox" type=text readOnly></input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>结束时间</label>
+			<fieldset>
+				<input id="coendDate" data-dojo-type="dojox.mobile.TextBox" type=text readOnly></input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>婚庆报价</label>
+			<fieldset>
+				<input id="coprice" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>服务时间</label>
+			<fieldset>
+				<input id="counit" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>支付方式</label>
+			<fieldset>
+				<label>现结</label>
+				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="false" name="copayType" value="1" readOnly/>
+				<label>总结</label>
+				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="false" name="copayType" value="2" readOnly/>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>超时价格</label>
+			<fieldset>
+				<input id="cooverPirce" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>超时支付</label>
+			<fieldset>
+				<label>现结</label>
+				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="false" name="cooverPayType" value="1" readOnly/>
+				<label>总结</label>
+				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="false" name="cooverPayType" value="2" readOnly/>
+			</fieldset>
+		</div>
+	</div>
+</div>
+
+<div class="section-title">新人信息</div>
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>酒店名</label>
+			<fieldset>
+				<input id="cohotalName" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>酒店地址</label>
+			<fieldset>
+				<input id="cohotalAddress" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>男方姓名</label>
+			<fieldset>
+				<input id="coboyName" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>男方电话</label>
+			<fieldset>
+				<input id="coboyTel" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>男方地址</label>
+			<fieldset>
+				<input id="coboyAddress" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>女方姓名</label>
+			<fieldset>
+				<input id="cogirlName" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>女方电话</label>
+			<fieldset>
+				<input id="cogirlTel" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>女方地址</label>
+			<fieldset>
+				<input id="cogirlAddress" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+	</div>
+</div>
+</form>
+
+<form id="contactOrderDetailForm" name="contactOrderDetailForm">
+<div class="section-title">人员</div>
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>人员需求</label>
+			<div id="coarrengment" data-dojo-type="dojox.mobile.View" style="height:auto">
+			</div>
+		</div>
+	</div>
+</div>
+</form>
+
+<div style="text-align: center;">
+	<button id="contactBtn" type=button data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		已联系 
+	</button>
+</div>
+
+</div>

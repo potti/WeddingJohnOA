@@ -1,5 +1,6 @@
 package com.wedding.john.oa.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wedding.john.oa.bean.MyOrder;
+import com.wedding.john.oa.bean.OrderDetail;
 import com.wedding.john.oa.bean.OrderInfo;
 import com.wedding.john.oa.bean.OrderInfoExample;
 import com.wedding.john.oa.bean.OrderInfoExample.Criteria;
@@ -33,6 +35,13 @@ public class OrderController {
 
 	private final int DISPLAY_PER_PAGE = 10;
 
+	/**
+	 * 创建订单
+	 * 
+	 * @param orderModel
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/order")
 	@ResponseBody
 	public int createOrder(@RequestBody OrderModel orderModel,
@@ -52,6 +61,13 @@ public class OrderController {
 		return orderId;
 	}
 
+	/**
+	 * 更新订单
+	 * 
+	 * @param orderModel
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.PUT, value = "/order")
 	@ResponseBody
 	public int updateOrder(@RequestBody OrderModel orderModel,
@@ -69,6 +85,13 @@ public class OrderController {
 		return rtn;
 	}
 
+	/**
+	 * 查询订单
+	 * 
+	 * @param orderInfo
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/getOrders")
 	@ResponseBody
 	public String getOrdersByCondition(@RequestBody OrderInfo orderInfo,
@@ -103,6 +126,13 @@ public class OrderController {
 		return json.toJSONString();
 	}
 
+	/**
+	 * 管理员查询订单
+	 * 
+	 * @param orderId
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/order/{orderId}", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String getOrderById(@PathVariable Integer orderId,
@@ -116,7 +146,13 @@ public class OrderController {
 		return json.toJSONString();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/myFOrders")
+	/**
+	 * 查询未拍订单
+	 * 
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/myFOrders", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String getMyFutureOrders(@ModelAttribute("user") User user) {
 		List<MyOrder> list = orderService.getMyFutureOrders(user.getId(),
@@ -128,12 +164,20 @@ public class OrderController {
 		return json.toJSONString();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/myHOrders/{startDate}")
+	/**
+	 * 查询历史订单
+	 * 
+	 * @param startDate
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/myHOrders", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String getMyHistoryOrders(@PathVariable Date startDate,
-			@ModelAttribute("user") User user) {
+	public String getMyHistoryOrders(@ModelAttribute("user") User user) {
+		Calendar aCalendar = Calendar.getInstance();
+		aCalendar.add(Calendar.DAY_OF_YEAR, -7);
 		List<MyOrder> list = orderService.getMyHistoryOrders(user.getId(),
-				startDate, new Date());
+				aCalendar.getTime(), new Date());
 		JSONObject json = new JSONObject();
 		json.put("datas", list);
 		json.put("pages", list.size() % DISPLAY_PER_PAGE > 0 ? list.size()
@@ -141,13 +185,61 @@ public class OrderController {
 		return json.toJSONString();
 	}
 
+	/**
+	 * 自己的订单查询
+	 * 
+	 * @param orderId
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/myOrder/{orderId}", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String getMyOrderById(@PathVariable Integer orderId,
 			@ModelAttribute("user") User user) {
+		OrderDetail aOrderDetail = orderService.checkIsSelfOrder(user.getId(),
+				orderId);
+		if (aOrderDetail == null) {
+			return "";
+		}
 		Map<String, Object> map = orderService.getOrderInfoById(orderId);
+		map.put("isContact", aOrderDetail.getIsContact());
 		JSONObject json = new JSONObject();
 		json.putAll(map);
 		return json.toJSONString();
+	}
+
+	/**
+	 * 联系订单
+	 * 
+	 * @param orderId
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.PUT, value = "/contact/{orderId}")
+	@ResponseBody
+	public int contactOrder(@PathVariable Integer orderId,
+			@ModelAttribute("user") User user) {
+		OrderDetail aOrderDetail = orderService.checkIsSelfOrder(user.getId(),
+				orderId);
+		if (aOrderDetail == null || aOrderDetail.getIsContact() != 0) {
+			return -1;
+		}
+		int rtn = orderService.contactOrder(user.getId(), orderId);
+		return rtn;
+	}
+
+	/**
+	 * 订单留言
+	 * 
+	 * @param orderId
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.PUT, value = "/msgOrder")
+	@ResponseBody
+	public int messageOrder(@RequestBody OrderInfo orderInfo,
+			@ModelAttribute("user") User user) {
+		int rtn = orderService.leaveMsgOrder(user, orderInfo);
+		return rtn;
 	}
 }

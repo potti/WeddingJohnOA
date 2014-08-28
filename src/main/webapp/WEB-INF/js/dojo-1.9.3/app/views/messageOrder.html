@@ -1,0 +1,172 @@
+<div dojoType="dojox.mobile.View" 
+	id="messageOrder" style="width: 100%;">
+
+<form id="messageOrderForm" name="messageOrderForm">
+<input id="moorderId" data-dojo-type="dojox.mobile.TextBox" name="id" type=hidden></input>
+<div class="section-title">订单信息</div>
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>订单编号</label>
+			<fieldset>
+				<input id="moorderNo" data-dojo-type="dojox.mobile.TextBox" type=text readOnly></input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>订单来源</label>
+			<input id="mocompany" data-dojo-type="dojox.mobile.TextBox" type=text readOnly></input>
+		</div>
+	
+		<div>
+			<label>开始时间</label>
+			<fieldset>
+				<input id="mostartDate" data-dojo-type="dojox.mobile.TextBox" type=text readOnly></input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>结束时间</label>
+			<fieldset>
+				<input id="moendDate" data-dojo-type="dojox.mobile.TextBox" type=text readOnly></input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>婚庆报价</label>
+			<fieldset>
+				<input id="moprice" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>服务时间</label>
+			<fieldset>
+				<input id="mounit" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>支付方式</label>
+			<fieldset>
+				<label>现结</label>
+				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="false" name="mopayType" value="1" readOnly/>
+				<label>总结</label>
+				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="false" name="mopayType" value="2" readOnly/>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>超时价格</label>
+			<fieldset>
+				<input id="mooverPirce" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>超时支付</label>
+			<fieldset>
+				<label>现结</label>
+				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="false" name="mooverPayType" value="1" readOnly/>
+				<label>总结</label>
+				<input type="radio" data-dojo-type="dojox/mobile/RadioButton" checked="false" name="mooverPayType" value="2" readOnly/>
+			</fieldset>
+		</div>
+	</div>
+</div>
+
+<div class="section-title">新人信息</div>
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>酒店名</label>
+			<fieldset>
+				<input id="mohotalName" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>酒店地址</label>
+			<fieldset>
+				<input id="mohotalAddress" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>男方姓名</label>
+			<fieldset>
+				<input id="moboyName" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>男方电话</label>
+			<fieldset>
+				<input id="moboyTel" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>男方地址</label>
+			<fieldset>
+				<input id="moboyAddress" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>女方姓名</label>
+			<fieldset>
+				<input id="mogirlName" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>女方电话</label>
+			<fieldset>
+				<input id="mogirlTel" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+		<div>
+			<label>女方地址</label>
+			<fieldset>
+				<input id="mogirlAddress" data-dojo-type="dojox.mobile.TextBox" type=text readOnly>
+				</input>
+			</fieldset>
+		</div>
+	</div>
+</div>
+</form>
+
+<form id="msgOrderDetailForm" name="msgOrderDetailForm">
+<div class="section-title">人员</div>
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>人员需求</label>
+			<div id="moarrengment" data-dojo-type="dojox.mobile.View" style="height:auto">
+			</div>
+		</div>
+	</div>
+</div>
+</form>
+<form id="messageInfoForm">
+<div class="section-title">留言</div>
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>信息</label>
+			<textarea id="moremark" data-dojo-type="dojox/mobile/TextArea" rows="5" cols="40"></textarea>
+		</div>
+	</div>
+</div>
+<div style="text-align: center;">
+	<button id="msgBtn" type=button data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		提交留言
+	</button>
+</div>
+</form>
+</div>

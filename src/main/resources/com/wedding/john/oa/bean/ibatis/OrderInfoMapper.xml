@@ -543,9 +543,7 @@
       <if test="needman != null">
         needman = #{needman,jdbcType=VARCHAR},
       </if>
-      <if test="contactMan != null">
-        contact_man = #{contactMan,jdbcType=VARCHAR},
-      </if>
+      contact_man = #{contactMan,jdbcType=VARCHAR},
       <if test="createUser != null">
         create_user = #{createUser,jdbcType=INTEGER},
       </if>

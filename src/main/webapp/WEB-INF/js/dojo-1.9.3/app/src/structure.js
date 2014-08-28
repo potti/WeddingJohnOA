@@ -76,6 +76,13 @@ define(["dojo/_base/lang"],
 				demourl: "js/dojo-1.9.3/app/views/myOrderList.html",
 				jsmodule: "js/dojo-1.9.3/app/src/myOrderList.js"
 			}, {
+				id: "historyOrderList",
+				iconPos: "638,0,29,29",
+				title: "我的已拍订单",
+				power : 1,
+				demourl: "js/dojo-1.9.3/app/views/historyOrderList.html",
+				jsmodule: "js/dojo-1.9.3/app/src/historyOrderList.js"
+			}, {
 				id: "changePwd",
 				iconPos: "261,0,29,29",
 				title: "修改密码",

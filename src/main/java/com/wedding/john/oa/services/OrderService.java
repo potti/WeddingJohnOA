@@ -91,9 +91,9 @@ public class OrderService {
 			aOrderDetail.setOrderId(orderId);
 			aOrderDetail.setCameramanId(userId);
 			if (contactManSet != null && contactManSet.contains(userId)) {
-				aOrderDetail.setIsContact(1);
-			} else {
 				aOrderDetail.setIsContact(0);
+			} else {
+				aOrderDetail.setIsContact(-1);
 			}
 			orderDetailMapper.insert(aOrderDetail);
 			// send mail
@@ -215,6 +215,93 @@ public class OrderService {
 	 */
 	public List<MyOrder> getMyHistoryOrders(Integer userId, Date startDate,
 			Date endDate) {
-		return orderInfoMapper.selectMyHistoryOrders(userId, startDate, endDate);
+		return orderInfoMapper
+				.selectMyHistoryOrders(userId, startDate, endDate);
+	}
+
+	/**
+	 * 查询自己的订单
+	 * 
+	 * @param userId
+	 * @param orderId
+	 * @return
+	 */
+	public OrderDetail checkIsSelfOrder(Integer userId, Integer orderId) {
+		OrderDetailExample aOrderDetailExample = new OrderDetailExample();
+		aOrderDetailExample.createCriteria().andOrderIdEqualTo(orderId)
+				.andCameramanIdEqualTo(userId);
+		List<OrderDetail> list = orderDetailMapper
+				.selectByExample(aOrderDetailExample);
+		if (list.isEmpty()) {
+			return null;
+		} else {
+			return list.get(0);
+		}
+	}
+
+	/**
+	 * 联系订单
+	 * 
+	 * @param userId
+	 * @param orderId
+	 * @return
+	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public int contactOrder(Integer userId, Integer orderId) {
+		OrderDetail od = new OrderDetail();
+		od.setIsContact(1);
+		OrderDetailExample aOrderDetailExample = new OrderDetailExample();
+		aOrderDetailExample.createCriteria().andOrderIdEqualTo(orderId)
+				.andCameramanIdEqualTo(userId).andIsContactEqualTo(0);
+		int rtn = orderDetailMapper.updateByExampleSelective(od,
+				aOrderDetailExample);
+		if (rtn == 1) {
+			OrderInfo aOrderInfo = orderInfoMapper.selectByPrimaryKey(orderId);
+			if (!StringUtils.isEmpty(aOrderInfo.getContactMan())) {
+				String[] userIds = aOrderInfo.getContactMan().split(";");
+				boolean allContact = true;
+				List<Integer> userList = new ArrayList<Integer>();
+				for (String uidStr : userIds) {
+					int uid = Integer.parseInt(uidStr);
+					if (uid != userId) {
+						userList.add(uid);
+					}
+				}
+				if (!userList.isEmpty()) {
+					aOrderDetailExample.clear();
+					aOrderDetailExample.createCriteria()
+							.andOrderIdEqualTo(orderId)
+							.andCameramanIdIn(userList);
+					List<OrderDetail> ods = orderDetailMapper
+							.selectByExample(aOrderDetailExample);
+					for (OrderDetail orderDetail : ods) {
+						if (orderDetail.getIsContact() != 1) {
+							allContact = false;
+							break;
+						}
+					}
+				}
+				if (allContact) {
+					aOrderInfo.setStatus(2);// 已全部联系
+					orderInfoMapper.updateByPrimaryKeySelective(aOrderInfo);
+				}
+			}
+		}
+		return rtn;
+	}
+
+	/**
+	 * 订单留言
+	 * @param user
+	 * @param orderInfo
+	 * @return
+	 */
+	public int leaveMsgOrder(User user, OrderInfo orderInfo) {
+		OrderInfo orderInfo2 = orderInfoMapper.selectByPrimaryKey(orderInfo
+				.getId());
+		String msg = orderInfo.getRemark() + " by " + user.getName();
+		orderInfo2.setRemark(StringUtils.isEmpty(orderInfo2.getRemark()) ? msg
+				: orderInfo2.getRemark() + "\n" + msg);
+		return orderInfoMapper.updateByPrimaryKey(orderInfo2);
 	}
 }
