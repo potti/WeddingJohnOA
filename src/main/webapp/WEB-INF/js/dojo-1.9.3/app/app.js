@@ -434,14 +434,21 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 		if (inTransitionOrLoading)
 			return;
 		showProgressIndicator(false);
+		// 更新界面及子界面不能转换到创建界面
+		if(args.id.substring(0,6) === "create" && registry.byId(args.id)){
+			if(structure.navRecords.length > 0){
+				alert("请返回上级菜单");
+			}
+			return;
+		}
 		var delId;
-		// 不是点子页面的create*界面需要删除
+		// 导航直接点出的create*界面需要删除
 		if(structure.layout.rightPane.currentView.substring(0,6) === "create" 
-			&& args.backId != structure.layout.rightPane.currentView){
+			&& (!args.backId || args.backId != structure.layout.rightPane.currentView)){
 			delId = structure.layout.rightPane.currentView;
 		}
+	
 		if (registry.byId(args.id)) {
-//				li.transitionTo(args.id);
 			if (structure.layout.rightPane.currentView !== args.id) {
 				inTransitionOrLoading = true;
 				triggerTransition(li, args.id);
@@ -459,7 +466,7 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 					}
 					clearInterval(int);
 				}
-			},100);
+			},20);
 		}
 	}
 	
@@ -682,6 +689,16 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 				};
 			})(view));
 		}
+	},
+	formValidate:function(object, prefix){
+		for(prop in object){
+			if(registry.byId(prefix + prop) && registry.byId(prefix + prop).domNode.required && object[prop].length==0){
+				alert("请正确填写信息...");
+				registry.byId(prefix + prop).focus();
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	}

@@ -66,6 +66,11 @@ define(["dojo/dom",
 			});
 
 			on(registry.byId("submitBtn"), "click", function() {
+						var order = domForm.toObject("createOrderForm");
+						if(!app.formValidate(order,"")){
+							return;
+						}
+						
 						var needMan = "";
 						var contactMan = "";
 						for(var s in skills){
@@ -97,7 +102,6 @@ define(["dojo/dom",
 								}
 							}
 						}
-						var order = domForm.toObject("createOrderForm");
 						order['startDate'] = registry.byId("startDate").domNode.value;
 						order['endDate'] = registry.byId("endDate").domNode.value;
 						order['needman'] = needMan;

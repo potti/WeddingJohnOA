@@ -1,0 +1,95 @@
+<div dojoType="dojox.mobile.View" 
+	id="createUser" style="width: 100%;">
+
+<form id="createUserForm" name="createUserForm" data-dojo-id="createUserForm" data-dojo-type="dijit.form.Form">
+<input id="userId" data-dojo-type="dojox.mobile.TextBox" name="id" type=hidden></input>
+<div class="section-title">人员信息</div>
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>账号</label>
+			<fieldset>
+				<input id="cuaccount" data-dojo-type="dojox.mobile.TextBox" name="account" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>姓名</label>
+			<fieldset>
+				<input id="cuname" data-dojo-type="dojox.mobile.TextBox" name="name" type=text required>
+				</input>
+			</fieldset>
+		</div>
+	
+		<div>
+			<label>编号</label>
+			<fieldset>
+				<input id="cuno" data-dojo-type="dojox.mobile.TextBox" name="no" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>角色</label>
+			<fieldset>
+				<input id="cupower"/>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>联系方式</label>
+			<fieldset>
+				<input id="cutel" name="tel" data-dojo-type="dojox.mobile.TextBox" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>邮箱</label>
+			<fieldset>
+				<input id="cumail" name="mail" data-dojo-type="dojox.mobile.TextBox" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>机型</label>
+			<fieldset>
+				<input id="cucameraType"/>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>等级</label>
+			<fieldset>
+				<input id="culevel"/>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>拍摄单价</label>
+			<fieldset>
+				<input id="cuprice" name="price" data-dojo-type="dojox.mobile.TextBox" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>备注</label>
+			<textarea id="curemark" name="remark" data-dojo-type="dojox/mobile/TextArea" rows="5" cols="40"></textarea>
+		</div>
+	</div>
+</div>
+</form>
+
+<div style="text-align: center;">
+	<button id="cusubmitBtn" type=button data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		提交 
+	</button>
+	<button id="curesetBtn" type=reset data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		清空
+	</button>
+</div>
+
+</div>

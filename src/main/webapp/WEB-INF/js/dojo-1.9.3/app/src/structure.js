@@ -48,6 +48,12 @@ define(["dojo/_base/lang"],
 				title: "查找订单",
 				demourl: "js/dojo-1.9.3/app/views/orderSearchCondition.html",
 				jsmodule: "js/dojo-1.9.3/app/src/orderSearchCondition.js"
+			},{
+				id: "createUser",
+				iconPos: "29,0,29,29",
+				title: "创建用户",
+				demourl: "js/dojo-1.9.3/app/views/createUser.html",
+				jsmodule: "js/dojo-1.9.3/app/src/createUser.js"
 			}]
 		}, {
 			id: "userfunction",

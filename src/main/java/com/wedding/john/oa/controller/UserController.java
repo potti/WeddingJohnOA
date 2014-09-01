@@ -68,4 +68,42 @@ public class UserController {
 		}
 		return rtn;
 	}
+
+	/**
+	 * 创建用户
+	 * 
+	 * @param newUser
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/user")
+	@ResponseBody
+	public int createUser(@RequestBody User newUser,
+			@ModelAttribute("user") User user) {
+		if (user.getPower() < 10) {
+			return -1;
+		}
+		newUser.setDel(0);
+		newUser.setCreateDate(new Date());
+		userMapper.insertSelective(newUser);
+		return newUser.getId();
+	}
+
+	/**
+	 * 修改用户
+	 * 
+	 * @param oldUser
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.PUT, value = "/user")
+	@ResponseBody
+	public int updateUser(@RequestBody User oldUser,
+			@ModelAttribute("user") User user) {
+		if (user.getPower() < 10) {
+			return -1;
+		}
+		int rtn = userMapper.updateByPrimaryKeySelective(oldUser);
+		return rtn;
+	}
 }
