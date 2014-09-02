@@ -54,6 +54,24 @@ define(["dojo/_base/lang"],
 				title: "创建用户",
 				demourl: "js/dojo-1.9.3/app/views/createUser.html",
 				jsmodule: "js/dojo-1.9.3/app/src/createUser.js"
+			},{
+				id: "userSearchCondition",
+				iconPos: "203,0,29,29",
+				title: "查找用户",
+				demourl: "js/dojo-1.9.3/app/views/userSearchCondition.html",
+				jsmodule: "js/dojo-1.9.3/app/src/userSearchCondition.js"
+			},{
+				id: "createCamera",
+				iconPos: "29,0,29,29",
+				title: "创建器材",
+				demourl: "js/dojo-1.9.3/app/views/createCamera.html",
+				jsmodule: "js/dojo-1.9.3/app/src/createCamera.js"
+			},{
+				id: "cameraSearchCondition",
+				iconPos: "203,0,29,29",
+				title: "查找器材",
+				demourl: "js/dojo-1.9.3/app/views/cameraSearchCondition.html",
+				jsmodule: "js/dojo-1.9.3/app/src/cameraSearchCondition.js"
 			}]
 		}, {
 			id: "userfunction",

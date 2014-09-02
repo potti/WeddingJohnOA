@@ -16,11 +16,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wedding.john.oa.bean.User;
+import com.wedding.john.oa.bean.UserExample;
+import com.wedding.john.oa.bean.UserExample.Criteria;
 import com.wedding.john.oa.controller.param.ChangePwdModel;
 import com.wedding.john.oa.dao.ScheduleMapper;
 import com.wedding.john.oa.dao.UserMapper;
 import com.wedding.john.oa.util.CommonUtils;
+import com.wedding.john.oa.util.Constant;
 
 @Controller
 @SessionAttributes({ "user" })
@@ -105,5 +109,66 @@ public class UserController {
 		}
 		int rtn = userMapper.updateByPrimaryKeySelective(oldUser);
 		return rtn;
+	}
+
+	/**
+	 * 按条件查找
+	 * 
+	 * @param userCondition
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/users", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String getUsersByParam(@RequestBody User userCondition,
+			@ModelAttribute("user") User user) {
+		if (user.getPower() < 10) {
+			return "{}";
+		}
+		UserExample example = new UserExample();
+		Criteria aCriteria = example.createCriteria();
+		if (!StringUtils.isEmpty(userCondition.getName())) {
+			aCriteria.andNameLike("%" + userCondition.getName() + "%");
+		}
+		if (!StringUtils.isEmpty(userCondition.getNo())) {
+			aCriteria.andNoLike("%" + userCondition.getNo() + "%");
+		}
+		if (userCondition.getPower() != null) {
+			aCriteria.andPowerEqualTo(userCondition.getPower());
+		}
+		if (!StringUtils.isEmpty(userCondition.getTel())) {
+			aCriteria.andTelEqualTo(userCondition.getTel());
+		}
+		if (userCondition.getLevel() != null) {
+			aCriteria.andLevelEqualTo(userCondition.getLevel());
+		}
+		if (userCondition.getCameraType() != null) {
+			aCriteria.andCameraTypeEqualTo(userCondition.getCameraType());
+		}
+		List<User> list = userMapper.selectByExample(example);
+		JSONObject json = new JSONObject();
+		json.put("datas", list);
+		json.put("pages",
+				list.size() % Constant.DISPLAY_PER_PAGE > 0 ? list.size()
+						/ Constant.DISPLAY_PER_PAGE + 1 : list.size()
+						/ Constant.DISPLAY_PER_PAGE);
+		return json.toJSONString();
+	}
+
+	/**
+	 * 按ID获取用户
+	 * 
+	 * @param userId
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/user/{userId}", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public User getUserById(@PathVariable Integer userId,
+			@ModelAttribute("user") User user) {
+		if (user.getPower() < 10) {
+			return null;
+		}
+		User rtnUser = userMapper.selectByPrimaryKey(userId);
+		return rtnUser;
 	}
 }

@@ -1,0 +1,61 @@
+<div dojoType="dojox.mobile.ScrollableView" 
+	id="userSearchCondition" style="width: 100%;">
+
+<form id="userConditionForm" name="userConditionForm" data-dojo-id="userConditionForm">
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>人员姓名</label>
+			<fieldset>
+				<input id="ucName" data-dojo-type="dojox.mobile.TextBox" name="name" type=text>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>编号</label>
+			<fieldset>
+				<input id="ucNo" name="no" data-dojo-type="dojox.mobile.TextBox" type=text></input>
+			</fieldset>
+		</div>
+	
+		<div>
+			<label>角色</label>
+			<fieldset>
+				<input id="ucpower"/>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>联系方式</label>
+			<fieldset>
+				<input id="uctel" name="tel" data-dojo-type="dojox.mobile.TextBox" type=text></input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>等级</label>
+			<fieldset>
+				<input id="uclevel"/>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>机型</label>
+			<fieldset>
+				<input id="uccameraType"/>
+			</fieldset>
+		</div>
+	</div>
+</div>
+</form>
+
+<div style="text-align: center;">
+	<button id="ucSearchBtn" type=button data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		查询 
+	</button>
+	<button id="ucResetBtn" type=reset data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		清空
+	</button>
+</div>
+</div>

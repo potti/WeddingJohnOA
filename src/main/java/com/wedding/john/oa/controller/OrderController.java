@@ -25,6 +25,7 @@ import com.wedding.john.oa.bean.OrderInfoExample.Criteria;
 import com.wedding.john.oa.bean.User;
 import com.wedding.john.oa.controller.param.OrderModel;
 import com.wedding.john.oa.services.OrderService;
+import com.wedding.john.oa.util.Constant;
 
 @Controller
 @SessionAttributes({ "user" })
@@ -32,8 +33,6 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
-
-	private final int DISPLAY_PER_PAGE = 10;
 
 	/**
 	 * 创建订单
@@ -121,8 +120,10 @@ public class OrderController {
 				.getOrdersByCondition(aOrderInfoExample);
 		JSONObject json = new JSONObject();
 		json.put("datas", list);
-		json.put("pages", list.size() % DISPLAY_PER_PAGE > 0 ? list.size()
-				/ DISPLAY_PER_PAGE + 1 : list.size() / DISPLAY_PER_PAGE);
+		json.put("pages",
+				list.size() % Constant.DISPLAY_PER_PAGE > 0 ? list.size()
+						/ Constant.DISPLAY_PER_PAGE + 1 : list.size()
+						/ Constant.DISPLAY_PER_PAGE);
 		return json.toJSONString();
 	}
 
@@ -159,8 +160,10 @@ public class OrderController {
 				new Date());
 		JSONObject json = new JSONObject();
 		json.put("datas", list);
-		json.put("pages", list.size() % DISPLAY_PER_PAGE > 0 ? list.size()
-				/ DISPLAY_PER_PAGE + 1 : list.size() / DISPLAY_PER_PAGE);
+		json.put("pages",
+				list.size() % Constant.DISPLAY_PER_PAGE > 0 ? list.size()
+						/ Constant.DISPLAY_PER_PAGE + 1 : list.size()
+						/ Constant.DISPLAY_PER_PAGE);
 		return json.toJSONString();
 	}
 
@@ -180,8 +183,10 @@ public class OrderController {
 				aCalendar.getTime(), new Date());
 		JSONObject json = new JSONObject();
 		json.put("datas", list);
-		json.put("pages", list.size() % DISPLAY_PER_PAGE > 0 ? list.size()
-				/ DISPLAY_PER_PAGE + 1 : list.size() / DISPLAY_PER_PAGE);
+		json.put("pages",
+				list.size() % Constant.DISPLAY_PER_PAGE > 0 ? list.size()
+						/ Constant.DISPLAY_PER_PAGE + 1 : list.size()
+						/ Constant.DISPLAY_PER_PAGE);
 		return json.toJSONString();
 	}
 

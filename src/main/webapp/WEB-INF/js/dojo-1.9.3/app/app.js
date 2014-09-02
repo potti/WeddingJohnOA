@@ -699,6 +699,12 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 			}
 		}
 		return true;
+	},
+	
+	validateCombo : function(){
+		if(this.get("value").length > 0 && !this.get("item")){
+			this.set("value", "");
+		}
 	}
 	
 	}

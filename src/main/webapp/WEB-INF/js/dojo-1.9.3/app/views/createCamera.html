@@ -1,0 +1,29 @@
+<div dojoType="dojox.mobile.View" 
+	id="createCamera" style="width: 100%;">
+
+<form id="createCameraForm" name="createCameraForm" data-dojo-id="createCameraForm" data-dojo-type="dijit.form.Form">
+<input id="cameraId" data-dojo-type="dojox.mobile.TextBox" name="id" type=hidden></input>
+<div class="section-title">信息</div>
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>器材名</label>
+			<fieldset>
+				<input id="cameraname" data-dojo-type="dojox.mobile.TextBox" name="name" type=text required>
+				</input>
+			</fieldset>
+		</div>
+	</div>
+</div>
+</form>
+
+<div style="text-align: center;">
+	<button id="cameracusubmitBtn" type=button data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		提交 
+	</button>
+	<button id="cameraresetBtn" type=reset data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		清空
+	</button>
+</div>
+
+</div>

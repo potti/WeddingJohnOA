@@ -32,12 +32,6 @@ define(["dojo/dom",
 				dom.byId("createUserForm").reset();
 			});
 			
-			var validateCombo = function(){
-				if(this.get("value").length > 0 && !this.get("item")){
-					this.set("value", "");
-				}
-			}
-			
 			var powerStore = new Memory({ 
 				idProperty: "id", 
 				data: [
@@ -50,7 +44,7 @@ define(["dojo/dom",
 		        id: "cupower",
 		        store: powerStore,
 		        searchAttr: "name",
-		        onChange : validateCombo,
+		        onChange : app.validateCombo,
 		    }, "cupower").startup();
 			
 			var levelStore = new Memory({ 
@@ -64,7 +58,7 @@ define(["dojo/dom",
 			var levelComboBox = new ComboBox({
 		        id: "culevel",
 		        store: levelStore,
-		        onChange : validateCombo,
+		        onChange : app.validateCombo,
 		        searchAttr: "name"
 		    }, "culevel").startup();
 			
@@ -142,6 +136,7 @@ define(["dojo/dom",
 							});
 						}
 					});
+			
 			var cameraStore;
 			request.get("cameras", {
 				headers : {
@@ -157,14 +152,14 @@ define(["dojo/dom",
 				var cameraComboBox = new ComboBox({
 			        id: "cucameraType",
 			        store: cameraStore,
-			        onChange : validateCombo,
+			        onChange : app.validateCombo,
 			        searchAttr: "name"
 			    }, "cucameraType").startup();
 			});
 			
 			
 			// ************************************ update时的界面  **********************************************
-			if(args && args.orderId){
+			if(args && args.itemId){
 				var navRecords = structure.navRecords;
 				navRecords.push({
 					delTo : true,
@@ -175,7 +170,7 @@ define(["dojo/dom",
 					navTitle: args.backTitle
 				});
 				
-				registry.byId("userId").set('value', args.userId);
+				registry.byId("userId").set('value', args.itemId);
 				request.get(args.url, {
 					headers : {
 						"Content-Type" : "application/json"
@@ -186,13 +181,19 @@ define(["dojo/dom",
 						registry.byId("cuaccount").set('value', response.account);
 						registry.byId("cuname").set('value', response.name);
 						registry.byId("cuno").set("value", response.no);
-						registry.byId("cupower").set("value", response.power);
+						registry.byId("cupower").set("item", registry.byId("cupower").get("store").get(response.power));
 						registry.byId("cutel").set("value", response.tel);
 						registry.byId("cumail").set("value", response.mail);
-						registry.byId("cucameraType").set("value", response.cameraType);
-						registry.byId("culevel").set("value", response.level);
+						registry.byId("culevel").set("item", registry.byId("culevel").get("store").get(response.level));
 						registry.byId("cuprice").set("value", response.price);
 						registry.byId("curemark").set("value", response.remark);
+						
+						var int = setInterval(function(){
+							if(registry.byId("cucameraType")){
+								registry.byId("cucameraType").set("item", registry.byId("cucameraType").get("store").get(response.cameraType));
+								clearInterval(int);
+							}
+						},20);
 					}
 				});
 			}
