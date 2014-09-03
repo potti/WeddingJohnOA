@@ -72,6 +72,18 @@ define(["dojo/_base/lang"],
 				title: "查找器材",
 				demourl: "js/dojo-1.9.3/app/views/cameraSearchCondition.html",
 				jsmodule: "js/dojo-1.9.3/app/src/cameraSearchCondition.js"
+			},{
+				id: "createCompany",
+				iconPos: "29,0,29,29",
+				title: "创建客户",
+				demourl: "js/dojo-1.9.3/app/views/createCompany.html",
+				jsmodule: "js/dojo-1.9.3/app/src/createCompany.js"
+			},{
+				id: "companySearchCondition",
+				iconPos: "203,0,29,29",
+				title: "查找客户",
+				demourl: "js/dojo-1.9.3/app/views/companySearchCondition.html",
+				jsmodule: "js/dojo-1.9.3/app/src/companySearchCondition.js"
 			}]
 		}, {
 			id: "userfunction",

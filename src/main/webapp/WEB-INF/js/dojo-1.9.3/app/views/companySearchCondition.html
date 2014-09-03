@@ -1,0 +1,47 @@
+<div dojoType="dojox.mobile.ScrollableView" 
+	id="companySearchCondition" style="width: 100%;">
+
+<form id="companyConditionForm" name="companyConditionForm" data-dojo-id="companyConditionForm">
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>公司名</label>
+			<fieldset>
+				<input id="csName" data-dojo-type="dojox.mobile.TextBox" name="companyName" type=text>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>编号</label>
+			<fieldset>
+				<input id="csNo" name="no" data-dojo-type="dojox.mobile.TextBox" type=text></input>
+			</fieldset>
+		</div>
+	
+		<div>
+			<label>公司类型</label>
+			<fieldset>
+				<input id="cscompany_type"/>
+			</fieldset>
+		</div>
+	
+		<div>
+			<label>重要度</label>
+			<fieldset>
+				<input id="cscompany_level"/>
+			</fieldset>
+		</div>
+	</div>
+</div>
+</form>
+
+<div style="text-align: center;">
+	<button id="companySearchBtn" type=button data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		查询 
+	</button>
+	<button id="companySearchResetBtn" type=reset data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		清空
+	</button>
+</div>
+</div>

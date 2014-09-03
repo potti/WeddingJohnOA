@@ -1,5 +1,5 @@
 define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/array","dojo/_base/window","dojo/_base/xhr", // dojo Base
-		"dojo/dom", "dojo/dom-class","dojo/dom-prop","dojo/dom-construct",
+		"dojo/dom", "dojo/dom-class","dojo/dom-prop","dojo/dom-construct","dojo/_base/array","dojo/query",
 		"dojo/_base/Deferred",
 		"dojo/DeferredList",
 		"dojo/data/ItemFileReadStore",
@@ -18,7 +18,7 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 		"app/src/base",
 		"app/src/Viewport",
 		"app/src/structure"],
-  function(lang, html, connect, array, win, xhr, dom, domClass,domProp, domConstruct,
+  function(lang, html, connect, array, win, xhr, dom, domClass,domProp, domConstruct,array,query,
 			Deferred, DeferredList, ItemFileReadStore, registry, highlight, jshighlight, compat, parser, dm,
 			EdgeToEdgeCategory, EdgeToEdgeDataList, ListItem, PageIndicator, ProgressIndicator, TransitionEvent, 
 			base, Viewport, structure){ 
@@ -72,7 +72,6 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 		if (navRecord.delTo){
 			structure.destoryIds.push(navRecord.to);
 		}
-
 	}
 
 	function logoutBtnClickHandler() {
@@ -123,6 +122,16 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 			registry.byId(navRecords[i].to).destroyRecursive();
 		}
 		navRecords.splice(0, navRecords.length);
+		clearComboBoxPopup();
+	}
+	
+	function clearComboBoxPopup(){
+		array.forEach(query("[class=mblReset mblComboBoxMenu]"), function(node, ind) {
+			// id: *****_popup
+			if(!registry.byId(node.id.substring(0,node.id.length-6))){
+				registry.byId(node.id).destroyRecursive();
+			}
+		}); 
 	}
 	
 	
@@ -229,6 +238,7 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 							registry.byId(structure.destoryIds[i]).destroyRecursive();
 						}
 						structure.destoryIds = [];
+						clearComboBoxPopup();
 					}
 				}
 				// set the header's moveTo attribute to "navigation"
@@ -268,6 +278,7 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 							registry.byId(structure.destoryIds[i]).destroyRecursive();
 						}
 						structure.destoryIds = [];
+						clearComboBoxPopup();
 					}
 				}
 				// set the header's moveTo attribute to "navigation"
@@ -463,6 +474,7 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 				if(!inTransitionOrLoading){
 					if(registry.byId(delId)){
 						registry.byId(delId).destroyRecursive();
+						clearComboBoxPopup();
 					}
 					clearInterval(int);
 				}
@@ -705,6 +717,10 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 		if(this.get("value").length > 0 && !this.get("item")){
 			this.set("value", "");
 		}
+	},
+	
+	back : function(){
+		navBtnClickHandler();
 	}
 	
 	}

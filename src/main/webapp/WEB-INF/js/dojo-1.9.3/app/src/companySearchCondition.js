@@ -19,40 +19,41 @@ define(["dojo/dom",
 	
 	return {
 		init: function(){
-			var viewId = "userSearchCondition";
+			var viewId = "companySearchCondition";
 			
-			var powerStore = new Memory({ 
+			var typeStore = new Memory({ 
 				idProperty: "id", 
 				data: [
-				       { name: "普通",id:1 },
-				       { name: "管理员",id:10 }
+				       { name: "类别1",id:1 },
+				       { name: "类别2",id:2 }
 				]
 			});
 			
-			var powerComboBox = new ComboBox({
-		        id: "ucpower",
-		        store: powerStore,
+			var typeComboBox = new ComboBox({
+		        id: "cscompany_type",
+		        store: typeStore,
 		        searchAttr: "name",
 		        onChange : app.validateCombo,
-		    }, "ucpower").startup();
+		    }, "cscompany_type").startup();
 			
 			var levelStore = new Memory({ 
 				idProperty: "id", 
 				data: [
 				       { name: "一般",id:1 },
-				       { name: "高级",id:2 }
+				       { name: "中等",id:2 },
+				       { name: "重要",id:3 }
 				]
 			});
 			
 			var levelComboBox = new ComboBox({
-		        id: "uclevel",
+		        id: "cscompany_level",
 		        store: levelStore,
 		        onChange : app.validateCombo,
 		        searchAttr: "name"
-		    }, "uclevel").startup();
+		    }, "cscompany_level").startup();
 			
-			on(registry.byId("ucResetBtn"), "click", function(){
-				dom.byId("userConditionForm").reset();
+			on(registry.byId("companySearchResetBtn"), "click", function(){
+				dom.byId("companyConditionForm").reset();
 			});
 			
 			connect.subscribe("onAfterDemoViewTransitionIn", function(id) {
@@ -68,52 +69,30 @@ define(["dojo/dom",
 				}
 			});
 			
-			var cameraStore;
-			request.get("cameras", {
-				headers : {
-					"Content-Type" : "application/json"
-				},
-				handleAs : "json"
-			}).then(function(response) {
-				cameraStore = new Memory({ 
-					idProperty: "id", 
-					data: response
-				});
-				
-				var cameraComboBox = new ComboBox({
-			        id: "uccameraType",
-			        store: cameraStore,
-			        onChange : app.validateCombo,
-			        searchAttr: "name"
-			    }, "uccameraType").startup();
-			});
-
-			on(registry.byId("ucSearchBtn"), "click", function() {
-				var user= domForm.toObject("userConditionForm");
-				if(registry.byId("ucpower").get("item")){
-					user['power'] = powerStore.getIdentity(registry.byId("ucpower").get("item"));
+			on(registry.byId("companySearchBtn"), "click", function() {
+				var company= domForm.toObject("companyConditionForm");
+				if(registry.byId("cscompany_type").get("item")){
+					company['type'] = typeStore.getIdentity(registry.byId("cscompany_type").get("item"));
 				}
-				if(registry.byId("uccameraType").get("item")){
-					user['cameraType'] = cameraStore.getIdentity(registry.byId("uccameraType").get("item"));
-				}
-				if(registry.byId("uclevel").get("item")){
-					user['level'] = levelStore.getIdentity(registry.byId("uclevel").get("item"));
+				if(registry.byId("cscompany_level").get("item")){
+					company['level'] = levelStore.getIdentity(registry.byId("cscompany_level").get("item"));
 				}
 				app.show({id: "masterList",
-					title: "用户列表",
+					title: "客户列表",
 					type:"pip",// 区别开demo和navigation app.js initView
 					demourl: "js/dojo-1.9.3/app/views/masterList.html",
 					jsmodule: "js/dojo-1.9.3/app/src/masterList.js",
 					backId: viewId,
 					backTitle:"查询条件",
-					url: "users",
-					params : user,
-					openId : "createUser",
-					openTitle : "用户修改",
-					openDemourl : "js/dojo-1.9.3/app/views/createUser.html",
-					openJsmodule : "js/dojo-1.9.3/app/src/createUser.js",
-					openBackTitle : "用户列表",
-					openUrl : "user/"
+					url: "companys",
+					params : company,
+					displayLabel : "companyName",
+					openId : "createCompany",
+					openTitle : "客户修改",
+					openDemourl : "js/dojo-1.9.3/app/views/createCompany.html",
+					openJsmodule : "js/dojo-1.9.3/app/src/createCompany.js",
+					openBackTitle : "客户列表",
+					openUrl : "company/"
 				}, this);
 			});
 		}

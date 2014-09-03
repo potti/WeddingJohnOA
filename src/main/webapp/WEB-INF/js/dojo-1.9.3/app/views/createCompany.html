@@ -1,0 +1,116 @@
+<div dojoType="dojox.mobile.View" 
+	id="createCompany" style="width: 100%;">
+
+<form id="createCompanyForm" name="createCompanyForm" data-dojo-id="createCompanyForm" data-dojo-type="dijit.form.Form">
+<input id="companyId" data-dojo-type="dojox.mobile.TextBox" name="id" type=hidden></input>
+<div class="section-title">客户信息</div>
+<div data-dojo-type="dojox/mobile/RoundRect">
+	<div data-dojo-type="dojox/mobile/FormLayout">
+		<div>
+			<label>公司名</label>
+			<fieldset>
+				<input id="company_companyName" data-dojo-type="dojox.mobile.TextBox" name="companyName" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>编号</label>
+			<fieldset>
+				<input id="company_no" data-dojo-type="dojox.mobile.TextBox" name="no" type=text required>
+				</input>
+			</fieldset>
+		</div>
+	
+		<div>
+			<label>地址</label>
+			<fieldset>
+				<input id="company_address" data-dojo-type="dojox.mobile.TextBox" name="address" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>联系人</label>
+			<fieldset>
+				<input id="company_contactName" name="contactName" data-dojo-type="dojox.mobile.TextBox" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>联系电话</label>
+			<fieldset>
+				<input id="company_contactTel" name="contactTel" data-dojo-type="dojox.mobile.TextBox" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>Email</label>
+			<fieldset>
+				<input id="company_mail" name="mail" data-dojo-type="dojox.mobile.TextBox" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>公司类型</label>
+			<fieldset>
+				<input id="company_type"/>
+			</fieldset>
+		</div>
+
+		<div>
+			<label>重要度</label>
+			<fieldset>
+				<input id="company_level"/>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>拍摄报价</label>
+			<fieldset>
+				<input id="company_price" name="price" data-dojo-type="dojox.mobile.TextBox" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>服务时间</label>
+			<fieldset>
+				<input id="company_unit" name="unit" data-dojo-type="dojox.mobile.TextBox" type=text required>
+				</input>
+			</fieldset>
+		</div>
+	
+		<div>
+			<label>超时报价</label>
+			<fieldset>
+				<input id="company_overtimePrice" name="overtimePrice" data-dojo-type="dojox.mobile.TextBox" type=text required>
+				</input>
+			</fieldset>
+		</div>
+		
+		<div>
+			<label>备注</label>
+			<textarea id="company_remark" name="remark" data-dojo-type="dojox/mobile/TextArea" 
+				rows="5" cols="40" maxlength="200"></textarea>
+		</div>
+	</div>
+</div>
+</form>
+
+<div style="text-align: center;">
+	<button id="ccsubmitBtn" type=button data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		提交 
+	</button>
+	<button id="ccresetBtn" type=reset data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn">
+		清空
+	</button>
+	<button id="ccdelBtn" type=button data-dojo-type="dojox.mobile.Button" class="mblButton greyBtn baseBtn normalBtn" disabled=true>
+		删除
+	</button>
+</div>
+
+</div>

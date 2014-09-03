@@ -30,6 +30,7 @@ define(["dojo/dom",
 				toTitle: args.title,
 				navTitle: args.backTitle
 			});
+			var displayLabel = args.displayLabel ? args.displayLabel : "name";
 			
 			connect.subscribe("onAfterDemoViewTransitionIn", function(id) {
 				if (id == viewId) {
@@ -44,7 +45,6 @@ define(["dojo/dom",
 				}
 			});
 			
-
 			request.post(args.url, {
 				data : JSON.stringify(args.params),
 				headers : {
@@ -81,8 +81,9 @@ define(["dojo/dom",
 						pageView = registry.byId(prefix+page);
 					}
 					var aListItem = new ListItem({
+						id : prefix + "id-" + data.id,
 						itemId : data.id,
-						label : data.name,
+						label : data[displayLabel],
 						clickable : true,
 						onClick : function(e){
 							app.show({id: args.openId,
