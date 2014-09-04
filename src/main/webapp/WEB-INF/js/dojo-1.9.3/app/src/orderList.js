@@ -20,6 +20,7 @@ define(["dojo/dom",
 	return {
 		init: function(args){
 			var viewId = "orderList";
+			var prefix = viewId + "-";
 			var navRecords = structure.navRecords;
 			navRecords.push({
 				delTo : true,
@@ -47,6 +48,14 @@ define(["dojo/dom",
 				}
 			});
 			
+			connect.subscribe("onAfterDeleteCallBack", function(id, delid) {
+				if (id == viewId) {
+					if(registry.byId(prefix + "id-" + delid)){
+						registry.byId(prefix + "id-" + delid).destroyRecursive();
+					}
+				}
+			});
+			
 
 			request.post(args.url, {
 				data : JSON.stringify(args.params),
@@ -59,33 +68,34 @@ define(["dojo/dom",
 					return;
 				}
 				for(var i=1;i<=response.pages;i++){
-					if(!registry.byId("orderList-"+i)){
+					if(!registry.byId(prefix+i)){
 						var aSwapView = new SwapView({
-							id:"orderList-"+ i
+							id:prefix+ i
 						});
-						registry.byId("orderList").addChild(aSwapView);
+						registry.byId(viewId).addChild(aSwapView);
 					}
 				}
 				var aPageIndicator = new PageIndicator({
 //					fixed : "bottom",
 					style : "position:fixed;bottom:20px;left:8%"
 				});
-				registry.byId("orderList").addChild(aPageIndicator);
+				registry.byId(viewId).addChild(aPageIndicator);
 				aPageIndicator.startup();
 				
 				var page = 1;
 				var index = 1;
 				var aRoundRectList = new RoundRectList();
-				var pageView = registry.byId("orderList-"+page);
+				var pageView = registry.byId(prefix+page);
 				array.forEach(response.datas,function(data){
 					if(index > 10*page){
 						page ++;
 						aRoundRectList = new RoundRectList();
-						pageView = registry.byId("orderList-"+page);
+						pageView = registry.byId(prefix+page);
 					}
 					var aListItem = new ListItem({
+						id : prefix + "id-" + data.id,
 						orderId : data.id,
-						label : data.id + "---" + data.orderNo,
+						label : data.orderNo + "---" + locale.format(new Date(data.startDate), {datePattern: "yyyy-MM-dd", selector: "date"}),
 						clickable : true,
 						onClick : function(e){
 							app.show({id: "createOrder",

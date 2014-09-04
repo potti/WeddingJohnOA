@@ -129,6 +129,7 @@ define(["dojo/dom",
 							}).then(function(response) {
 								if(response != -1){
 									registry.byId("userId").set('value', response);
+									registry.byId("cudelBtn").set('disabled', false);
 									alert("创建成功");
 								}else{
 									alert("创建失败，请重试或联系管理员");
@@ -157,6 +158,26 @@ define(["dojo/dom",
 			    }, "cucameraType").startup();
 			});
 			
+			on(registry.byId("cudelBtn"), "click", function(){
+				var delid = registry.byId("userId").get('value');
+				if(delid.length <= 0){
+					return;
+				}
+				request.del("user/" + delid, {
+					headers : {
+						"Content-Type" : "application/json"
+					},
+					handleAs : "json"
+				}).then(function(response) {
+					if(response == 1){
+						app.back();
+						connect.publish("onAfterDeleteCallBack", ["masterList",delid]);
+					}else{
+						alert("删除失败，请重试或联系管理员");
+					}
+				});
+			});
+			
 			
 			// ************************************ update时的界面  **********************************************
 			if(args && args.itemId){
@@ -171,6 +192,7 @@ define(["dojo/dom",
 				});
 				
 				registry.byId("userId").set('value', args.itemId);
+				registry.byId("cudelBtn").set('disabled', false);
 				request.get(args.url, {
 					headers : {
 						"Content-Type" : "application/json"

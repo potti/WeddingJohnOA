@@ -115,6 +115,8 @@ public class OrderController {
 		}
 		if (orderInfo.getStatus() != null) {
 			aCriteria.andStatusEqualTo(orderInfo.getStatus());
+		} else {
+			aCriteria.andStatusGreaterThan(-1);
 		}
 		List<OrderInfo> list = orderService
 				.getOrdersByCondition(aOrderInfoExample);
@@ -246,5 +248,22 @@ public class OrderController {
 			@ModelAttribute("user") User user) {
 		int rtn = orderService.leaveMsgOrder(user, orderInfo);
 		return rtn;
+	}
+
+	/**
+	 * 删除订单
+	 * 
+	 * @param id
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.DELETE, value = "/order/{id}")
+	@ResponseBody
+	public int deleteOrderById(@PathVariable Integer id,
+			@ModelAttribute("user") User user) {
+		if (user.getPower() < 10) {
+			return -1;
+		}
+		return orderService.delOrder(id);
 	}
 }

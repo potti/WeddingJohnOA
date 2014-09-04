@@ -45,6 +45,14 @@ define(["dojo/dom",
 				}
 			});
 			
+			connect.subscribe("onAfterDeleteCallBack", function(id, delid) {
+				if (id == viewId) {
+					if(registry.byId(prefix + "id-" + delid)){
+						registry.byId(prefix + "id-" + delid).destroyRecursive();
+					}
+				}
+			});
+			
 			request.post(args.url, {
 				data : JSON.stringify(args.params),
 				headers : {

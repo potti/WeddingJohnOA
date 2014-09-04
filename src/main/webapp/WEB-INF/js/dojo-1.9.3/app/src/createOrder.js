@@ -143,6 +143,7 @@ define(["dojo/dom",
 							}).then(function(response) {
 								if(response != -1){
 									registry.byId("orderId").set('value', response);
+									registry.byId("orderDelBtn").set('disabled', false);
 									alert("创建成功");
 								}else{
 									alert("创建失败，请重试或联系管理员");
@@ -258,6 +259,26 @@ define(["dojo/dom",
 			    });
 			});
 			
+			on(registry.byId("orderDelBtn"), "click", function(){
+				var delid = registry.byId("orderId").get('value');
+				if(delid.length <= 0){
+					return;
+				}
+				request.del("order/" + delid, {
+					headers : {
+						"Content-Type" : "application/json"
+					},
+					handleAs : "json"
+				}).then(function(response) {
+					if(response == 1){
+						app.back();
+						connect.publish("onAfterDeleteCallBack", ["orderList",delid]);
+					}else{
+						alert("删除失败，请重试或联系管理员");
+					}
+				});
+			});
+			
 			// ************************************ update时的界面  **********************************************
 			if(args && args.orderId){
 				var navRecords = structure.navRecords;
@@ -271,6 +292,7 @@ define(["dojo/dom",
 				});
 				
 				registry.byId("orderId").set('value', args.orderId);
+				registry.byId("orderDelBtn").set('disabled', false);
 				request.get(args.url, {
 					headers : {
 						"Content-Type" : "application/json"

@@ -292,6 +292,7 @@ public class OrderService {
 
 	/**
 	 * 订单留言
+	 * 
 	 * @param user
 	 * @param orderInfo
 	 * @return
@@ -303,5 +304,18 @@ public class OrderService {
 		orderInfo2.setRemark(StringUtils.isEmpty(orderInfo2.getRemark()) ? msg
 				: orderInfo2.getRemark() + "\n" + msg);
 		return orderInfoMapper.updateByPrimaryKey(orderInfo2);
+	}
+
+	/**
+	 * 逻辑删除订单
+	 * 
+	 * @param orderId
+	 * @return
+	 */
+	public int delOrder(int orderId) {
+		OrderInfo orderInfo = new OrderInfo();
+		orderInfo.setId(orderId);
+		orderInfo.setStatus(-1);
+		return orderInfoMapper.updateByPrimaryKeySelective(orderInfo);
 	}
 }

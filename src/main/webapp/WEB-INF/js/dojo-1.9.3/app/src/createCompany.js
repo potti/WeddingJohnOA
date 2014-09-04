@@ -133,10 +133,11 @@ define(["dojo/dom",
 					});
 			
 			on(registry.byId("ccdelBtn"), "click", function(){
-				if(registry.byId("companyId").get('value').length <= 0){
+				var delid = registry.byId("companyId").get('value');
+				if(delid.length <= 0){
 					return;
 				}
-				request.del("company/" + registry.byId("companyId").get('value'), {
+				request.del("company/" + delid, {
 					headers : {
 						"Content-Type" : "application/json"
 					},
@@ -144,6 +145,7 @@ define(["dojo/dom",
 				}).then(function(response) {
 					if(response == 1){
 						app.back();
+						connect.publish("onAfterDeleteCallBack", ["masterList",delid]);
 					}else{
 						alert("删除失败，请重试或联系管理员");
 					}

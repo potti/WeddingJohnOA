@@ -92,6 +92,16 @@ public class ListController {
 		return cameraMapper.selectByPrimaryKey(id);
 	}
 
+	@RequestMapping(method = RequestMethod.DELETE, value = "/camera/{id}")
+	@ResponseBody
+	public int deleteCameraById(@PathVariable Integer id,
+			@ModelAttribute("user") User user) {
+		if (user.getPower() < 10) {
+			return -1;
+		}
+		return cameraMapper.deleteByPrimaryKey(id);
+	}
+
 	// ************** Skill ********************************************
 
 	@RequestMapping(method = RequestMethod.GET, value = "/skill/{skillId}", produces = "application/json;charset=UTF-8")
@@ -173,7 +183,11 @@ public class ListController {
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/company/{id}")
 	@ResponseBody
-	public int deleteCompanyById(@PathVariable Integer id) {
+	public int deleteCompanyById(@PathVariable Integer id,
+			@ModelAttribute("user") User user) {
+		if (user.getPower() < 10) {
+			return -1;
+		}
 		return companyMapper.deleteByPrimaryKey(id);
 	}
 }
