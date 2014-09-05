@@ -1,5 +1,6 @@
 package com.wedding.john.oa.services;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MessageFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -83,6 +86,7 @@ public class OrderService {
 				contactManSet.add(Integer.parseInt(string));
 			}
 		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		for (Integer userId : orderModel.getOrderDetail()) {
 			if (userId == null) {
 				continue;
@@ -101,12 +105,15 @@ public class OrderService {
 			MailSenderInfo mailInfo = new MailSenderInfo();
 			mailInfo.setToAddress(user.getMail());
 			mailInfo.setSubject("Test from Wedding OA System");
-			String content = "你有一个订单 时间是:"
-					+ orderModel.getOrderInfo().getStartDate().toString();
-			if (aOrderDetail.getIsContact() == 1) {
-				content += ", 你需要联系新人";
-			}
-			mailInfo.setContent(content);
+			FormattingTuple ft = MessageFormatter
+					.arrayFormat(
+							"你有一个订单 时间是:{} 你需要联系新人:{}",
+							new Object[] {
+									sdf.format(orderModel.getOrderInfo()
+											.getStartDate()),
+									aOrderDetail.getIsContact() == 0 ? "YES"
+											: "NO" });
+			mailInfo.setContent(ft.getMessage());
 			sendMailService.sendTextMail(mailInfo);
 
 			for (int i = 0; i < days + 1; i++) {
