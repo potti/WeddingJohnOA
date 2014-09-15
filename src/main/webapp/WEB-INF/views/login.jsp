@@ -59,14 +59,14 @@
 								<label style="width:30%;position:relative">用户名</label>
 								<fieldset>
 									<input id="account" type=text data-dojo-type="dojox.mobile.TextBox" name="account" required 
-										style="width:100%;position:relative" value="admin"/>
+										style="width:100%;position:relative" value=""/>
 								</fieldset>
 							</div>
 							<div>
 								<label style="width:30%;position:relative">密码</label>
 								<fieldset>
 									<input type=password id="pwd" name="pwd" data-dojo-type="dojox.mobile.TextBox" required 
-										style="width:100%;position:relative" value="admin"/>
+										style="width:100%;position:relative" value=""/>
 								</fieldset>
 							</div>
 							<div>
