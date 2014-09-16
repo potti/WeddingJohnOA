@@ -35,7 +35,7 @@ define(["dojo/dom",
 			var powerStore = new Memory({ 
 				idProperty: "id", 
 				data: [
-				       { name: "普通",id:1 },
+				       { name: "一般用户",id:1 },
 				       { name: "管理员",id:10 }
 				]
 			});
@@ -44,14 +44,18 @@ define(["dojo/dom",
 		        id: "cupower",
 		        store: powerStore,
 		        searchAttr: "name",
+		        item : powerStore.get(1),
 		        onChange : app.validateCombo,
 		    }, "cupower").startup();
 			
 			var levelStore = new Memory({ 
 				idProperty: "id", 
 				data: [
-				       { name: "一般",id:1 },
-				       { name: "高级",id:2 }
+				       { name: "学员",id:1 },
+				       { name: "初级",id:2 },
+				       { name: "中级",id:3 },
+				       { name: "高级",id:4 },
+				       { name: "特级",id:5 },
 				]
 			});
 			

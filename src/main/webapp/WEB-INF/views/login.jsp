@@ -65,7 +65,7 @@
 							<div>
 								<label style="width:30%;position:relative">密码</label>
 								<fieldset>
-									<input type=password id="pwd" name="pwd" data-dojo-type="dojox.mobile.TextBox" required 
+									<input type=password id="pwd" name="pwd" data-dojo-type="dojox.mobile.TextBox" 
 										style="width:100%;position:relative" value=""/>
 								</fieldset>
 							</div>
@@ -105,6 +105,7 @@
 			                }else{
 			                	var password = registry.byId('pwd');
 			                	password.set('value',"");
+			                	alert('输入的密码错误');
 //			                	Tooltip.show('输入的密码错误',password.domNode,'above'); 
 			                }
 			            });

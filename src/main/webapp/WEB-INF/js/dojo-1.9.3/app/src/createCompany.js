@@ -35,8 +35,10 @@ define(["dojo/dom",
 			var typeStore = new Memory({ 
 				idProperty: "id", 
 				data: [
-				       { name: "类别1",id:1 },
-				       { name: "类别2",id:2 }
+				       { name: "婚庆公司",id:1 },
+				       { name: "中间人",id:2 },
+				       { name: "直接新人",id:3 },
+				       { name: "个人",id:4 }
 				]
 			});
 			

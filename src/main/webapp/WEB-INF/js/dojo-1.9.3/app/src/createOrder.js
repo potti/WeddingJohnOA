@@ -302,7 +302,7 @@ define(["dojo/dom",
 					if(response){
 						var orderInfo = response.orderInfo;
 						registry.byId("orderNo").set('value', orderInfo.orderNo);
-						registry.byId("companyId").set('value', orderInfo.companyId);
+						registry.byId("cocompanyId").set('value', orderInfo.companyId);
 						registry.byId("company").set("label", response.companyName);
 						registry.byId("startDate").setDate(new Date(orderInfo.startDate));
 						registry.byId("endDate").setDate(new Date(orderInfo.endDate));

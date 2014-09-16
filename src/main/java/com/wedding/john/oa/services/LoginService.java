@@ -21,6 +21,7 @@ public class LoginService {
 		UserExample example = new UserExample();
 		Criteria aCriteria = example.createCriteria();
 		aCriteria.andAccountEqualTo(name);
+		aCriteria.andDelEqualTo(0);
 		if (StringUtils.isEmpty(pwd)) {
 			aCriteria.andPwdIsNull();
 		} else {
