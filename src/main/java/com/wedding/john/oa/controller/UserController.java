@@ -194,6 +194,8 @@ public class UserController {
 					condition.add(skillInfo.getUserid());
 				}
 				aCriteria.andIdIn(condition);
+			} else {
+				return "{}";
 			}
 		}
 		aCriteria.andDelEqualTo(0);
@@ -233,25 +235,5 @@ public class UserController {
 			rtnUser.setSkillInfo(sb.toString());
 		}
 		return rtnUser;
-	}
-
-	/**
-	 * 逻辑删除用户
-	 * 
-	 * @param id
-	 * @param user
-	 * @return
-	 */
-	@RequestMapping(method = RequestMethod.DELETE, value = "/user/{id}")
-	@ResponseBody
-	public int deleteUserById(@PathVariable Integer id,
-			@ModelAttribute("user") User user) {
-		if (user.getPower() < 10) {
-			return -1;
-		}
-		User delUser = new User();
-		delUser.setId(id);
-		delUser.setDel(1);
-		return userMapper.updateByPrimaryKeySelective(delUser);
 	}
 }

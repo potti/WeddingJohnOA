@@ -34,4 +34,13 @@ public class LoginService {
 			return null;
 		}
 	}
+
+	/**
+	 * @return the userMapper
+	 */
+	public UserMapper getUserMapper() {
+		return userMapper;
+	}
+	
+	
 }

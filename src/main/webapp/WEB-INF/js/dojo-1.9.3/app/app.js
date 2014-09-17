@@ -17,11 +17,12 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 		"dojox/mobile/TransitionEvent",
 		"app/src/base",
 		"app/src/Viewport",
-		"app/src/structure"],
+		"app/src/structure",
+		"dojo/request"],
   function(lang, html, connect, array, win, xhr, dom, domClass,domProp, domConstruct,array,query,
 			Deferred, DeferredList, ItemFileReadStore, registry, highlight, jshighlight, compat, parser, dm,
 			EdgeToEdgeCategory, EdgeToEdgeDataList, ListItem, PageIndicator, ProgressIndicator, TransitionEvent, 
-			base, Viewport, structure){ 
+			base, Viewport, structure,request){ 
 
 	/*
 	 * show or hide global progress indicator
@@ -75,7 +76,16 @@ define(["dojo/_base/lang","dojo/_base/html","dojo/_base/connect","dojo/_base/arr
 	}
 
 	function logoutBtnClickHandler() {
-		window.location = window.location.href + "/../login";
+		request.post("logout", {
+			headers : {
+				"Content-Type" : "application/json"
+			}
+		}).then(function(response) {
+			if(response == 1){
+				window.location = window.location.href + "/../login";
+			}
+		});
+		
 	}
 	
 	// update label of navigation button

@@ -8,11 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wedding.john.oa.bean.User;
@@ -25,6 +27,11 @@ public class LoginController {
 	private Logger logger = LoggerFactory.getLogger(LoginController.class);
 	@Autowired
 	private LoginService loginService;
+
+	@RequestMapping(method = RequestMethod.GET, value = "/")
+	public String init(Model model) {
+		return "login";
+	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/login")
 	public String login(Model model) {
@@ -67,5 +74,33 @@ public class LoginController {
 		} else {
 			return "";
 		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/logout")
+	@ResponseBody
+	public int logout(SessionStatus status) {
+		status.setComplete();
+		return 1;
+	}
+
+	/**
+	 * 逻辑删除用户
+	 * 
+	 * @param id
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.DELETE, value = "/user/{id}")
+	@ResponseBody
+	public int deleteUserById(@PathVariable Integer id,
+			@ModelAttribute("user") User user) {
+		if (user.getPower() < 10) {
+			return -1;
+		}
+		User delUser = new User();
+		delUser.setId(id);
+		delUser.setDel(1);
+		return loginService.getUserMapper()
+				.updateByPrimaryKeySelective(delUser);
 	}
 }
