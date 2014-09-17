@@ -48,6 +48,6 @@
 	 	<table tableName="order_detail" />
 	 	<table tableName="company" />
 -->
-	 	<table tableName="order_info" />
+	 	<table tableName="skill_info" />
     </context>
 </generatorConfiguration>

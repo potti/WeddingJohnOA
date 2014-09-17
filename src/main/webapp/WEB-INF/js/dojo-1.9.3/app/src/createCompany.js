@@ -124,7 +124,7 @@ define(["dojo/dom",
 								handleAs : "json"
 							}).then(function(response) {
 								if(response != -1){
-									registry.byId("companyId").set('value', response);
+									registry.byId("cccompanyId").set('value', response);
 									registry.byId("ccdelBtn").set('disabled', false);
 									alert("创建成功");
 								}else{
@@ -135,7 +135,7 @@ define(["dojo/dom",
 					});
 			
 			on(registry.byId("ccdelBtn"), "click", function(){
-				var delid = registry.byId("companyId").get('value');
+				var delid = registry.byId("cccompanyId").get('value');
 				if(delid.length <= 0){
 					return;
 				}
@@ -166,7 +166,7 @@ define(["dojo/dom",
 					navTitle: args.backTitle
 				});
 				
-				registry.byId("companyId").set('value', args.itemId);
+				registry.byId("cccompanyId").set('value', args.itemId);
 				registry.byId("ccdelBtn").set('disabled', false);
 				request.get(args.url, {
 					headers : {

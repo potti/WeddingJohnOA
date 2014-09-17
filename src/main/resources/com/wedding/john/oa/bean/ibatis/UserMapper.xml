@@ -422,7 +422,11 @@
  		a.id,
  		a.name,
  		b.is_use
-    from user a left join (
+    from (
+    	select a.id, a.name,a.del from user a inner join (
+    		select userId from skill_info where skillId = #{skillId,jdbcType=INTEGER}
+    	) b on a.id = b.userId
+    ) a left join (
     	select * from schedule where
 		  	empty_date = #{startDate,jdbcType=DATE}
 		  and

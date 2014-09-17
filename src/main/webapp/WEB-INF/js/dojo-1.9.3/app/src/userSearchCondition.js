@@ -1,5 +1,8 @@
 define(["dojo/dom",
         "dojo/on",
+        "dojo/_base/array",
+        "dojo/dom-construct",
+        "dojo/query",
         "dijit/registry",
         "dojo/request",
         "dojo/date/locale",
@@ -10,16 +13,39 @@ define(["dojo/dom",
         "dojo/json",
         "dojo/store/Memory",
         "dojox/mobile/ComboBox",
+        "dojox/mobile/CheckBox",
 		// not used in this module, but dependency of the demo template HTML
 		"app/src/myDatePick",
+		"dojox/mobile/Container",
 		"dojox/mobile/TextBox",
 		"dojox/mobile/FormLayout"
-		], function(dom,on,registry,request,locale,connect,app,structure,domForm,JSON,Memory,ComboBox) {
+		], function(dom,on,array,domConstruct,query,registry,request,locale,connect,app,structure,domForm,JSON,Memory,ComboBox,CheckBox) {
 	var internalNavRecords = [];
 	
 	return {
 		init: function(){
 			var viewId = "userSearchCondition";
+			
+			request.get("skill", {
+				headers : {
+					"Content-Type" : "application/json"
+				},
+				handleAs : "json"
+			}).then(function(response) {
+				array.forEach(response,function(data){
+					var checkBox = new CheckBox({
+						id: "ucskill_info_" + data.id,
+						name : "ucskillInfo",
+						skill :  data.id
+					});
+					registry.byId("ucskillinfo").addChild(checkBox);
+					var label = domConstruct.create("label",{
+						"for" : "ucskill_info_" + data.id,
+						innerHTML:  data.name
+					});
+					registry.byId("ucskillinfo").domNode.appendChild(label);
+				});
+			});
 			
 			var powerStore = new Memory({ 
 				idProperty: "id", 
@@ -53,6 +79,11 @@ define(["dojo/dom",
 			
 			on(registry.byId("ucResetBtn"), "click", function(){
 				dom.byId("userConditionForm").reset();
+				array.forEach(query("[name=ucskillInfo]"), function(node, ind) {
+					if(registry.byId(node.id).checked){
+						registry.byId(node.id).set('checked', false);
+					}
+				});
 			});
 			
 			connect.subscribe("onAfterDemoViewTransitionIn", function(id) {
@@ -99,6 +130,15 @@ define(["dojo/dom",
 				if(registry.byId("uclevel").get("item")){
 					user['level'] = levelStore.getIdentity(registry.byId("uclevel").get("item"));
 				}
+				var skillInfo = "";
+				array.forEach(query("[name=ucskillInfo]"), function(node, ind) {
+					if(registry.byId(node.id).checked){
+						skillInfo += registry.byId(node.id).skill + ";";
+					}
+				}); 
+				user['skillInfo'] = skillInfo;
+				delete user['ucskillInfo'];
+				
 				app.show({id: "masterList",
 					title: "用户列表",
 					type:"pip",// 区别开demo和navigation app.js initView

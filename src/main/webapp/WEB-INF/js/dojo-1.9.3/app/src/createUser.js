@@ -13,15 +13,17 @@ define(["dojo/dom",
         "dojo/json",
         "dojo/store/Memory",
         "dojox/mobile/ComboBox",
+        "dojox/mobile/CheckBox",
 		"dojox/mobile/TextArea",// not used in this module, but dependency of the demo template HTML
 		"dojox/mobile/TextBox",
 		"dojox/mobile/RadioButton",
 		"app/src/myDatePick",
 		"dojox/mobile/TextArea",
 		"dojox/mobile/FormLayout",
+		"dojox/mobile/Container",
 		"dijit/form/Form"
 		], function(dom,domConstruct,on,array,registry,request,query,locale,connect,app,structure,domForm,JSON,
-				Memory,ComboBox) {
+				Memory,ComboBox,CheckBox) {
 	var internalNavRecords = [];
 	return {
 		init: function(args){
@@ -30,6 +32,27 @@ define(["dojo/dom",
 			var self = this;
 			on(registry.byId("curesetBtn"), "click", function(){
 				dom.byId("createUserForm").reset();
+			});
+			
+			request.get("skill", {
+				headers : {
+					"Content-Type" : "application/json"
+				},
+				handleAs : "json"
+			}).then(function(response) {
+				array.forEach(response,function(data){
+					var checkBox = new CheckBox({
+						id: "skill_info_" + data.id,
+						name : "skillInfo",
+						skill :  data.id
+					});
+					registry.byId("cuskillinfo").addChild(checkBox);
+					var label = domConstruct.create("label",{
+						"for" : "skill_info_" + data.id,
+						innerHTML:  data.name
+					});
+					registry.byId("cuskillinfo").domNode.appendChild(label);
+				});
 			});
 			
 			var powerStore = new Memory({ 
@@ -85,6 +108,18 @@ define(["dojo/dom",
 						if(!app.formValidate(user,"cu")){
 							return;
 						}
+						
+						var skillInfo = "";
+						array.forEach(query("[name=skillInfo]"), function(node, ind) {
+							if(registry.byId(node.id).checked){
+								skillInfo += registry.byId(node.id).skill + ";";
+							}
+						}); 
+						if(skillInfo.length == 0){
+							alert("请选择工种...");
+							return;
+						}
+						user['skillInfo'] = skillInfo;
 						
 						if(registry.byId("cupower").get("item")){
 							user['power'] = powerStore.getIdentity(registry.byId("cupower").get("item"));
@@ -213,6 +248,13 @@ define(["dojo/dom",
 						registry.byId("culevel").set("item", registry.byId("culevel").get("store").get(response.level));
 						registry.byId("cuprice").set("value", response.price);
 						registry.byId("curemark").set("value", response.remark);
+						if(response.skillInfo){
+							array.forEach(query("[name=skillInfo]"), function(node, ind) {
+								if(response.skillInfo.indexOf(registry.byId(node.id).skill + ";") > -1){
+									registry.byId(node.id).set('checked',true);
+								}
+							}); 
+						}
 						
 						var int = setInterval(function(){
 							if(registry.byId("cucameraType")){

@@ -204,6 +204,7 @@ define(["dojo/dom",
 									var li = new ListItem({
 										id:txtid,
 										moveTo:'#',
+										skillId : data.id,
 										transition:"slide",
 										moveToUrl:"js/dojo-1.9.3/app/views/multiselectlist.html",
 										jsmodule:"js/dojo-1.9.3/app/src/multiselectlist.js"
@@ -222,7 +223,7 @@ define(["dojo/dom",
 											select:"single",
 											labelProperty:"name",
 											iconCol:"del", //isUse为0时 显示绿灯小图标
-											url: "userAvailable/" + startDate + "/" + endDate
+											url: "userAvailable/" + startDate + "/" + endDate + "/" + this.skillId
 											}, this);
 									});
 									rr.addChild(checkBox);// 3个控件
@@ -302,7 +303,7 @@ define(["dojo/dom",
 					if(response){
 						var orderInfo = response.orderInfo;
 						registry.byId("orderNo").set('value', orderInfo.orderNo);
-						registry.byId("cocompanyId").set('value', orderInfo.companyId);
+						registry.byId("companyId").set('value', orderInfo.companyId);
 						registry.byId("company").set("label", response.companyName);
 						registry.byId("startDate").setDate(new Date(orderInfo.startDate));
 						registry.byId("endDate").setDate(new Date(orderInfo.endDate));
