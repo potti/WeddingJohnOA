@@ -6,7 +6,6 @@ import java.util.Properties;
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -62,10 +61,10 @@ public class SendMailService {
 			authenticator = new MailAuthenticator(this.getUserName(),
 					this.getPassword());
 		}
-		// 根据邮件会话属性和密码验证器构造一个发送邮件的session
-		Session sendMailSession = Session.getDefaultInstance(mailProperties,
-				authenticator);
 		try {
+			// 根据邮件会话属性和密码验证器构造一个发送邮件的session
+			Session sendMailSession = Session.getDefaultInstance(
+					mailProperties, authenticator);
 			// 根据session创建一个邮件消息
 			Message mailMessage = new MimeMessage(sendMailSession);
 			// 创建邮件发送者地址
@@ -85,7 +84,7 @@ public class SendMailService {
 			// 发送邮件
 			Transport.send(mailMessage);
 			return true;
-		} catch (MessagingException ex) {
+		} catch (Exception ex) {
 			logger.error("sendTextMail", ex);
 		}
 		return false;
@@ -105,10 +104,10 @@ public class SendMailService {
 			authenticator = new MailAuthenticator(this.getUserName(),
 					this.getPassword());
 		}
-		// 根据邮件会话属性和密码验证器构造一个发送邮件的session
-		Session sendMailSession = Session.getDefaultInstance(mailProperties,
-				authenticator);
 		try {
+			// 根据邮件会话属性和密码验证器构造一个发送邮件的session
+			Session sendMailSession = Session.getDefaultInstance(
+					mailProperties, authenticator);
 			// 根据session创建一个邮件消息
 			Message mailMessage = new MimeMessage(sendMailSession);
 			// 创建邮件发送者地址
@@ -135,7 +134,7 @@ public class SendMailService {
 			// 发送邮件
 			Transport.send(mailMessage);
 			return true;
-		} catch (MessagingException ex) {
+		} catch (Exception ex) {
 			logger.error("sendHtmlMail", ex);
 		}
 		return false;
