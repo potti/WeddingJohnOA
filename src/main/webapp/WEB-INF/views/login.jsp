@@ -42,50 +42,32 @@
 			loadjscssfile('<c:url value="/js/dojo-1.9.3/dojox/mobile/themes/iphone/iphone.css"/>', "css");
 			loadjscssfile('<c:url value="/css/themes/iphone/gallery.css"/>', "css");
 		}
+		loadjscssfile('<c:url value="/css/login.css"/>', "css");
 	</script>
 	<link href='<c:url value="/css/common/buttons.css"/>' type="text/css" rel="stylesheet">
 	<script type="text/javascript" src='<c:url value="/js/dojo-1.9.3/dojo/dojo.js"/>' 
 		data-dojo-config="parseOnLoad:false,mblAlwaysHideAddressBar:true,async:true"></script>
-    <body>  
-    
-    <div id="gridLayout" data-dojo-type="dojox.mobile.View">
-	    <div data-dojo-type="dojox.mobile.GridLayout" data-dojo-props='cols:1' style="height:640px;">
-		    <div data-dojo-type="dojox.mobile.Pane" style="width:100%;position:relative">
-				<img alt="" src='<c:url value="/images/login/Mountain.jpg"/>' style="width:100%;height:100%"/>
-				<form name="loginFrom" id="loginFrom" style="position:absolute;top:20%;left:4%;width:260px">
-					<div data-dojo-type="dojox/mobile/RoundRect">
-						<div data-dojo-type="dojox/mobile/FormLayout">
-							<div>
-								<label style="width:30%;position:relative">用户名</label>
-								<fieldset>
-									<input id="account" type=text data-dojo-type="dojox.mobile.TextBox" name="account" required 
-										style="width:100%;position:relative" value=""/>
-								</fieldset>
-							</div>
-							<div>
-								<label style="width:30%;position:relative">密码</label>
-								<fieldset>
-									<input type=password id="pwd" name="pwd" data-dojo-type="dojox.mobile.TextBox" 
-										style="width:100%;position:relative" value=""/>
-								</fieldset>
-							</div>
-							<div>
-								<label></label>
-								<fieldset style="width:100%;position:relative">
-									<button dojoType="dojox.mobile.Button" id="loginBtn" style="float:right" class="navyBtn">登陆</button>
-								</fieldset>
-							</div>
-						</div>
-					</div>
-				 </form>
-			</div>
-	    </div>
+		
+    <body background='<c:url value="/images/login/login_bg_image.jpg"/>'>  
+    <div data-dojo-type="dojox.mobile.View">
+	    <form name="loginFrom" id="loginFrom">
+		    <div style="position:relative;width:539px;height:841px;z-index:1;left:30%;top:10%;">
+		    	<img src='<c:url value="/images/login/login_box_ept_image.png"/>' width="100%" height="100%"/>
+		    	<input id="account" type=text data-dojo-type="dojox.mobile.TextBox" name="account" required 
+					style="width:176px;position:absolute;left:33%;top:28%;" value=""/>
+				<input type=password id="pwd" name="pwd" data-dojo-type="dojox.mobile.TextBox" 
+					style="width:176px;position:absolute;left:33%;top:33%;" value=""/>
+				<button id="loginBtn" class="loginBtn"
+					style="width:95px;height:43px;position:absolute;left:70%;top:30%;z-index:2;background-repeat:no-repeat;">
+				</button>
+		    </div>
+	    </form>			
     </div>
+				
 			
 	<script type="text/javascript">
 		require(["dojo/dom","dojo/on","dijit/registry","dojo/request","dojo/dom-form","dojo/json","dijit/Tooltip","dojox/mobile","dojox/mobile/parser","dojo/ready", 
-		    "dojox/mobile/View", "dojox/mobile/GridLayout","dojox/mobile/Button",
-			"dojox/mobile/Pane", "dojox/mobile/TextBox", "dojox/mobile/RoundRect", "dojox/mobile/FormLayout", 
+		    "dojox/mobile/View","dojox/mobile/Button","dojox/mobile/TextBox",
 			"dojo/domReady!"], function(dom,on,registry,request,domForm,JSON,Tooltip,mobile,parser,ready){
 				ready(function(){
 					parser.parse();
@@ -97,16 +79,13 @@
 			                headers: {
 			                    "Content-Type": "application/json"
 			                }
-			                // handleAs: "json"
 			            }).then(function(response){
-//			            	var obj = JSON.parse(response);
 			                if(response == 1){
 			                	window.location = window.location.href + "/../index";
 			                }else{
 			                	var password = registry.byId('pwd');
 			                	password.set('value',"");
 			                	alert('输入的密码错误');
-//			                	Tooltip.show('输入的密码错误',password.domNode,'above'); 
 			                }
 			            });
 					});
