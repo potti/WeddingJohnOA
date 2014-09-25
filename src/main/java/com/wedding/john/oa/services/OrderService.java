@@ -32,6 +32,7 @@ import com.wedding.john.oa.dao.OrderDetailMapper;
 import com.wedding.john.oa.dao.OrderInfoMapper;
 import com.wedding.john.oa.dao.ScheduleMapper;
 import com.wedding.john.oa.dao.UserMapper;
+import com.wedding.john.oa.util.Constant;
 import com.wedding.john.oa.util.MailSenderInfo;
 
 @Service
@@ -104,17 +105,12 @@ public class OrderService {
 			User user = userMapper.selectByPrimaryKey(userId);
 			MailSenderInfo mailInfo = new MailSenderInfo();
 			mailInfo.setToAddress(user.getMail());
-			mailInfo.setSubject("Test from Wedding OA System");
-			FormattingTuple ft = MessageFormatter
-					.arrayFormat(
-							"你有一个订单 时间是:{} 你需要联系新人:{}",
-							new Object[] {
-									sdf.format(orderModel.getOrderInfo()
-											.getStartDate()),
-									aOrderDetail.getIsContact() == 0 ? "YES"
-											: "NO" });
+			mailInfo.setSubject("新的订单");
+			FormattingTuple ft = MessageFormatter.arrayFormat(sendMailService
+					.getMailContextMap().get(Constant.MAIL_CREATE_ORDER),
+					new Object[] {});
 			mailInfo.setContent(ft.getMessage());
-			sendMailService.sendTextMail(mailInfo);
+			sendMailService.sendHtmlMail(mailInfo);
 
 			for (int i = 0; i < days + 1; i++) {
 				long time = orderModel.getOrderInfo().getStartDate().getTime()

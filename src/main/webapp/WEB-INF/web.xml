@@ -43,7 +43,7 @@
 	</listener>
 
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<listener-class>com.wedding.john.oa.core.ServerContextListener</listener-class>
 	</listener>
 
 	<servlet>

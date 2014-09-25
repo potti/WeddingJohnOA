@@ -47,6 +47,8 @@
 		<property name="userName" value="${mail.userName}" />
 		<property name="password" value="${mail.password}" />
 		<property name="fromAddress" value="${mail.fromAddress}" />
+		<property name="sendThreadNum" value="1" />
+		<property name="sendTimeInterval" value="10" />
 	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager"
