@@ -28,6 +28,8 @@ import javax.mail.internet.MimeMultipart;
 import org.apache.commons.lang.math.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MessageFormatter;
 
 import com.wedding.john.oa.util.Constant;
 import com.wedding.john.oa.util.MailAuthenticator;
@@ -202,11 +204,8 @@ public class SendMailService {
 			mainPart.addBodyPart(html);
 			// 将MiniMultipart对象设置为邮件内容
 			mailMessage.setContent(mainPart);
-			long start = System.currentTimeMillis();
 			// 发送邮件
 			Transport.send(mailMessage);
-			logger.info("sendHtmlMail cost :{}", System.currentTimeMillis()
-					- start);
 			return true;
 		} catch (Exception ex) {
 			logger.error("sendHtmlMail", ex);
@@ -263,7 +262,14 @@ public class SendMailService {
 			BlockingQueue<MailSenderInfo> queue = readQueue.get(index);
 			while (!queue.isEmpty()) {
 				MailSenderInfo aMailSenderInfo = queue.poll();
+				long start = System.currentTimeMillis();
+				FormattingTuple ft = MessageFormatter.arrayFormat(
+						getMailContextMap().get(aMailSenderInfo.getMailId()),
+						aMailSenderInfo.getParams());
+				aMailSenderInfo.setContent(ft.getMessage());
 				doSendHtmlMail(aMailSenderInfo);
+				logger.info("sendHtmlMail cost :{}", System.currentTimeMillis()
+						- start);
 			}
 			clearQueue(queue);
 		}

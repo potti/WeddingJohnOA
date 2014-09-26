@@ -2,6 +2,8 @@ package com.wedding.john.oa.controller;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +37,19 @@ public class ListController {
 	private CompanyMapper companyMapper;
 	@Autowired
 	private CameraMapper cameraMapper;
+
+	@PostConstruct
+	public void init() {
+		List<Skill> list = skillMapper.selectByExample(null);
+		for (Skill skill : list) {
+			Constant.SKILL_MAP.put(skill.getId(), skill.getName());
+		}
+
+		List<Camera> list2 = cameraMapper.selectByExample(null);
+		for (Camera camera : list2) {
+			Constant.CAMERA_MAP.put(camera.getId(), camera.getName());
+		}
+	}
 
 	// ************** Camera ********************************************
 
@@ -72,6 +87,7 @@ public class ListController {
 			return -1;
 		}
 		cameraMapper.insertSelective(camera);
+		Constant.SKILL_MAP.put(camera.getId(), camera.getName());
 		return camera.getId();
 	}
 
@@ -82,6 +98,7 @@ public class ListController {
 		if (user.getPower() < 10) {
 			return -1;
 		}
+		Constant.SKILL_MAP.put(camera.getId(), camera.getName());
 		return cameraMapper.updateByPrimaryKeySelective(camera);
 	}
 
@@ -99,6 +116,7 @@ public class ListController {
 		if (user.getPower() < 10) {
 			return -1;
 		}
+		Constant.SKILL_MAP.remove(id);
 		return cameraMapper.deleteByPrimaryKey(id);
 	}
 

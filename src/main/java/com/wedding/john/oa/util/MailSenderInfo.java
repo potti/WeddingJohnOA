@@ -10,6 +10,10 @@ public class MailSenderInfo {
 	private String content;
 	// 邮件附件的文件名
 	private String[] attachFileNames;
+	//
+	private Integer mailId;
+
+	private Object[] params;
 
 	/**
 	 * @return the toAddress
@@ -69,6 +73,36 @@ public class MailSenderInfo {
 	 */
 	public void setAttachFileNames(String[] attachFileNames) {
 		this.attachFileNames = attachFileNames;
+	}
+
+	/**
+	 * @return the mailId
+	 */
+	public Integer getMailId() {
+		return mailId;
+	}
+
+	/**
+	 * @param mailId
+	 *            the mailId to set
+	 */
+	public void setMailId(Integer mailId) {
+		this.mailId = mailId;
+	}
+
+	/**
+	 * @return the params
+	 */
+	public Object[] getParams() {
+		return params;
+	}
+
+	/**
+	 * @param params
+	 *            the params to set
+	 */
+	public void setParams(Object[] params) {
+		this.params = params;
 	}
 
 }

@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.helpers.FormattingTuple;
-import org.slf4j.helpers.MessageFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -87,7 +85,7 @@ public class OrderService {
 				contactManSet.add(Integer.parseInt(string));
 			}
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd E");
 		for (Integer userId : orderModel.getOrderDetail()) {
 			if (userId == null) {
 				continue;
@@ -103,13 +101,47 @@ public class OrderService {
 			orderDetailMapper.insert(aOrderDetail);
 			// send mail
 			User user = userMapper.selectByPrimaryKey(userId);
+			OrderInfo aOrderInfo = orderModel.getOrderInfo();
+			Company aCompany = companyMapper.selectByPrimaryKey(aOrderInfo
+					.getCompanyId());
+			String[] needMans = aOrderInfo.getNeedman().split(";");
+			StringBuffer job = new StringBuffer();
+			StringBuffer others = new StringBuffer();
+			for (String tempStr : needMans) {
+				String[] details = tempStr.split(":");
+				String[] mans = details[2].split("-");
+				for (String man : mans) {
+					Integer otherId = Integer.parseInt(man);
+					if (userId.equals(otherId)) {
+						if (job.length() > 0) {
+							job.append(" ");
+						}
+						job.append(Constant.SKILL_MAP.get(Integer
+								.parseInt(details[0])));
+					} else {
+						User tempUser = userMapper.selectByPrimaryKey(otherId);
+						others.append(tempUser.getName() + ", "
+								+ tempUser.getTel() + "<br>");
+					}
+				}
+			}
 			MailSenderInfo mailInfo = new MailSenderInfo();
 			mailInfo.setToAddress(user.getMail());
 			mailInfo.setSubject("新的订单");
-			FormattingTuple ft = MessageFormatter.arrayFormat(sendMailService
-					.getMailContextMap().get(Constant.MAIL_CREATE_ORDER),
-					new Object[] {});
-			mailInfo.setContent(ft.getMessage());
+			mailInfo.setMailId(Constant.MAIL_CREATE_ORDER);
+			mailInfo.setParams(new Object[] {
+					user.getName(),
+					aOrderInfo.getOrderNo(),
+					sdf.format(aOrderInfo.getStartDate()),
+					aCompany.getCompanyName(),
+					aCompany.getContactTel(),
+					aOrderInfo.getUnit(),
+					aOrderInfo.getOverPirce(),
+					aOrderInfo.getOverPayType() == 1 ? Constant.PAY_TYPE_1
+							: Constant.PAY_TYPE_2, job, others,
+					"TODO 其他信息。。。。。",
+					Constant.CAMERA_MAP.get(user.getCameraType()),
+					user.getTel() });
 			sendMailService.sendHtmlMail(mailInfo);
 
 			for (int i = 0; i < days + 1; i++) {
