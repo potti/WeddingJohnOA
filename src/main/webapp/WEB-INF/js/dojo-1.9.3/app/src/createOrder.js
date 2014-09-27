@@ -148,6 +148,7 @@ define(["dojo/dom",
 								}else{
 									alert("创建失败，请重试或联系管理员");
 								}
+								
 							});
 						}
 					});
@@ -328,14 +329,7 @@ define(["dojo/dom",
 							registry.byId(nowpay1.id).set('checked', false);
 							registry.byId(aftpay1.id).set('checked', true);
 						}
-						registry.byId("hotalName").set("value", orderInfo.hotalName);
-						registry.byId("hotalAddress").set("value", orderInfo.hotalAddress);
-						registry.byId("boyName").set("value", orderInfo.boyName);
-						registry.byId("boyTel").set("value", orderInfo.boyTel);
-						registry.byId("boyAddress").set("value", orderInfo.boyAddress);
-						registry.byId("girlName").set("value", orderInfo.girlName);
-						registry.byId("girlTel").set("value", orderInfo.girlTel);
-						registry.byId("girlAddress").set("value", orderInfo.girlAddress);
+						registry.byId("weddinginfo").set("value", orderInfo.weddinginfo);
 						if(orderInfo.needman.length > 0){
 							var type = orderInfo.needman.split(";");
 							for(var i=0;i<type.length;i++){

@@ -37,6 +37,7 @@ import com.wedding.john.oa.util.MailSenderInfo;
 public class OrderService {
 
 	private Integer ONE_DAY_MS = 86400000;
+	private int randomNumber = 123;
 
 	@Autowired
 	private OrderInfoMapper orderInfoMapper;
@@ -60,9 +61,17 @@ public class OrderService {
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public int insertOrder(OrderModel orderModel) {
+		int no = orderInfoMapper.countByDay(orderModel.getOrderInfo()
+				.getStartDate());
+		Company aCompany = companyMapper.selectByPrimaryKey(orderModel
+				.getOrderInfo().getCompanyId());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+		String orderNo = sdf.format(orderModel.getOrderInfo().getStartDate())
+				+ aCompany.getNo() + "n" + (randomNumber + no);
+		orderModel.getOrderInfo().setOrderNo(orderNo);
 		orderInfoMapper.insertSelective(orderModel.getOrderInfo());
 		int orderId = orderModel.getOrderInfo().getId();
-		insertOrderDetail(orderModel, orderId);
+		insertOrderDetail(orderModel, orderId, aCompany);
 		return orderId;
 	}
 
@@ -72,7 +81,8 @@ public class OrderService {
 	 * @param orderModel
 	 * @param orderId
 	 */
-	private void insertOrderDetail(OrderModel orderModel, int orderId) {
+	private void insertOrderDetail(OrderModel orderModel, int orderId,
+			Company aCompany) {
 		int days = (int) (orderModel.getOrderInfo().getEndDate().getTime() - orderModel
 				.getOrderInfo().getStartDate().getTime())
 				/ ONE_DAY_MS;
@@ -102,8 +112,6 @@ public class OrderService {
 			// send mail
 			User user = userMapper.selectByPrimaryKey(userId);
 			OrderInfo aOrderInfo = orderModel.getOrderInfo();
-			Company aCompany = companyMapper.selectByPrimaryKey(aOrderInfo
-					.getCompanyId());
 			String[] needMans = aOrderInfo.getNeedman().split(";");
 			StringBuffer job = new StringBuffer();
 			StringBuffer others = new StringBuffer();
@@ -227,7 +235,9 @@ public class OrderService {
 			OrderDetailExample aOrderDetailExample = new OrderDetailExample();
 			aOrderDetailExample.createCriteria().andOrderIdEqualTo(orderId);
 			orderDetailMapper.deleteByExample(aOrderDetailExample);
-			insertOrderDetail(orderModel, orderId);
+			Company aCompany = companyMapper.selectByPrimaryKey(orderModel
+					.getOrderInfo().getCompanyId());
+			insertOrderDetail(orderModel, orderId, aCompany);
 		}
 		return rows;
 	}

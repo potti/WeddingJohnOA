@@ -190,14 +190,7 @@ define(["dojo/dom",
 							registry.byId(nowpay1.id).set('checked', false);
 							registry.byId(aftpay1.id).set('checked', true);
 						}
-						registry.byId("mohotalName").set("value", orderInfo.hotalName);
-						registry.byId("mohotalAddress").set("value", orderInfo.hotalAddress);
-						registry.byId("moboyName").set("value", orderInfo.boyName);
-						registry.byId("moboyTel").set("value", orderInfo.boyTel);
-						registry.byId("moboyAddress").set("value", orderInfo.boyAddress);
-						registry.byId("mogirlName").set("value", orderInfo.girlName);
-						registry.byId("mogirlTel").set("value", orderInfo.girlTel);
-						registry.byId("mogirlAddress").set("value", orderInfo.girlAddress);
+						registry.byId("moweddinginfo").set("value", orderInfo.weddinginfo);
 						if(orderInfo.remark){
 							var s = orderInfo.remark;
 							if(s.length > 32){

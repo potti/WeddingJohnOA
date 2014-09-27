@@ -119,4 +119,12 @@ public interface OrderInfoMapper {
 	 */
 	List<MyOrder> selectMyHistoryOrders(@Param("userId") Integer userId,
 			@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+	/**
+	 * 统计件数
+	 * 
+	 * @param startDate
+	 * @return
+	 */
+	int countByDay(@Param("startDate") Date startDate);
 }

@@ -47,7 +47,8 @@
 	 	<table tableName="order_info" />
 	 	<table tableName="order_detail" />
 	 	<table tableName="company" />
--->
 	 	<table tableName="skill_info" />
+-->
+	 	<table tableName="order_info" />
     </context>
 </generatorConfiguration>
