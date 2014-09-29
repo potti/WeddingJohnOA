@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MessageFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -61,6 +63,8 @@ public class OrderService {
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public int insertOrder(OrderModel orderModel) {
+		defineOrderStatus(orderModel);
+
 		int no = orderInfoMapper.countByDay(orderModel.getOrderInfo()
 				.getStartDate());
 		Company aCompany = companyMapper.selectByPrimaryKey(orderModel
@@ -73,6 +77,23 @@ public class OrderService {
 		int orderId = orderModel.getOrderInfo().getId();
 		insertOrderDetail(orderModel, orderId, aCompany);
 		return orderId;
+	}
+
+	private void defineOrderStatus(OrderModel orderModel) {
+		boolean hasMan = false;
+		if (!StringUtils.isEmpty(orderModel.getOrderInfo().getNeedman())
+				&& !orderModel.getOrderDetail().contains(null)) {
+			hasMan = true;
+		}
+		if (orderModel.getOrderInfo().getStartDate() != null && hasMan) {
+			if (orderModel.getOrderInfo().getContacted() == 0) {
+				orderModel.getOrderInfo().setStatus(1);
+			} else {
+				orderModel.getOrderInfo().setStatus(2);
+			}
+		} else {
+			orderModel.getOrderInfo().setStatus(0);
+		}
 	}
 
 	/**
@@ -95,7 +116,8 @@ public class OrderService {
 				contactManSet.add(Integer.parseInt(string));
 			}
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd E");
+		SimpleDateFormat sdf = new SimpleDateFormat(
+				Constant.DATE_FMT_YYYY_MM_DD_E);
 		for (Integer userId : orderModel.getOrderDetail()) {
 			if (userId == null) {
 				continue;
@@ -117,6 +139,9 @@ public class OrderService {
 			StringBuffer others = new StringBuffer();
 			for (String tempStr : needMans) {
 				String[] details = tempStr.split(":");
+				if (details.length < 3) {
+					continue;
+				}
 				String[] mans = details[2].split("-");
 				for (String man : mans) {
 					Integer otherId = Integer.parseInt(man);
@@ -228,6 +253,8 @@ public class OrderService {
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public int updateOrder(OrderModel orderModel) {
+		defineOrderStatus(orderModel);
+
 		int rows = orderInfoMapper.updateByPrimaryKeySelective(orderModel
 				.getOrderInfo());
 		if (rows == 1) {
@@ -345,7 +372,11 @@ public class OrderService {
 	public int leaveMsgOrder(User user, OrderInfo orderInfo) {
 		OrderInfo orderInfo2 = orderInfoMapper.selectByPrimaryKey(orderInfo
 				.getId());
-		String msg = orderInfo.getRemark() + " by " + user.getName();
+		SimpleDateFormat sdf = new SimpleDateFormat(
+				Constant.DATE_FMT_YYYY_MM_DD_HH_SS_CHN);
+		FormattingTuple ft = MessageFormatter.arrayFormat(Constant.LEAVE_MAG,
+				new Object[] { user.getName(), sdf.format(new Date()) });
+		String msg = ft.getMessage() + orderInfo.getRemark();
 		orderInfo2.setRemark(StringUtils.isEmpty(orderInfo2.getRemark()) ? msg
 				: orderInfo2.getRemark() + "\n" + msg);
 		return orderInfoMapper.updateByPrimaryKey(orderInfo2);

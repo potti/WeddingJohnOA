@@ -1411,6 +1411,66 @@ public class OrderInfoExample {
             addCriterion("weddingInfo not between", value1, value2, "weddinginfo");
             return (Criteria) this;
         }
+
+        public Criteria andContactedIsNull() {
+            addCriterion("contacted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContactedIsNotNull() {
+            addCriterion("contacted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContactedEqualTo(Integer value) {
+            addCriterion("contacted =", value, "contacted");
+            return (Criteria) this;
+        }
+
+        public Criteria andContactedNotEqualTo(Integer value) {
+            addCriterion("contacted <>", value, "contacted");
+            return (Criteria) this;
+        }
+
+        public Criteria andContactedGreaterThan(Integer value) {
+            addCriterion("contacted >", value, "contacted");
+            return (Criteria) this;
+        }
+
+        public Criteria andContactedGreaterThanOrEqualTo(Integer value) {
+            addCriterion("contacted >=", value, "contacted");
+            return (Criteria) this;
+        }
+
+        public Criteria andContactedLessThan(Integer value) {
+            addCriterion("contacted <", value, "contacted");
+            return (Criteria) this;
+        }
+
+        public Criteria andContactedLessThanOrEqualTo(Integer value) {
+            addCriterion("contacted <=", value, "contacted");
+            return (Criteria) this;
+        }
+
+        public Criteria andContactedIn(List<Integer> values) {
+            addCriterion("contacted in", values, "contacted");
+            return (Criteria) this;
+        }
+
+        public Criteria andContactedNotIn(List<Integer> values) {
+            addCriterion("contacted not in", values, "contacted");
+            return (Criteria) this;
+        }
+
+        public Criteria andContactedBetween(Integer value1, Integer value2) {
+            addCriterion("contacted between", value1, value2, "contacted");
+            return (Criteria) this;
+        }
+
+        public Criteria andContactedNotBetween(Integer value1, Integer value2) {
+            addCriterion("contacted not between", value1, value2, "contacted");
+            return (Criteria) this;
+        }
     }
 
     /**

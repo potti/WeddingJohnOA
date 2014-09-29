@@ -97,6 +97,13 @@ public class UserController {
 		if (user.getPower() < 10) {
 			return -1;
 		}
+		UserExample example = new UserExample();
+		example.createCriteria().andAccountEqualTo(newUser.getAccount());
+		List<User> list = userMapper.selectByExample(example);
+		if (!list.isEmpty()) {
+			return -2;
+		}
+
 		newUser.setDel(0);
 		newUser.setCreateDate(new Date());
 		userMapper.insertSelective(newUser);
@@ -127,6 +134,15 @@ public class UserController {
 		if (user.getPower() < 10) {
 			return -1;
 		}
+
+		UserExample example1 = new UserExample();
+		example1.createCriteria().andAccountEqualTo(oldUser.getAccount())
+				.andIdNotEqualTo(oldUser.getId());
+		List<User> list = userMapper.selectByExample(example1);
+		if (!list.isEmpty()) {
+			return -2;
+		}
+
 		int rtn = userMapper.updateByPrimaryKeySelective(oldUser);
 
 		SkillInfoExample example = new SkillInfoExample();

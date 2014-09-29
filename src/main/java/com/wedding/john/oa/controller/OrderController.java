@@ -48,12 +48,6 @@ public class OrderController {
 		if (user.getPower() < 10) {
 			return -1;
 		}
-		if (orderModel.getOrderInfo().getStartDate() != null
-				&& !StringUtils.isEmpty(orderModel.getOrderInfo().getNeedman())) {
-			orderModel.getOrderInfo().setStatus(1);
-		} else {
-			orderModel.getOrderInfo().setStatus(0);
-		}
 		orderModel.getOrderInfo().setCreateUser(user.getId());
 		orderModel.getOrderInfo().setCreateTime(new Date());
 		int orderId = orderService.insertOrder(orderModel);

@@ -152,7 +152,12 @@ define(["dojo/dom",
 								handleAs : "json"
 							}).then(function(response) {
 								if(response!=1){
-									alert("更新失败，请重试或联系管理员");
+									if(response == -2){
+										alert("账号已存在，请重新输入");
+										registry.byId("cuaccount").focus();
+									}else{
+										alert("更新失败，请重试或联系管理员");
+									}
 								}else{
 									alert("更新成功");
 								}
@@ -166,12 +171,17 @@ define(["dojo/dom",
 								},
 								handleAs : "json"
 							}).then(function(response) {
-								if(response != -1){
+								if(response != 1){
+									if(response == -2){
+										alert("账号已存在，请重新输入");
+										registry.byId("cuaccount").focus();
+									}else{
+										alert("创建失败，请重试或联系管理员");
+									}
+								}else{
 									registry.byId("userId").set('value', response);
 									registry.byId("cudelBtn").set('disabled', false);
 									alert("创建成功");
-								}else{
-									alert("创建失败，请重试或联系管理员");
 								}
 							});
 						}

@@ -116,6 +116,11 @@ define(["dojo/dom",
 						if(orderDetail['orderDetail'].length <= 1){
 							orderDetail['orderDetail'] = [orderDetail['orderDetail']];
 						}
+						if(registry.byId("contacted").checked){
+							order['contacted'] = 1;
+						}else{
+							order['contacted'] = 0;
+						}
 						orderDetail['orderInfo'] = order;
 						if(order['id']){
 							//update
@@ -148,7 +153,6 @@ define(["dojo/dom",
 								}else{
 									alert("创建失败，请重试或联系管理员");
 								}
-								
 							});
 						}
 					});
@@ -328,6 +332,9 @@ define(["dojo/dom",
 						}else{
 							registry.byId(nowpay1.id).set('checked', false);
 							registry.byId(aftpay1.id).set('checked', true);
+						}
+						if(orderInfo.contacted == 1){
+							registry.byId("contacted").set('checked', true);
 						}
 						registry.byId("weddinginfo").set("value", orderInfo.weddinginfo);
 						if(orderInfo.needman.length > 0){

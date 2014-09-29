@@ -12,6 +12,11 @@ public class Constant {
 	public static final String PAY_TYPE_1 = "现结";
 	public static final String PAY_TYPE_2 = "总结";
 
+	public static final String DATE_FMT_YYYY_MM_DD_E = "yyyy-MM-dd E";
+	public static final String DATE_FMT_YYYY_MM_DD_HH_SS_CHN = "yy年MM月dd号HH点mm分";
+
+	public static final String LEAVE_MAG = "{}于{}写道: ";
+
 	public static final Map<Integer, String> SKILL_MAP = new HashMap<Integer, String>();
 	public static final Map<Integer, String> CAMERA_MAP = new HashMap<Integer, String>();
 

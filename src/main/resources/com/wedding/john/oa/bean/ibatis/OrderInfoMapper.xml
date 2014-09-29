@@ -25,6 +25,7 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="weddingInfo" jdbcType="VARCHAR" property="weddinginfo" />
+    <result column="contacted" jdbcType="INTEGER" property="contacted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -99,7 +100,7 @@
     -->
     id, order_no, company_id, start_date, end_date, price, unit, over_pirce, pay_type, 
     over_pay_type, needman, contact_man, create_user, modify_user, create_time, modify_time, 
-    status, remark, weddingInfo
+    status, remark, weddingInfo, contacted
   </sql>
   <select id="selectByExample" parameterType="com.wedding.john.oa.bean.OrderInfoExample" resultMap="BaseResultMap">
     <!--
@@ -158,14 +159,14 @@
       over_pay_type, needman, contact_man, 
       create_user, modify_user, create_time, 
       modify_time, status, remark, 
-      weddingInfo)
+      weddingInfo, contacted)
     values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{companyId,jdbcType=INTEGER}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{price,jdbcType=INTEGER}, 
       #{unit,jdbcType=INTEGER}, #{overPirce,jdbcType=INTEGER}, #{payType,jdbcType=INTEGER}, 
       #{overPayType,jdbcType=INTEGER}, #{needman,jdbcType=VARCHAR}, #{contactMan,jdbcType=VARCHAR}, 
       #{createUser,jdbcType=INTEGER}, #{modifyUser,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{modifyTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{weddinginfo,jdbcType=VARCHAR})
+      #{weddinginfo,jdbcType=VARCHAR}, #{contacted,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.wedding.john.oa.bean.OrderInfo" useGeneratedKeys="true" keyProperty="id">
     <!--
@@ -231,6 +232,9 @@
       <if test="weddinginfo != null">
         weddingInfo,
       </if>
+      <if test="contacted != null">
+        contacted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -289,6 +293,9 @@
       </if>
       <if test="weddinginfo != null">
         #{weddinginfo,jdbcType=VARCHAR},
+      </if>
+      <if test="contacted != null">
+        #{contacted,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -366,6 +373,9 @@
       <if test="record.weddinginfo != null">
         weddingInfo = #{record.weddinginfo,jdbcType=VARCHAR},
       </if>
+      <if test="record.contacted != null">
+        contacted = #{record.contacted,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -395,7 +405,8 @@
       modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
-      weddingInfo = #{record.weddinginfo,jdbcType=VARCHAR}
+      weddingInfo = #{record.weddinginfo,jdbcType=VARCHAR},
+      contacted = #{record.contacted,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -437,7 +448,7 @@
       <if test="needman != null">
         needman = #{needman,jdbcType=VARCHAR},
       </if>
-      contact_man = #{contactMan,jdbcType=VARCHAR},
+        contact_man = #{contactMan,jdbcType=VARCHAR},
       <if test="createUser != null">
         create_user = #{createUser,jdbcType=INTEGER},
       </if>
@@ -458,6 +469,9 @@
       </if>
       <if test="weddinginfo != null">
         weddingInfo = #{weddinginfo,jdbcType=VARCHAR},
+      </if>
+      <if test="contacted != null">
+        contacted = #{contacted,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -485,7 +499,8 @@
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
-      weddingInfo = #{weddinginfo,jdbcType=VARCHAR}
+      weddingInfo = #{weddinginfo,jdbcType=VARCHAR},
+      contacted = #{contacted,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
@@ -513,8 +528,8 @@
 	ORDER BY a.start_date
   </select>
   
-  <select id="countByDay" resultType="int" parameterType="map">
-        select count(*) c from order_info where start_date >= #{startDate,jdbcType=DATE};
+  <select id="countByDay" parameterType="map" resultType="int">
+       <![CDATA[ select count(*) c from order_info where start_date > #{startDate,jdbcType=DATE};]]> 
    </select>
   
 </mapper>
