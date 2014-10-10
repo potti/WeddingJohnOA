@@ -65,6 +65,7 @@ define(["dojo/dom",
 									alert("更新失败，请重试或联系管理员");
 								}else{
 									alert("更新成功");
+									app.back();
 								}
 							});
 						}else{
@@ -80,6 +81,7 @@ define(["dojo/dom",
 									registry.byId("cameraId").set('value', response);
 									registry.byId("cameradelBtn").set('disabled', false);
 									alert("创建成功");
+									app.back();
 								}else{
 									alert("创建失败，请重试或联系管理员");
 								}

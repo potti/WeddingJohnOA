@@ -10,11 +10,12 @@ define(["dojo/dom",
         "app/src/structure",
         "dojo/dom-form",
         "dojo/json",
+        "dojo/store/Memory",
     	"dojox/mobile/SwapView",
     	"dojox/mobile/PageIndicator",
     	"dojox/mobile/RoundRectList",
     	"dojox/mobile/ListItem"
-		], function(dom,on,array,registry,request,query,locale,connect,app,structure,domForm,JSON,SwapView,PageIndicator,
+		], function(dom,on,array,registry,request,query,locale,connect,app,structure,domForm,JSON,Memory,SwapView,PageIndicator,
 				RoundRectList,ListItem) {
 	var internalNavRecords = [];
 	return {
@@ -29,6 +30,19 @@ define(["dojo/dom",
 				to: args.id,
 				toTitle: args.title,
 				navTitle: args.backTitle
+			});
+			
+			var skillStore;
+			request.get("skill", {
+				headers : {
+					"Content-Type" : "application/json"
+				},
+				handleAs : "json"
+			}).then(function(response) {
+				skillStore = new Memory({ 
+					idProperty: "id", 
+					data: response
+				});
 			});
 			
 //			on(registry.byId("orderList"), "beforeTransitionOut", function() {
@@ -92,10 +106,17 @@ define(["dojo/dom",
 						aRoundRectList = new RoundRectList();
 						pageView = registry.byId(prefix+page);
 					}
+					var manInfo = " ";
+					var temp = data.needman.split(";");
+					for(var k in temp){
+						var d = temp[k].split(":");
+						manInfo += skillStore.get(d[0]).name + ":" + d[1] + " ";
+					}
 					var aListItem = new ListItem({
 						id : prefix + "id-" + data.id,
 						orderId : data.id,
-						label : data.orderNo + "---" + locale.format(new Date(data.startDate), {datePattern: "yyyy-MM-dd", selector: "date"}),
+						label : data.orderNo + " " + locale.format(new Date(data.startDate), 
+								{datePattern: "yy-MM-dd EEEE", selector: "date"}) + manInfo,
 						clickable : true,
 						onClick : function(e){
 							app.show({id: "createOrder",

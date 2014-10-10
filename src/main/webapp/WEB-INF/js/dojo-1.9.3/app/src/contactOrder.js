@@ -59,6 +59,7 @@ define(["dojo/dom",
 								}else{
 									registry.byId("contactBtn").set("disabled","disabled");
 									alert("更新成功");
+									app.back();
 								}
 							});
 						}

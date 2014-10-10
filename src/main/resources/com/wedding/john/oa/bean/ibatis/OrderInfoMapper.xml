@@ -529,7 +529,7 @@
   </select>
   
   <select id="countByDay" parameterType="map" resultType="int">
-       <![CDATA[ select count(*) c from order_info where start_date > #{startDate,jdbcType=DATE};]]> 
+       <![CDATA[ select count(*) c from order_info where start_date = #{startDate,jdbcType=DATE};]]> 
    </select>
   
 </mapper>

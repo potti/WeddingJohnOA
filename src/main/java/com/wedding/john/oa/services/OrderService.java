@@ -131,51 +131,6 @@ public class OrderService {
 				aOrderDetail.setIsContact(-1);
 			}
 			orderDetailMapper.insert(aOrderDetail);
-			// send mail
-			User user = userMapper.selectByPrimaryKey(userId);
-			OrderInfo aOrderInfo = orderModel.getOrderInfo();
-			String[] needMans = aOrderInfo.getNeedman().split(";");
-			StringBuffer job = new StringBuffer();
-			StringBuffer others = new StringBuffer();
-			for (String tempStr : needMans) {
-				String[] details = tempStr.split(":");
-				if (details.length < 3) {
-					continue;
-				}
-				String[] mans = details[2].split("-");
-				for (String man : mans) {
-					Integer otherId = Integer.parseInt(man);
-					if (userId.equals(otherId)) {
-						if (job.length() > 0) {
-							job.append(" ");
-						}
-						job.append(Constant.SKILL_MAP.get(Integer
-								.parseInt(details[0])));
-					} else {
-						User tempUser = userMapper.selectByPrimaryKey(otherId);
-						others.append(tempUser.getName() + ", "
-								+ tempUser.getTel() + "<br>");
-					}
-				}
-			}
-			MailSenderInfo mailInfo = new MailSenderInfo();
-			mailInfo.setToAddress(user.getMail());
-			mailInfo.setSubject("新的订单");
-			mailInfo.setMailId(Constant.MAIL_CREATE_ORDER);
-			mailInfo.setParams(new Object[] {
-					user.getName(),
-					aOrderInfo.getOrderNo(),
-					sdf.format(aOrderInfo.getStartDate()),
-					aCompany.getCompanyName(),
-					aCompany.getContactTel(),
-					aOrderInfo.getUnit(),
-					aOrderInfo.getOverPirce(),
-					aOrderInfo.getOverPayType() == 1 ? Constant.PAY_TYPE_1
-							: Constant.PAY_TYPE_2, job, others,
-					"TODO 其他信息。。。。。",
-					Constant.CAMERA_MAP.get(user.getCameraType()),
-					user.getTel() });
-			sendMailService.sendHtmlMail(mailInfo);
 
 			for (int i = 0; i < days + 1; i++) {
 				long time = orderModel.getOrderInfo().getStartDate().getTime()
@@ -189,6 +144,55 @@ public class OrderService {
 				if (rows == 0) {
 					scheduleMapper.insert(aSchedule);
 				}
+			}
+			
+			User user = userMapper.selectByPrimaryKey(userId);
+			if (!StringUtils.isEmpty(user.getMail())) {
+				// send mail
+				OrderInfo aOrderInfo = orderModel.getOrderInfo();
+				String[] needMans = aOrderInfo.getNeedman().split(";");
+				StringBuffer job = new StringBuffer();
+				StringBuffer others = new StringBuffer();
+				for (String tempStr : needMans) {
+					String[] details = tempStr.split(":");
+					if (details.length < 3) {
+						continue;
+					}
+					String[] mans = details[2].split("-");
+					for (String man : mans) {
+						Integer otherId = Integer.parseInt(man);
+						if (userId.equals(otherId)) {
+							if (job.length() > 0) {
+								job.append(" ");
+							}
+							job.append(Constant.SKILL_MAP.get(Integer
+									.parseInt(details[0])));
+						} else {
+							User tempUser = userMapper
+									.selectByPrimaryKey(otherId);
+							others.append(tempUser.getName() + ", "
+									+ tempUser.getTel() + "<br>");
+						}
+					}
+				}
+				MailSenderInfo mailInfo = new MailSenderInfo();
+				mailInfo.setToAddress(user.getMail());
+				mailInfo.setSubject("新的订单");
+				mailInfo.setMailId(Constant.MAIL_CREATE_ORDER);
+				mailInfo.setParams(new Object[] {
+						user.getName(),
+						aOrderInfo.getOrderNo(),
+						sdf.format(aOrderInfo.getStartDate()),
+						aCompany.getCompanyName(),
+						aCompany.getContactTel(),
+						aOrderInfo.getUnit(),
+						aOrderInfo.getOverPirce(),
+						aOrderInfo.getOverPayType() == 1 ? Constant.PAY_TYPE_1
+								: Constant.PAY_TYPE_2, job, others,
+						aOrderInfo.getWeddinginfo(),
+						Constant.CAMERA_MAP.get(user.getCameraType()),
+						user.getTel() });
+				sendMailService.sendHtmlMail(mailInfo);
 			}
 		}
 	}
@@ -264,6 +268,9 @@ public class OrderService {
 			orderDetailMapper.deleteByExample(aOrderDetailExample);
 			Company aCompany = companyMapper.selectByPrimaryKey(orderModel
 					.getOrderInfo().getCompanyId());
+			OrderInfo aOrderInfo = orderInfoMapper
+					.selectByPrimaryKey(orderModel.getOrderInfo().getId());
+			orderModel.setOrderInfo(aOrderInfo);
 			insertOrderDetail(orderModel, orderId, aCompany);
 		}
 		return rows;

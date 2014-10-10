@@ -160,6 +160,7 @@ define(["dojo/dom",
 									}
 								}else{
 									alert("更新成功");
+									app.back();
 								}
 							});
 						}else{
@@ -182,6 +183,7 @@ define(["dojo/dom",
 									registry.byId("userId").set('value', response);
 									registry.byId("cudelBtn").set('disabled', false);
 									alert("创建成功");
+									app.back();
 								}
 							});
 						}
