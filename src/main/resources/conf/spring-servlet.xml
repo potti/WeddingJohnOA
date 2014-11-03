@@ -30,6 +30,7 @@
 		</property>
 	</bean>
 	<context:component-scan base-package="com.wedding.john.oa.controller" />
+	<context:component-scan base-package="com.wedding.john.manage.controller" />
 	<mvc:annotation-driven />
 
 	<!-- 根据客户端的不同的请求决定不同的view进行响应, 如 /blog/1.json /blog/1.xml -->
