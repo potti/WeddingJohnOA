@@ -5,14 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 import com.wedding.john.oa.bean.User;
 import com.wedding.john.oa.services.LoginService;
@@ -27,8 +26,20 @@ public class ManageLoginController {
 	private LoginService loginService;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/mt")
-	public String init(Model model) {
-		return "mt";
+	public String init(ModelMap modelMap) {
+		if (modelMap.containsKey("manager")) {
+			return "mtindex";
+		}
+		return "mtlogin";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/mt/index")
+	public String index(@ModelAttribute("manager") User manager,
+			ModelMap modelMap) {
+		if (manager != null) {
+			return "mtindex";
+		}
+		return "mtlogin";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/mt/login")
@@ -38,20 +49,12 @@ public class ManageLoginController {
 			return 0;
 		}
 		User userInfo = loginService.validate(user.getAccount(), user.getPwd());
-		if (userInfo != null) {
-			modelMap.addAttribute(userInfo);
+		if (userInfo != null && userInfo.getPower() >= 10) {
+			modelMap.addAttribute("manager", userInfo);
 			logger.info("用户登陆 : " + user.getAccount());
 			return 1;
 		} else {
 			return 0;
 		}
 	}
-
-	@RequestMapping(method = RequestMethod.POST, value = "/mt/logout")
-	@ResponseBody
-	public int logout(SessionStatus status) {
-		status.setComplete();
-		return 1;
-	}
-
 }
