@@ -103,7 +103,7 @@
 	                dataType : 'json',
 	                success : function(date){
 	                	if(date == 1){
-	                		window.location = window.location.href + "/../index";
+	                		window.location = window.location.href + "/../../../oa-web/mt/main";
 	                	}else{
 	                		alert('输入的用户名或密码错误');
 	                	}
